@@ -1,5 +1,5 @@
 static BYTE8  D,DF,MB,Q,IE,P,X,T;
-static WORD16 R0,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12,R13,R14,R15,Cycles,temp16,MA;
+static WORD16 R[16],Cycles,temp16,MA;
 static void __1802Reset(void) {
  Q = 0;IE = 1;X = 0;P = 0;R[0] = 0;
  DF &= 1;
