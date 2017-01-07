@@ -8,8 +8,12 @@ r3 = 3
 r4 = 4
 r5 = 5
 
+
+
+rCounter = 13
+rResult = 14 							
+rRemainder = 14
 rRValue = 15
-rResult = 14
 
 	dis
 	db 		0
@@ -19,8 +23,8 @@ rResult = 14
 	plo 	r2
 
 
-v1 = 318
-v2 = 51
+v1 = 62770
+v2 = 11537
 
 	sex 	r2													; set up stack with left value.
 	dec 	r2 													; (R2) = LSB (R2-1) = MSB
@@ -35,6 +39,10 @@ v2 = 51
 	ldi 	v2&255
 	plo 	rRValue
 
-	include 	multiply.asm
+;	include 	multiply.asm
+	include 	divide.asm
+
+
+
 
 st:	br		st

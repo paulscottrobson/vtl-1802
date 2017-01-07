@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 7/1/2017 17:44:24
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 7/1/2017 22:07:25
 
 
        1/       0 :                     
@@ -11,39 +11,44 @@
        8/       0 : =4H                 r4 = 4
        9/       0 : =5H                 r5 = 5
       10/       0 :                     
-      11/       0 : =FH                 rRValue = 15
-      12/       0 : =EH                 rResult = 14
-      13/       0 :                     
-      14/       0 : 71                  	dis
-      15/       1 : 00                  	db 		0
-      16/       2 : F8 40               	ldi 	040h 												; set up stack.
-      17/       4 : B2                  	phi 	r2
-      18/       5 : F8 00               	ldi 	000h
-      19/       7 : A2                  	plo 	r2
-      20/       8 :                     
-      21/       8 :                     
-      22/       8 : =13EH               v1 = 318
-      23/       8 : =33H                v2 = 51
+      11/       0 :                     
+      12/       0 :                     
+      13/       0 : =DH                 rCounter = 13
+      14/       0 : =EH                 rResult = 14
+      15/       0 : =EH                 rRemainder = 14
+      16/       0 : =FH                 rRValue = 15
+      17/       0 :                     
+      18/       0 : 71                  	dis
+      19/       1 : 00                  	db 		0
+      20/       2 : F8 40               	ldi 	040h 												; set up stack.
+      21/       4 : B2                  	phi 	r2
+      22/       5 : F8 00               	ldi 	000h
+      23/       7 : A2                  	plo 	r2
       24/       8 :                     
-      25/       8 : E2                  	sex 	r2													; set up stack with left value.
-      26/       9 : 22                  	dec 	r2 													; (R2) = LSB (R2-1) = MSB
-      27/       A : F8 3E               	ldi 	v1&255
-      28/       C : 73                  	stxd
-      29/       D : F8 01               	ldi 	v1/256
-      30/       F : 52                  	str 	r2
-      31/      10 : 12                  	inc 	r2
-      32/      11 :                     
-      33/      11 : F8 00               	ldi 	v2/256 												; set up rRValue with right value.
-      34/      13 : BF                  	phi 	rRValue
-      35/      14 : F8 33               	ldi 	v2&255
-      36/      16 : AF                  	plo 	rRValue
-      37/      17 :                     
-      38/      17 :                     	include 	multiply.asm
+      25/       8 :                     
+      26/       8 : =F532H              v1 = 62770
+      27/       8 : =2D11H              v2 = 11537
+      28/       8 :                     
+      29/       8 : E2                  	sex 	r2													; set up stack with left value.
+      30/       9 : 22                  	dec 	r2 													; (R2) = LSB (R2-1) = MSB
+      31/       A : F8 32               	ldi 	v1&255
+      32/       C : 73                  	stxd
+      33/       D : F8 F5               	ldi 	v1/256
+      34/       F : 52                  	str 	r2
+      35/      10 : 12                  	inc 	r2
+      36/      11 :                     
+      37/      11 : F8 2D               	ldi 	v2/256 												; set up rRValue with right value.
+      38/      13 : BF                  	phi 	rRValue
+      39/      14 : F8 11               	ldi 	v2&255
+      40/      16 : AF                  	plo 	rRValue
+      41/      17 :                     
+      42/      17 :                     ;	include 	multiply.asm
+      43/      17 :                     	include 	divide.asm
 (1)    1/      17 :                     ; ***************************************************************************************************************
 (1)    2/      17 :                     ; ***************************************************************************************************************
 (1)    3/      17 :                     ;
-(1)    4/      17 :                     ;		File:		multiply.asm
-(1)    5/      17 :                     ;		Purpose:	16 bit x 16 bit unsigned multiply with 16 bit product.
+(1)    4/      17 :                     ;		File:		divide.asm
+(1)    5/      17 :                     ;		Purpose:	16 bit x 16 bit unsigned divide with 16 bit result/remainder
 (1)    6/      17 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
 (1)    7/      17 :                     ;		Date:		7th January 2017.
 (1)    8/      17 :                     ;
@@ -52,70 +57,85 @@
 (1)   11/      17 :                     
 (1)   12/      17 :                     ; ***************************************************************************************************************
 (1)   13/      17 :                     ;
-(1)   14/      17 :                     ;		16 bit multiplier. 
+(1)   14/      17 :                     ;		16 bit divisor.
 (1)   15/      17 :                     ;
 (1)   16/      17 :                     ;		On entry, first value is (R2-1)(R2) (e.g. on the stack, TOS = LSB), second is in rRValue
 (1)   17/      17 :                     ;		On entry, X is 2.
-(1)   18/      17 :                     ;		On exit, result is in R2-1/R2 (MSB/LSB).
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 2 - 7/1/2017 22:07:25
+
+
+(1)   18/      17 :                     ;		On exit, result is in R2-1/R2 (MSB/LSB). Remainder of division is in rRemainder.
 (1)   19/      17 :                     ;	
 (1)   20/      17 :                     ;		R2 (stack pointer) is unchanged. rRValue is changed. rResult is changed
 (1)   21/      17 :                     ;
 (1)   22/      17 :                     ; ***************************************************************************************************************
- AS V1.42 Beta [Bld 114] - source file test.asm(multiply.asm) - page 2 - 7/1/2017 17:44:24
-
-
 (1)   23/      17 :                     
-(1)   24/      17 :                     MULStart:
-(1)   25/      17 : F8 00               	ldi 	0  													; clear the result.
-(1)   26/      19 : BE                  	phi 	rResult
-(1)   27/      1A : AE                  	plo 	rResult
-(1)   28/      1B :                     
-(1)   29/      1B :                     __MULLoop:	
-(1)   30/      1B : 9F                  	ghi 	rRValue 											; shift the R Value right into the carry
-(1)   31/      1C : F6                  	shr
-(1)   32/      1D : BF                  	phi 	rRValue
-(1)   33/      1E : 8F                  	glo 	rRValue
-(1)   34/      1F : 76                  	rshr
-(1)   35/      20 : AF                  	plo 	rRValue
-(1)   36/      21 :                     
-(1)   37/      21 : 3B 2B               	bnf 	__MULDontAdd 										; if no carry do not add multiplicand.
-(1)   38/      23 :                     
-(1)   39/      23 : 8E                  	glo 	rResult 											; add value on stack (multiplicand) to rResult
-(1)   40/      24 : F4                  	add
-(1)   41/      25 : AE                  	plo 	rResult
-(1)   42/      26 : 22                  	dec 	r2
-(1)   43/      27 : 9E                  	ghi 	rResult
-(1)   44/      28 : 74                  	adc
-(1)   45/      29 : BE                  	phi 	rResult
-(1)   46/      2A : 12                  	inc 	r2
-(1)   47/      2B :                     
-(1)   48/      2B :                     __MULDontAdd:	
-(1)   49/      2B :                     	
-(1)   50/      2B : 02                  	ldn 	r2 													; shift multiplicand left
-(1)   51/      2C : F4                  	add
-(1)   52/      2D : 73                  	stxd
-(1)   53/      2E : 02                  	ldn 	r2
-(1)   54/      2F : 74                  	adc
-(1)   55/      30 : 52                  	str 	r2
-(1)   56/      31 : 12                  	inc 	r2
-(1)   57/      32 :                     
-(1)   58/      32 : 8F                  	glo 	rRValue 											; loop back if multiplier is non-zero.
-(1)   59/      33 : 3A 1B               	bnz 	__MULLoop
-(1)   60/      35 : 9F                  	ghi 	rRValue
-(1)   61/      36 : 3A 1B               	bnz 	__MULLoop
-(1)   62/      38 :                     
-(1)   63/      38 : 8E                  	glo 	rResult 											; copy result out to stack.
-(1)   64/      39 : 73                  	stxd
-(1)   65/      3A : 9E                  	ghi 	rResult
-(1)   66/      3B : 52                  	str 	r2
+(1)   24/      17 :                     DIVStart:
+(1)   25/      17 :                     
+(1)   26/      17 : F8 00               	ldi 	0 													; zero remainder
+(1)   27/      19 : BE                  	phi 	rRemainder
+(1)   28/      1A : AE                  	plo 	rRemainder
+(1)   29/      1B : 76                  	shrc 														; clear carry (DF)
+(1)   30/      1C :                     
+(1)   31/      1C : F8 11               	ldi 	17 													; set counter to 17.
+(1)   32/      1E : AD                  	plo 	rCounter
+(1)   33/      1F :                     
+(1)   34/      1F :                     __DIVLoop:
+(1)   35/      1F : 02                  	ldn 	r2 													; read LSB of Dividend.
+(1)   36/      20 : 7E                  	rshl 														; shift carry into it left
+(1)   37/      21 : 73                  	stxd  														; write back, point to MSB of Dividend.
+(1)   38/      22 : 02                  	ldn 	r2													; read MSB
+(1)   39/      23 : 7E                  	rshl 														; shift into that
+(1)   40/      24 : 52                  	str 	r2 													; write it back.
+(1)   41/      25 : 12                  	inc 	r2 													; fix stack to point to LSB of Dividend.
+(1)   42/      26 :                     
+(1)   43/      26 : 2D                  	dec 	rCounter 											; decrement counter
+(1)   44/      27 : 8D                  	glo 	rCounter 											; exit if zero.
+(1)   45/      28 : 32 44               	bz 		__DIVExit
+(1)   46/      2A :                     
+(1)   47/      2A : 8E                  	glo 	rRemainder 											; shift DF into the remainder
+(1)   48/      2B : 7E                  	rshl
+(1)   49/      2C : AE                  	plo 	rRemainder
+(1)   50/      2D : 9E                  	ghi 	rRemainder
+(1)   51/      2E : 7E                  	rshl
+(1)   52/      2F : BE                  	phi 	rRemainder
+(1)   53/      30 :                     
+(1)   54/      30 : 22                  	dec 	r2 													; make space on TOS for remainder-divisor temp 	
+(1)   55/      31 : 22                  	dec 	r2
+(1)   56/      32 : 8F                  	glo 	rRValue 											; D = LSB divisor
+(1)   57/      33 : 52                  	str 	r2
+(1)   58/      34 : 8E                  	glo 	rRemainder 											; D = LSB remainder - LSB divisor.
+(1)   59/      35 : F7                  	sm
+(1)   60/      36 : BD                  	phi 	rCounter 											; temp result in rCounter.1
+(1)   61/      37 :                     
+(1)   62/      37 : 9F                  	ghi 	rRValue 											; now repeat it with MSB.
+(1)   63/      38 : 52                  	str 	r2
+(1)   64/      39 : 9E                  	ghi 	rRemainder
+(1)   65/      3A : 77                  	smb  														; D = MSB of result.
+(1)   66/      3B : 12                  	inc 	r2 													; fix up stack.
 (1)   67/      3C : 12                  	inc 	r2
 (1)   68/      3D :                     
-(1)   69/      3D :                     
-(1)   70/      3D :                     
-      39/      3D :                     
-      40/      3D : 30 3D               st:	br		st
-      41/      3F :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 3 - 7/1/2017 17:44:24
+(1)   69/      3D : 3B 1F               	bnf 	__DIVLoop 											; if DF = 0 loop back with DF = 0.
+(1)   70/      3F :                     
+(1)   71/      3F : BE                  	phi 	rRemainder 											; update remainder with result of the sum.
+(1)   72/      40 : 9D                  	ghi 	rCounter 											; and the interim value
+(1)   73/      41 : AE                  	plo 	rRemainder
+(1)   74/      42 : 30 1F               	br 		__DIVLoop 											; loop round with DF = 1
+(1)   75/      44 :                     
+(1)   76/      44 :                     __DIVExit:														; result is already in dividend.
+(1)   77/      44 :                     
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 3 - 7/1/2017 22:07:25
+
+
+(1)   78/      44 :                     DIVEnd:
+(1)   79/      44 :                     
+      44/      44 :                     
+      45/      44 :                     
+      46/      44 :                     
+      47/      44 :                     
+      48/      44 : 30 44               st:	br		st
+      49/      46 :                     
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 4 - 7/1/2017 22:07:25
 
 
   symbol table (* = unused):
@@ -124,7 +144,8 @@
 *ARCHITECTURE :                                        x86_64-unknown-linux - |
 *BIGENDIAN :                      0 - | *BRANCHEXT :                      0 - |
 *CASESENSITIVE :                  0 - | *CONSTPI :        3.141592653589793 - |
-*DATE :                    7/1/2017 - | *FALSE :                          0 - |
+*DATE :                    7/1/2017 - | *DIVEND :                        44 C |
+*DIVSTART :                      17 C | *FALSE :                          0 - |
 *FULLPMMU :                       1 - | *HAS64 :                          1 - |
 *HASDSP :                         0 - | *HASFPU :                         0 - |
 *HASPMMU :                        0 - | *INEXTMODE :                      0 - |
@@ -132,22 +153,22 @@
 *INSRCMODE :                      0 - | *INSUPMODE :                      0 - |
 *LISTON :                         1 - | *MACEXP :                         1 - |
 *MOMCPU :                      1802 - | *MOMCPUNAME :                  1802 - |
-*MULSTART :                      17 C | *NESTMAX :                      100 - |
-*PACKING :                        0 - | *PADDING :                        1 - |
-*R0 :                             0 - | *R1 :                             1 - |
- R2 :                             2 - | *R3 :                             3 - |
-*R4 :                             4 - | *R5 :                             5 - |
-*RELAXED :                        0 - |  RRESULT :                        E - |
- RRVALUE :                        F - |  ST :                            3D C |
-*TIME :                    17:44:24 - | *TRUE :                           1 - |
- V1 :                           13E - |  V2 :                            33 - |
-*VERSION :                     142F - |  __MULDONTADD :                  2B C |
- __MULLOOP :                     1B C |
+*NESTMAX :                      100 - | *PACKING :                        0 - |
+*PADDING :                        1 - | *R0 :                             0 - |
+*R1 :                             1 - |  R2 :                             2 - |
+*R3 :                             3 - | *R4 :                             4 - |
+*R5 :                             5 - |  RCOUNTER :                       D - |
+*RELAXED :                        0 - |  RREMAINDER :                     E - |
+*RRESULT :                        E - |  RRVALUE :                        F - |
+ ST :                            44 C | *TIME :                    22:07:25 - |
+*TRUE :                           1 - |  V1 :                          F532 - |
+ V2 :                          2D11 - | *VERSION :                     142F - |
+ __DIVEXIT :                     44 C |  __DIVLOOP :                     1F C |
 
-     42 symbols
-     34 unused symbols
+     45 symbols
+     36 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 4 - 7/1/2017 17:44:24
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 5 - 7/1/2017 22:07:25
 
 
   codepages:
@@ -158,7 +179,7 @@ STANDARD (0 changed characters)
 
 0.00 seconds assembly time
 
-    111 lines source file
+    128 lines source file
       2 passes
       0 errors
       0 warnings
