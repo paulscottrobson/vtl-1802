@@ -38,6 +38,6 @@ rRValue = 15
 	lbr 	EXPRession
 
 sExpression:
-	db 		" \"4\" 5) comment"
+	db 		"12+6",0
 
 	include expression.asm

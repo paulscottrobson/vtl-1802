@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 8/1/2017 19:40:54
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 8/1/2017 23:53:48
 
 
        1/       0 :                     
@@ -15,313 +15,623 @@
       12/       0 : =9H                 rVarPtr = 9 													; variable pointer.
       13/       0 : =AH                 rExpression = 10 												; pointer to string expression.
       14/       0 : =BH                 rStackSave = 11 												; original stack value.
-      15/       0 : =CH                 rParenDepth = 12 												; (lower) parenthesis depth.
-      16/       0 : =DH                 rCounter = 13 													; used in multiply and divide.
-      17/       0 : =EH                 rResult = 14 							
-      18/       0 : =EH                 rRemainder = 14
-      19/       0 : =EH                 rTemp = 14
-      20/       0 : =FH                 rRValue = 15
-      21/       0 :                     
-      22/       0 : 71                  	dis
-      23/       1 : 00                  	db 		0
-      24/       2 : F8 40               	ldi 	040h 												; set up stack.
-      25/       4 : B2                  	phi 	r2
-      26/       5 : F8 00               	ldi 	000h
-      27/       7 : A2                  	plo 	r2
-      28/       8 : E2                  	sex 	r2
-      29/       9 : F8 00               	ldi 	sExpression/256 									; set up string pointer.
-      30/       B : BA                  	phi 	rExpression
-      31/       C : F8 15               	ldi 	sExpression&255
-      32/       E : AA                  	plo 	rExpression
-      33/       F :                     
-      34/       F : F8 3E               	ldi 	03Eh 												; variables in this page.
-      35/      11 : B9                  	phi 	rVarPtr
-      36/      12 :                     
-      37/      12 : C0 00 2F            	lbr 	EXPRession
-      38/      15 :                     
-      39/      15 :                     sExpression:
-      40/      15 : 20 22 34 22 20 35   	db 		" \"4\" 5) comment"
-                    29 20 63 6F 6D 6D 
-                    65 6E 74 
-      41/      24 :                     
-      42/      24 :                     	include expression.asm
-(1)    1/      24 :                     ; ***************************************************************************************************************
-(1)    2/      24 :                     ; ***************************************************************************************************************
-(1)    3/      24 :                     ;
-(1)    4/      24 :                     ;		File:		expression.asm
-(1)    5/      24 :                     ;		Purpose:	16 bit expression evaluator
-(1)    6/      24 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
-(1)    7/      24 :                     ;		Date:		8th January 2017.
-(1)    8/      24 :                     ;
-(1)    9/      24 :                     ; ***************************************************************************************************************
-(1)   10/      24 :                     ; ***************************************************************************************************************
-(1)   11/      24 :                     
-(1)   12/      24 :                     doubleRValue macro 												; double 16 bit value in rValue.
-(1)   13/      24 :                     	glo 	rRValue
-(1)   14/      24 :                     	shl
-(1)   15/      24 :                     	plo 	rRValue
-(1)   16/      24 :                     	ghi 	rRValue
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 2 - 8/1/2017 19:40:54
+      15/       0 : =CH                 rParenDepth = 12 												; (lower byte) parenthesis depth.
+      16/       0 :                     
+      17/       0 : =DH                 rCounter = 13 													; used in multiply and divide.
+      18/       0 : =EH                 rResult = 14 							
+      19/       0 : =EH                 rRemainder = 14
+      20/       0 : =EH                 rTemp = 14
+      21/       0 : =FH                 rRValue = 15
+      22/       0 :                     
+      23/       0 : 71                  	dis
+      24/       1 : 00                  	db 		0
+      25/       2 : F8 40               	ldi 	040h 												; set up stack.
+      26/       4 : B2                  	phi 	r2
+      27/       5 : F8 00               	ldi 	000h
+      28/       7 : A2                  	plo 	r2
+      29/       8 : E2                  	sex 	r2
+      30/       9 : F8 00               	ldi 	sExpression/256 									; set up string pointer.
+      31/       B : BA                  	phi 	rExpression
+      32/       C : F8 15               	ldi 	sExpression&255
+      33/       E : AA                  	plo 	rExpression
+      34/       F :                     
+      35/       F : F8 3E               	ldi 	03Eh 												; variables in this page.
+      36/      11 : B9                  	phi 	rVarPtr
+      37/      12 :                     
+      38/      12 : C0 00 25            	lbr 	EXPRession
+      39/      15 :                     
+      40/      15 :                     sExpression:
+      41/      15 : 31 32 2B 36 00      	db 		"12+6",0
+      42/      1A :                     
+      43/      1A :                     	include expression.asm
+(1)    1/      1A :                     ; ***************************************************************************************************************
+(1)    2/      1A :                     ; ***************************************************************************************************************
+(1)    3/      1A :                     ;
+(1)    4/      1A :                     ;		File:		expression.asm
+(1)    5/      1A :                     ;		Purpose:	16 bit expression evaluator
+(1)    6/      1A :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(1)    7/      1A :                     ;		Date:		8th January 2017.
+(1)    8/      1A :                     ;
+(1)    9/      1A :                     ; ***************************************************************************************************************
+(1)   10/      1A :                     ; ***************************************************************************************************************
+(1)   11/      1A :                     ;
+(1)   12/      1A :                     ;	There's room for about 100 bytes preceding this in the page. I'd put it in page 0 with
+(1)   13/      1A :                     ;	startup and utility functions, but it isn't mandatory.
+(1)   14/      1A :                     ;
+(1)   15/      1A :                     ;	Note: Errors are ignored in VTL-2.
+(1)   16/      1A :                     ;
+(1)   17/      1A :                     ; ***************************************************************************************************************
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 2 - 8/1/2017 23:53:48
 
 
-(1)   17/      24 :                     	rshl
-(1)   18/      24 :                     	phi 	rRValue
-(1)   19/      24 :                     	endm
-(1)   20/      24 :                     
-(1)   21/      24 :                     
-(1)   22/      24 :                     EXPRPageAddress:
-(1)   23/      24 :                     
-(1)   24/      24 :                     ; ***************************************************************************************************************
-(1)   25/      24 :                     ;
-(1)   26/      24 :                     ;		Exit. We restore the stack because we don't know if/where we have crashed out - there is no
-(1)   27/      24 :                     ;		error reporting at all. Then we get whatever the value on the stack was. If it worked right
-(1)   28/      24 :                     ;		this is the expression value. If not, it will probably be 0.
-(1)   29/      24 :                     ;
-(1)   30/      24 :                     ; ***************************************************************************************************************
-(1)   31/      24 :                     
-(1)   32/      24 :                     EXPRExit:
-(1)   33/      24 : 8B                  	glo 	rStackSave 											; restore the stack
-(1)   34/      25 : A2                  	plo 	r2
-(1)   35/      26 : 9B                  	ghi 	rStackSave
-(1)   36/      27 : B2                  	phi 	r2
-(1)   37/      28 : 22                  	dec 	r2 													; look at value on TOS.
-(1)   38/      29 : 22                  	dec 	r2
-(1)   39/      2A : 42                  	lda 	r2 													; LSB
-(1)   40/      2B : AE                  	plo 	rResult
-(1)   41/      2C : 42                  	lda 	r2 													; MSB and pointing at MARK data
-(1)   42/      2D : BE                  	phi 	rResult
-(1)   43/      2E : 70                  	ret 														; and return.
-(1)   44/      2F :                     
-(1)   45/      2F :                     ; ***************************************************************************************************************
-(1)   46/      2F :                     ;
-(1)   47/      2F :                     ;								Evaluate expression code starts here
-(1)   48/      2F :                     ;
-(1)   49/      2F :                     ; ***************************************************************************************************************
-(1)   50/      2F :                     
-(1)   51/      2F :                     EXPRession:
-(1)   52/      2F : 82                  	glo 	r2 													; copy the stack start value to end value.
-(1)   53/      30 : AB                  	plo 	rStackSave
-(1)   54/      31 : 92                  	ghi 	r2
-(1)   55/      32 : BB                  	phi 	rStackSave
-(1)   56/      33 :                     
-(1)   57/      33 : F8 00               	ldi 	0  													; clear the parenthesis depth.
-(1)   58/      35 : AC                  	plo 	rParenDepth 	
-(1)   59/      36 :                     
-(1)   60/      36 :                     __EXPRNewExpression:
-(1)   61/      36 : 22                  	dec 	r2 													; push two 00 on the stack.
-(1)   62/      37 : 73                  	stxd
-(1)   63/      38 : 73                  	stxd
-(1)   64/      39 : F8 2B               	ldi 	'+' 												; push '+' on the stack.
-(1)   65/      3B : 52                  	str 	r2
-(1)   66/      3C :                     
-(1)   67/      3C :                     ; ***************************************************************************************************************
-(1)   68/      3C :                     ;
-(1)   69/      3C :                     ;	Main loop. We have something on the stack (initially 0+) and are looking for a term to push on, which
-(1)   70/      3C :                     ;	could be a variable, could be an integer constant or a side-effect variable (? or $)
-(1)   71/      3C :                     ;
-(1)   72/      3C :                     ; ***************************************************************************************************************
-(1)   73/      3C :                     
-(1)   74/      3C :                     __EXPRLoop: 													; main expression loop. looking for a term.
-(1)   75/      3C :                     
-(1)   76/      3C : 4A                  	lda 	rExpression 										; get the next character
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 3 - 8/1/2017 19:40:54
+(1)   18/      1A :                     
+(1)   19/      1A :                     doubleRValue macro 												; double 16 bit value in rValue.
+(1)   20/      1A :                     	glo 	rRValue
+(1)   21/      1A :                     	shl
+(1)   22/      1A :                     	plo 	rRValue
+(1)   23/      1A :                     	ghi 	rRValue
+(1)   24/      1A :                     	rshl
+(1)   25/      1A :                     	phi 	rRValue
+(1)   26/      1A :                     	endm
+(1)   27/      1A :                     
+(1)   28/      1A :                     
+(1)   29/      1A :                     EXPRPageAddress:
+(1)   30/      1A :                     
+(1)   31/      1A :                     ; ***************************************************************************************************************
+(1)   32/      1A :                     ;
+(1)   33/      1A :                     ;		Exit. We restore the stack because we don't know if/where we have crashed out - there is no
+(1)   34/      1A :                     ;		error reporting at all. Then we get whatever the value on the stack was. If it worked right
+(1)   35/      1A :                     ;		this is the expression value. If not, it will probably be 0.
+(1)   36/      1A :                     ;
+(1)   37/      1A :                     ; ***************************************************************************************************************
+(1)   38/      1A :                     
+(1)   39/      1A :                     EXPRExit:
+(1)   40/      1A : 8B                  	glo 	rStackSave 											; restore the stack
+(1)   41/      1B : A2                  	plo 	r2
+(1)   42/      1C : 9B                  	ghi 	rStackSave
+(1)   43/      1D : B2                  	phi 	r2
+(1)   44/      1E : 22                  	dec 	r2 													; look at value on TOS.
+(1)   45/      1F : 22                  	dec 	r2
+(1)   46/      20 : 42                  	lda 	r2 													; LSB
+(1)   47/      21 : AE                  	plo 	rResult
+(1)   48/      22 : 42                  	lda 	r2 													; MSB and pointing at MARK data
+(1)   49/      23 : BE                  	phi 	rResult
+(1)   50/      24 : 70                  	ret 														; and return.
+(1)   51/      25 :                     
+(1)   52/      25 :                     ; ***************************************************************************************************************
+(1)   53/      25 :                     ;
+(1)   54/      25 :                     ;								Evaluate expression code starts here
+(1)   55/      25 :                     ;
+(1)   56/      25 :                     ; ***************************************************************************************************************
+(1)   57/      25 :                     
+(1)   58/      25 :                     EXPRession:
+(1)   59/      25 : 82                  	glo 	r2 													; copy the stack start value to end value.
+(1)   60/      26 : AB                  	plo 	rStackSave
+(1)   61/      27 : 92                  	ghi 	r2
+(1)   62/      28 : BB                  	phi 	rStackSave
+(1)   63/      29 :                     
+(1)   64/      29 : F8 00               	ldi 	0  													; clear the parenthesis depth.
+(1)   65/      2B : AC                  	plo 	rParenDepth 	
+(1)   66/      2C :                     
+(1)   67/      2C :                     __EXPRNewExpression:
+(1)   68/      2C : 22                  	dec 	r2 													; push two 00 on the stack.
+(1)   69/      2D : 73                  	stxd
+(1)   70/      2E : 73                  	stxd
+(1)   71/      2F : F8 2B               	ldi 	'+' 												; push '+' on the stack.
+(1)   72/      31 : 52                  	str 	r2
+(1)   73/      32 :                     
+(1)   74/      32 :                     ; ***************************************************************************************************************
+(1)   75/      32 :                     ;
+(1)   76/      32 :                     ;	Main loop. We have something on the stack (initially 0+) and are looking for a term to push on, which
+(1)   77/      32 :                     ;	could be a variable, could be an integer constant or a side-effect variable (? or $)
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 3 - 8/1/2017 23:53:48
 
 
-(1)   77/      3D : 32 24               	bz 		EXPRexit 											; if NULL then exit
-(1)   78/      3F : BE                  	phi 	rTemp 												; save in rTemp.1
-(1)   79/      40 : FB 20               	xri 	' '													; skip spaces
-(1)   80/      42 : 32 3C               	bz 		__EXPRLoop
-(1)   81/      44 :                     
-(1)   82/      44 : FB 02               	xri 	' '!'"'												; check for quote mark.
-(1)   83/      46 : 32 93               	bz 		__EXPRCharacter
-(1)   84/      48 :                     
-(1)   85/      48 : 1C                  	inc 	rParenDepth 										; inc parenthesis depth for ( and :
-(1)   86/      49 : FB 0A               	xri 	'"'!'('												; is it an open parenthesis ?
-(1)   87/      4B : 32 36               	bz 		__EXPRNewExpression 								; if so, do a new expression with parenthesis bumped.
-(1)   88/      4D : 9E                  	ghi 	rTemp												; get character read.
-(1)   89/      4E : FC C6               	adi 	256-':'												; check for :
-(1)   90/      50 : 32 9F               	bz 		__EXPRTermIsArray 									; if so, it is an array.
-(1)   91/      52 : 2C                  	dec 	rParenDepth 								
-(1)   92/      53 :                     
-(1)   93/      53 : 33 A7               	bdf 	__EXPRTermIsVariable 								; if after : then it is a variable.
-(1)   94/      55 : FC 0A               	adi 	10  												; checks 0-9 (colon follows 9)
-(1)   95/      57 : 3B A7               	bnf 	__EXPRTermIsVariable 								; if before 0 then it is a variable.
-(1)   96/      59 :                     
-(1)   97/      59 :                     ; ***************************************************************************************************************
-(1)   98/      59 :                     ;
-(1)   99/      59 :                     ;											Reading in an unsigned integer.
-(1)  100/      59 :                     ;
-(1)  101/      59 :                     ; ***************************************************************************************************************
-(1)  102/      59 :                     
-(1)  103/      59 : AF                  	plo 	rRValue 											; first digit of a integer rValue
-(1)  104/      5A : F8 00               	ldi 	0
-(1)  105/      5C : BF                  	phi 	rRValue
-(1)  106/      5D :                     __EXPRIntegerLoop:
-(1)  107/      5D : 0A                  	ldn 	rExpression  										; read next character
-(1)  108/      5E : 32 24               	bz 		EXPRExit	
-(1)  109/      60 : FC C6               	adi 	256-':'												; check it is an integer.
-(1)  110/      62 : 33 FF               	bdf		__EXPRPendingArithmetic 
-(1)  111/      64 : FC 0A               	adi 	10
-(1)  112/      66 : 3B FF               	bnf 	__EXPRPendingArithmetic 	
-(1)  113/      68 :                     
-(1)  114/      68 : 1A                  	inc 	rExpression 										; skip over new character
-(1)  115/      69 : 22                  	dec 	r2 													; put new digit value on the stack
-(1)  116/      6A : 73                  	stxd
-(1)  117/      6B : 9F                  	ghi 	rRValue 											; put rValue on the stack (lo/hi)
-(1)  118/      6C : 73                  	stxd
-(1)  119/      6D : 8F                  	glo 	rRValue
-(1)  120/      6E : 52                  	str 	r2
-(1)  121/      6F :                     
-(1)  122/      6F : (MACRO)             	doubleRValue 												; double the rValue twice
-(1)  122/      6F : 8F                          glo     rRValue
-(1)  122/      70 : FE                          shl
-(1)  122/      71 : AF                          plo     rRValue
-(1)  122/      72 : 9F                          ghi     rRValue
-(1)  122/      73 : 7E                          rshl
-(1)  122/      74 : BF                          phi     rRValue
-(1)  123/      75 : (MACRO)             	doubleRValue
-(1)  123/      75 : 8F                          glo     rRValue
-(1)  123/      76 : FE                          shl
-(1)  123/      77 : AF                          plo     rRValue
-(1)  123/      78 : 9F                          ghi     rRValue
-(1)  123/      79 : 7E                          rshl
-(1)  123/      7A : BF                          phi     rRValue
-(1)  124/      7B : 8F                  	glo 	rRValue 											; add the saved value
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 4 - 8/1/2017 19:40:54
+(1)   78/      32 :                     ;
+(1)   79/      32 :                     ; ***************************************************************************************************************
+(1)   80/      32 :                     
+(1)   81/      32 :                     __EXPRLoop: 													; main expression loop. looking for a term.
+(1)   82/      32 :                     
+(1)   83/      32 : 4A                  	lda 	rExpression 										; get the next character
+(1)   84/      33 : 32 1A               	bz 		EXPRexit 											; if NULL then exit
+(1)   85/      35 : BE                  	phi 	rTemp 												; save in rTemp.1
+(1)   86/      36 : FB 20               	xri 	' '													; skip spaces
+(1)   87/      38 : 32 32               	bz 		__EXPRLoop
+(1)   88/      3A :                     
+(1)   89/      3A : FB 02               	xri 	' '!'"'												; check for quote mark.
+(1)   90/      3C : 32 89               	bz 		__EXPRCharacter
+(1)   91/      3E :                     
+(1)   92/      3E : 1C                  	inc 	rParenDepth 										; inc parenthesis depth for ( and :
+(1)   93/      3F : FB 0A               	xri 	'"'!'('												; is it an open parenthesis ?
+(1)   94/      41 : 32 2C               	bz 		__EXPRNewExpression 								; if so, do a new expression with parenthesis bumped.
+(1)   95/      43 : 9E                  	ghi 	rTemp												; get character read.
+(1)   96/      44 : FC C6               	adi 	256-':'												; check for :
+(1)   97/      46 : 32 95               	bz 		__EXPRTermIsArray 									; if so, it is an array.
+(1)   98/      48 : 2C                  	dec 	rParenDepth 								
+(1)   99/      49 :                     
+(1)  100/      49 : 33 9D               	bdf 	__EXPRTermIsVariable 								; if after : then it is a variable.
+(1)  101/      4B : FC 0A               	adi 	10  												; checks 0-9 (colon follows 9)
+(1)  102/      4D : 3B 9D               	bnf 	__EXPRTermIsVariable 								; if before 0 then it is a variable.
+(1)  103/      4F :                     
+(1)  104/      4F :                     ; ***************************************************************************************************************
+(1)  105/      4F :                     ;
+(1)  106/      4F :                     ;											Reading in an unsigned integer.
+(1)  107/      4F :                     ;
+(1)  108/      4F :                     ; ***************************************************************************************************************
+(1)  109/      4F :                     
+(1)  110/      4F : AF                  	plo 	rRValue 											; first digit of a integer rValue
+(1)  111/      50 : F8 00               	ldi 	0
+(1)  112/      52 : BF                  	phi 	rRValue
+(1)  113/      53 :                     __EXPRIntegerLoop:
+(1)  114/      53 : 0A                  	ldn 	rExpression  										; read next character
+(1)  115/      54 : 32 1A               	bz 		EXPRExit	
+(1)  116/      56 : FC C6               	adi 	256-':'												; check it is an integer.
+(1)  117/      58 : 33 FF               	bdf		__EXPRPendingArithmetic 
+(1)  118/      5A : FC 0A               	adi 	10
+(1)  119/      5C : 3B FF               	bnf 	__EXPRPendingArithmetic 	
+(1)  120/      5E :                     
+(1)  121/      5E : 1A                  	inc 	rExpression 										; skip over new character
+(1)  122/      5F : 22                  	dec 	r2 													; put new digit value on the stack
+(1)  123/      60 : 73                  	stxd
+(1)  124/      61 : 9F                  	ghi 	rRValue 											; put rValue on the stack (lo/hi)
+(1)  125/      62 : 73                  	stxd
+(1)  126/      63 : 8F                  	glo 	rRValue
+(1)  127/      64 : 52                  	str 	r2
+(1)  128/      65 :                     
+(1)  129/      65 : (MACRO)             	doubleRValue 												; double the rValue twice
+(1)  129/      65 : 8F                          glo     rRValue
+(1)  129/      66 : FE                          shl
+(1)  129/      67 : AF                          plo     rRValue
+(1)  129/      68 : 9F                          ghi     rRValue
+(1)  129/      69 : 7E                          rshl
+(1)  129/      6A : BF                          phi     rRValue
+(1)  130/      6B : (MACRO)             	doubleRValue
+(1)  130/      6B : 8F                          glo     rRValue
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 4 - 8/1/2017 23:53:48
 
 
-(1)  125/      7C : F4                  	add 
-(1)  126/      7D : AF                  	plo 	rRValue
-(1)  127/      7E : 12                  	inc 	r2
-(1)  128/      7F : 9F                  	ghi 	rRValue
-(1)  129/      80 : 74                  	adc
-(1)  130/      81 : BF                  	phi 	rRValue
-(1)  131/      82 : 12                  	inc 	r2 													; now points to the new digit.
-(1)  132/      83 : (MACRO)             	doubleRValue 												; double rValue again (now x 10)
-(1)  132/      83 : 8F                          glo     rRValue
-(1)  132/      84 : FE                          shl
-(1)  132/      85 : AF                          plo     rRValue
-(1)  132/      86 : 9F                          ghi     rRValue
-(1)  132/      87 : 7E                          rshl
-(1)  132/      88 : BF                          phi     rRValue
-(1)  133/      89 :                     
-(1)  134/      89 : 8F                  	glo 	rRValue 											; add the new digit in with carry
-(1)  135/      8A : F4                  	add
-(1)  136/      8B : AF                  	plo 	rRValue
-(1)  137/      8C : 9F                  	ghi 	rRValue
-(1)  138/      8D : 7C 00               	adci 	0
-(1)  139/      8F : BF                  	phi 	rRValue
-(1)  140/      90 : 12                  	inc 	r2 													; throw the new digit
-(1)  141/      91 : 30 5D               	br 		__EXPRIntegerLoop 									; and try the next character
-(1)  142/      93 :                     
-(1)  143/      93 :                     ; ***************************************************************************************************************
-(1)  144/      93 :                     ;
-(1)  145/      93 :                     ;											Found a character
-(1)  146/      93 :                     ;
-(1)  147/      93 :                     ; ***************************************************************************************************************
-(1)  148/      93 :                     
-(1)  149/      93 :                     __EXPRCharacter:
-(1)  150/      93 : 4A                  	lda 	rExpression 										; get next character (after ") and bump.
-(1)  151/      94 : 32 24               	bz 		EXPRExit 											; none provided
-(1)  152/      96 : AF                  	plo 	rRValue 											; put into rRValue
-(1)  153/      97 : F8 00               	ldi 	0 													; clear high byte
-(1)  154/      99 : BF                  	phi 	rRValue
-(1)  155/      9A : 4A                  	lda 	rExpression 										; get closing quote
-(1)  156/      9B : 32 24               	bz 		EXPRExit 											; none provided, we don't error check in VTL
-(1)  157/      9D : 30 FF               	br 		__EXPRPendingArithmetic 
-(1)  158/      9F :                     
-(1)  159/      9F :                     ; ***************************************************************************************************************
-(1)  160/      9F :                     ;
-(1)  161/      9F :                     ;	Found an array (e.g. :<expr>) ). This is treated as an extra level of parenthesis, but the final
-(1)  162/      9F :                     ;	operator is 0@ not 0+ at the start, when evaluated this does the memory read.
-(1)  163/      9F :                     ;
-(1)  164/      9F :                     ; ***************************************************************************************************************
-(1)  165/      9F :                     
-(1)  166/      9F :                     __EXPRTermIsArray:
-(1)  167/      9F : F8 40               	ldi 	'@' 												; push <dummy value> @ on the stack (array operator)
-(1)  168/      A1 : 22                  	dec 	r2
-(1)  169/      A2 : 73                  	stxd
-(1)  170/      A3 : 73                  	stxd
-(1)  171/      A4 : 52                  	str 	r2
-(1)  172/      A5 : 30 3C               	br 		__EXPRLoop
-(1)  173/      A7 :                     
-(1)  174/      A7 :                     ; ***************************************************************************************************************
-(1)  175/      A7 :                     ;
-(1)  176/      A7 :                     ;							Found a variable - this is actually anything except  0-9 ( and :
-(1)  177/      A7 :                     ;
-(1)  178/      A7 :                     ; ***************************************************************************************************************
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 5 - 8/1/2017 19:40:54
+(1)  130/      6C : FE                          shl
+(1)  130/      6D : AF                          plo     rRValue
+(1)  130/      6E : 9F                          ghi     rRValue
+(1)  130/      6F : 7E                          rshl
+(1)  130/      70 : BF                          phi     rRValue
+(1)  131/      71 : 8F                  	glo 	rRValue 											; add the saved value
+(1)  132/      72 : F4                  	add 
+(1)  133/      73 : AF                  	plo 	rRValue
+(1)  134/      74 : 12                  	inc 	r2
+(1)  135/      75 : 9F                  	ghi 	rRValue
+(1)  136/      76 : 74                  	adc
+(1)  137/      77 : BF                  	phi 	rRValue
+(1)  138/      78 : 12                  	inc 	r2 													; now points to the new digit.
+(1)  139/      79 : (MACRO)             	doubleRValue 												; double rValue again (now x 10)
+(1)  139/      79 : 8F                          glo     rRValue
+(1)  139/      7A : FE                          shl
+(1)  139/      7B : AF                          plo     rRValue
+(1)  139/      7C : 9F                          ghi     rRValue
+(1)  139/      7D : 7E                          rshl
+(1)  139/      7E : BF                          phi     rRValue
+(1)  140/      7F :                     
+(1)  141/      7F : 8F                  	glo 	rRValue 											; add the new digit in with carry
+(1)  142/      80 : F4                  	add
+(1)  143/      81 : AF                  	plo 	rRValue
+(1)  144/      82 : 9F                  	ghi 	rRValue
+(1)  145/      83 : 7C 00               	adci 	0
+(1)  146/      85 : BF                  	phi 	rRValue
+(1)  147/      86 : 12                  	inc 	r2 													; throw the new digit
+(1)  148/      87 : 30 53               	br 		__EXPRIntegerLoop 									; and try the next character
+(1)  149/      89 :                     
+(1)  150/      89 :                     ; ***************************************************************************************************************
+(1)  151/      89 :                     ;
+(1)  152/      89 :                     ;											Found a character
+(1)  153/      89 :                     ;
+(1)  154/      89 :                     ; ***************************************************************************************************************
+(1)  155/      89 :                     
+(1)  156/      89 :                     __EXPRCharacter:
+(1)  157/      89 : 4A                  	lda 	rExpression 										; get next character (after ") and bump.
+(1)  158/      8A : 32 1A               	bz 		EXPRExit 											; none provided
+(1)  159/      8C : AF                  	plo 	rRValue 											; put into rRValue
+(1)  160/      8D : F8 00               	ldi 	0 													; clear high byte
+(1)  161/      8F : BF                  	phi 	rRValue
+(1)  162/      90 : 4A                  	lda 	rExpression 										; get closing quote
+(1)  163/      91 : 32 1A               	bz 		EXPRExit 											; none provided, we don't error check in VTL
+(1)  164/      93 : 30 FF               	br 		__EXPRPendingArithmetic 
+(1)  165/      95 :                     
+(1)  166/      95 :                     ; ***************************************************************************************************************
+(1)  167/      95 :                     ;
+(1)  168/      95 :                     ;	Found an array (e.g. :<expr>) ). This is treated as an extra level of parenthesis, but the final
+(1)  169/      95 :                     ;	operator is 0@ not 0+ at the start, when evaluated this does the memory read.
+(1)  170/      95 :                     ;
+(1)  171/      95 :                     ; ***************************************************************************************************************
+(1)  172/      95 :                     
+(1)  173/      95 :                     __EXPRTermIsArray:
+(1)  174/      95 : F8 40               	ldi 	'@' 												; push <dummy value> @ on the stack (array operator)
+(1)  175/      97 : 22                  	dec 	r2
+(1)  176/      98 : 73                  	stxd
+(1)  177/      99 : 73                  	stxd
+(1)  178/      9A : 52                  	str 	r2
+(1)  179/      9B : 30 32               	br 		__EXPRLoop
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 5 - 8/1/2017 23:53:48
 
 
-(1)  179/      A7 :                     
-(1)  180/      A7 :                     __EXPRTermIsVariable:
-(1)  181/      A7 : 9E                  	ghi 	rTemp 												; check for special cases ($ and ?) on RHS
-(1)  182/      A8 : FB 24               	xri 	'$'													; which are input.
-(1)  183/      AA : 32 B9               	bz 		__EXPRSpecialVariable
-(1)  184/      AC : FB 1B               	xri 	'$'!'?'
-(1)  185/      AE : 32 B9               	bz 		__EXPRSpecialVariable 
-(1)  186/      B0 :                     
-(1)  187/      B0 : 9E                  	ghi 	rTemp 												; ASCII value of variable x 2
-(1)  188/      B1 : FE                  	shl 
-(1)  189/      B2 : A9                  	plo 	rVarPtr 											; point to variable
-(1)  190/      B3 :                     
-(1)  191/      B3 : 49                  	lda 	rVarPtr 											; copy variable into rValue
-(1)  192/      B4 : AF                  	plo 	rRValue
-(1)  193/      B5 : 09                  	ldn 	rVarPtr
-(1)  194/      B6 : BF                  	phi 	rRValue
-(1)  195/      B7 : 30 FF               	br 		__EXPRPendingArithmetic 							; and now have term.
-(1)  196/      B9 :                     
-(1)  197/      B9 :                     ; ***************************************************************************************************************
-(1)  198/      B9 :                     ;
-(1)  199/      B9 :                     ;	Call the 'special variables' routine. Should put the value required into 'rRValue'
-(1)  200/      B9 :                     ;
-(1)  201/      B9 :                     ; ***************************************************************************************************************
-(1)  202/      B9 :                     
-(1)  203/      B9 :                     __EXPRSpecialVariable:
-(1)  204/      B9 : F8 01               	ldi 	SpecialVariableHandler/256 							; prepare to call the SVHandler routine.
-(1)  205/      BB : BE                  	phi 	rTemp
-(1)  206/      BC : F8 02               	ldi 	SpecialVariableHandler&255
-(1)  207/      BE : AE                  	plo 	rTemp 												; prepare for return
-(1)  208/      BF : 2A                  	dec 	rExpression
-(1)  209/      C0 : 4A                  	lda 	rExpression
-(1)  210/      C1 : 22                  	dec 	r2
-(1)  211/      C2 : 79                  	mark 		
-(1)  212/      C3 : DE                  	sep 	rTemp 												; call the SVHandler, then fall through to pending sum.
-(1)  213/      C4 :                     
-(1)  214/      C4 :                     ; ***************************************************************************************************************
-(1)  215/      C4 :                     ;
-(1)  216/      C4 :                     ;	We now have <lterm> <op>  on the stack and the rValue in rRValue, so this does that stacked operation.
-(1)  217/      C4 :                     ;
-(1)  218/      C4 :                     ;	operations are * / + - > < = and @ (the array index psuedo op, internal only)
-(1)  219/      C4 :                     ;
-(1)  220/      C4 :                     ; ***************************************************************************************************************
-(1)  221/      C4 :                     
-(1)  222/      FF :                     	org 	(EXPRPageAddress/256)*256+100h-1
-(1)  223/      FF :                     __EXPRPendingArithmetic:
-(1)  224/      FF : 42                  	lda 	r2 													; get the pending operator off the stack.
-(1)  225/     100 :                     
-(1)  226/     100 :                     
-(1)  227/     100 : 30 00               st:	br		st
-(1)  228/     102 :                     
-(1)  229/     102 :                     
-(1)  230/     102 :                     
-(1)  231/     102 :                     SpecialVariableHandler:
-(1)  232/     102 : 12                  	inc 	r2
-(1)  233/     103 : 70                  	ret
-(1)  234/     104 :                     
-(1)  235/     104 :                     ;
-(1)  236/     104 :                     ; handle character constants not done so far.
-(1)  237/     104 :                     ; add pending arithmetic + * / @ [- > < = group]
-(1)  238/     104 :                     ; get the next operator and handle 0
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 6 - 8/1/2017 19:40:54
+(1)  180/      9D :                     
+(1)  181/      9D :                     ; ***************************************************************************************************************
+(1)  182/      9D :                     ;
+(1)  183/      9D :                     ;							Found a variable - this is actually anything except  0-9 ( and :
+(1)  184/      9D :                     ;
+(1)  185/      9D :                     ; ***************************************************************************************************************
+(1)  186/      9D :                     
+(1)  187/      9D :                     __EXPRTermIsVariable:
+(1)  188/      9D : 9E                  	ghi 	rTemp 												; check for special cases ($ and ?) on RHS
+(1)  189/      9E : FB 24               	xri 	'$'													; which are input.
+(1)  190/      A0 : 32 AF               	bz 		__EXPRSpecialVariable
+(1)  191/      A2 : FB 1B               	xri 	'$'!'?'
+(1)  192/      A4 : 32 AF               	bz 		__EXPRSpecialVariable 
+(1)  193/      A6 :                     
+(1)  194/      A6 : 9E                  	ghi 	rTemp 												; ASCII value of variable x 2
+(1)  195/      A7 : FE                  	shl 
+(1)  196/      A8 : A9                  	plo 	rVarPtr 											; point to variable
+(1)  197/      A9 :                     
+(1)  198/      A9 : 49                  	lda 	rVarPtr 											; copy variable into rValue
+(1)  199/      AA : AF                  	plo 	rRValue
+(1)  200/      AB : 09                  	ldn 	rVarPtr
+(1)  201/      AC : BF                  	phi 	rRValue
+(1)  202/      AD : 30 FF               	br 		__EXPRPendingArithmetic 							; and now have term.
+(1)  203/      AF :                     
+(1)  204/      AF :                     ; ***************************************************************************************************************
+(1)  205/      AF :                     ;
+(1)  206/      AF :                     ;	Call the 'special variables' routine. Should put the value required into 'rRValue'
+(1)  207/      AF :                     ;
+(1)  208/      AF :                     ; ***************************************************************************************************************
+(1)  209/      AF :                     
+(1)  210/      AF :                     __EXPRSpecialVariable:
+(1)  211/      AF : F8 01               	ldi 	SpecialVariableHandler/256 							; prepare to call the SVHandler routine.
+(1)  212/      B1 : BE                  	phi 	rTemp
+(1)  213/      B2 : F8 CF               	ldi 	SpecialVariableHandler&255
+(1)  214/      B4 : AE                  	plo 	rTemp 												; prepare for return
+(1)  215/      B5 : 2A                  	dec 	rExpression
+(1)  216/      B6 : 4A                  	lda 	rExpression
+(1)  217/      B7 : 22                  	dec 	r2
+(1)  218/      B8 : 79                  	mark 		
+(1)  219/      B9 : DE                  	sep 	rTemp 												; call the SVHandler, then fall through to pending sum.
+(1)  220/      BA :                     
+(1)  221/      BA :                     ; ***************************************************************************************************************
+(1)  222/      BA :                     ;
+(1)  223/      BA :                     ;	We now have <lterm> <op>  on the stack and the rValue in rRValue, so this does that stacked operation.
+(1)  224/      BA :                     ;
+(1)  225/      BA :                     ;	operations are * / + - > < = and @ (the array index psuedo op, internal only)
+(1)  226/      BA :                     ;
+(1)  227/      BA :                     ;	This code is in page 2.
+(1)  228/      BA :                     ;
+(1)  229/      BA :                     ; ***************************************************************************************************************
+(1)  230/      BA :                     
+(1)  231/      FF :                     	org 	(EXPRPageAddress/256)*256+100h-1
+(1)  232/      FF :                     
+(1)  233/      FF :                     __EXPRPendingArithmetic:
+(1)  234/      FF : 42                  	lda 	r2 													; get the pending operator off the stack.
+(1)  235/     100 : BE                  	phi 	rTemp 												; save in rTemp.1
+(1)  236/     101 : FB 2B               	xri 	'+'
+(1)  237/     103 : 3A 0E               	bnz 	__EXPRPANotAdd
+(1)  238/     105 :                     ;
+(1)  239/     105 :                     ;	Addition
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 6 - 8/1/2017 23:53:48
 
 
-(1)  239/     104 :                     ; push operator and loop back.
-(1)  240/     104 :                     ; handle ) and unstacking
-(1)  241/     104 :                     ;
-(1)  242/     104 :                     
-      43/     104 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 7 - 8/1/2017 19:40:54
+(1)  240/     105 :                     ;
+(1)  241/     105 : 8F                  	glo 	rRValue 											; Add.
+(1)  242/     106 : F4                  	add
+(1)  243/     107 : 52                  	str 	r2
+(1)  244/     108 : 12                  	inc 	r2
+(1)  245/     109 : 9F                  	ghi 	rRValue
+(1)  246/     10A : 74                  	adc
+(1)  247/     10B : 73                  	stxd
+(1)  248/     10C : 30 BE               	br 		__EXPRNextOperator
+(1)  249/     10E :                     
+(1)  250/     10E :                     __EXPRPANotAdd:
+(1)  251/     10E : FB 01               	xri 	'+'!'*'
+(1)  252/     110 : 3A 3A               	bnz 	__EXPRPANotMultiply
+(1)  253/     112 :                     ;
+(1)  254/     112 :                     ;	Multiplication
+(1)  255/     112 :                     ;
+(1)  256/     112 :                     	include multiply.asm 										; Multiply
+(2)    1/     112 :                     ; ***************************************************************************************************************
+(2)    2/     112 :                     ; ***************************************************************************************************************
+(2)    3/     112 :                     ;
+(2)    4/     112 :                     ;		File:		multiply.asm
+(2)    5/     112 :                     ;		Purpose:	16 bit x 16 bit unsigned multiply with 16 bit product.
+(2)    6/     112 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(2)    7/     112 :                     ;		Date:		7th January 2017.
+(2)    8/     112 :                     ;
+(2)    9/     112 :                     ; ***************************************************************************************************************
+(2)   10/     112 :                     ; ***************************************************************************************************************
+(2)   11/     112 :                     
+(2)   12/     112 :                     ; ***************************************************************************************************************
+(2)   13/     112 :                     ;
+(2)   14/     112 :                     ;		16 bit multiplier. 
+(2)   15/     112 :                     ;
+(2)   16/     112 :                     ;		On entry, first value is (R2)(R2+1) (e.g. on the stack, [R2] = LSB), second is in rRValue
+(2)   17/     112 :                     ;		On entry, X is 2.
+(2)   18/     112 :                     ;		On exit, result is in (R2)(R2+1) e.g. replacing first value.
+(2)   19/     112 :                     ;	
+(2)   20/     112 :                     ;		R2 (stack pointer) is unchanged. rRValue is changed. rResult is changed
+(2)   21/     112 :                     ;
+(2)   22/     112 :                     ; ***************************************************************************************************************
+(2)   23/     112 :                     
+(2)   24/     112 :                     MULStart:
+(2)   25/     112 : F8 00               	ldi 	0  													; clear the result.
+(2)   26/     114 : BE                  	phi 	rResult
+(2)   27/     115 : AE                  	plo 	rResult
+(2)   28/     116 :                     
+(2)   29/     116 :                     __MULLoop:	
+(2)   30/     116 : 9F                  	ghi 	rRValue 											; shift the R Value right into the carry
+(2)   31/     117 : F6                  	shr
+(2)   32/     118 : BF                  	phi 	rRValue
+(2)   33/     119 : 8F                  	glo 	rRValue
+(2)   34/     11A : 76                  	rshr
+(2)   35/     11B : AF                  	plo 	rRValue
+(2)   36/     11C :                     
+(2)   37/     11C : 3B 26               	bnf 	__MULDontAdd 										; if no carry do not add multiplicand.
+(2)   38/     11E :                     
+(2)   39/     11E : 8E                  	glo 	rResult 											; add value on stack (multiplicand) to rResult
+(2)   40/     11F : F4                  	add
+(2)   41/     120 : AE                  	plo 	rResult
+(2)   42/     121 : 12                  	inc 	r2
+(2)   43/     122 : 9E                  	ghi 	rResult
+ AS V1.42 Beta [Bld 114] - source file test.asm(multiply.asm) - page 7 - 8/1/2017 23:53:48
+
+
+(2)   44/     123 : 74                  	adc
+(2)   45/     124 : BE                  	phi 	rResult
+(2)   46/     125 : 22                  	dec 	r2
+(2)   47/     126 :                     
+(2)   48/     126 :                     __MULDontAdd:	
+(2)   49/     126 :                     	
+(2)   50/     126 : 02                  	ldn 	r2 													; shift multiplicand left
+(2)   51/     127 : F4                  	add
+(2)   52/     128 : 52                  	str		r2
+(2)   53/     129 : 12                  	inc 	r2
+(2)   54/     12A : 02                  	ldn 	r2
+(2)   55/     12B : 74                  	adc
+(2)   56/     12C : 73                  	stxd
+(2)   57/     12D :                     
+(2)   58/     12D : 8F                  	glo 	rRValue 											; loop back if multiplier is non-zero.
+(2)   59/     12E : 3A 16               	bnz 	__MULLoop
+(2)   60/     130 : 9F                  	ghi 	rRValue
+(2)   61/     131 : 3A 16               	bnz 	__MULLoop
+(2)   62/     133 :                     
+(2)   63/     133 : 8E                  	glo 	rResult 											; copy result out to stack.
+(2)   64/     134 : 52                  	str 	r2
+(2)   65/     135 : 12                  	inc 	r2
+(2)   66/     136 : 9E                  	ghi 	rResult
+(2)   67/     137 : 73                  	stxd
+(2)   68/     138 :                     
+(2)   69/     138 :                     
+(2)   70/     138 :                     
+(1)  257/     138 : 30 BE               	br 		__EXPRNextOperator
+(1)  258/     13A :                     __EXPRPANotMultiply:
+(1)  259/     13A :                     
+(1)  260/     13A : FB 05               	xri 	'*'!'/'
+(1)  261/     13C : 3A 73               	bnz 	__EXPRNotDivide
+(1)  262/     13E :                     ;
+(1)  263/     13E :                     ;	Division (with remainder)
+(1)  264/     13E :                     ;
+(1)  265/     13E :                     	include divide.asm 											; Divide.
+(2)    1/     13E :                     ; ***************************************************************************************************************
+(2)    2/     13E :                     ; ***************************************************************************************************************
+(2)    3/     13E :                     ;
+(2)    4/     13E :                     ;		File:		divide.asm
+(2)    5/     13E :                     ;		Purpose:	16 bit x 16 bit unsigned divide with 16 bit result/remainder
+(2)    6/     13E :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(2)    7/     13E :                     ;		Date:		7th January 2017.
+(2)    8/     13E :                     ;
+(2)    9/     13E :                     ; ***************************************************************************************************************
+(2)   10/     13E :                     ; ***************************************************************************************************************
+(2)   11/     13E :                     
+(2)   12/     13E :                     ; ***************************************************************************************************************
+(2)   13/     13E :                     ;
+(2)   14/     13E :                     ;		16 bit divisor.
+(2)   15/     13E :                     ;
+(2)   16/     13E :                     ;		On entry, first value is (R2)(R2+1) (e.g. on the stack, TOS = LSB), second is in rRValue
+(2)   17/     13E :                     ;		On entry, X is 2.
+(2)   18/     13E :                     ;		On exit, result is in R2/R2+1 (MSB/LSB). Remainder of division is in rRemainder.
+(2)   19/     13E :                     ;	
+(2)   20/     13E :                     ;		R2 (stack pointer) is unchanged. rRValue is changed. rCounter is changed.
+(2)   21/     13E :                     ;
+(2)   22/     13E :                     ; ***************************************************************************************************************
+(2)   23/     13E :                     
+(2)   24/     13E :                     DIVStart:
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 8 - 8/1/2017 23:53:48
+
+
+(2)   25/     13E :                     
+(2)   26/     13E : F8 00               	ldi 	0 													; zero remainder
+(2)   27/     140 : BE                  	phi 	rRemainder
+(2)   28/     141 : AE                  	plo 	rRemainder
+(2)   29/     142 : 76                  	shrc 														; clear carry (DF)
+(2)   30/     143 :                     
+(2)   31/     143 : F8 11               	ldi 	17 													; set counter to 17.
+(2)   32/     145 : AD                  	plo 	rCounter
+(2)   33/     146 :                     
+(2)   34/     146 :                     __DIVLoop:
+(2)   35/     146 : 02                  	ldn 	r2 													; read LSB of Dividend.
+(2)   36/     147 : 7E                  	rshl 														; shift carry into it left
+(2)   37/     148 : 52                  	str 	r2  												; write back, point to MSB of Dividend.
+(2)   38/     149 : 12                  	inc 	r2
+(2)   39/     14A : 02                  	ldn 	r2													; read MSB
+(2)   40/     14B : 7E                  	rshl 														; shift into that
+(2)   41/     14C : 73                  	stxd 														; write it back fix up SP
+(2)   42/     14D :                     
+(2)   43/     14D : 2D                  	dec 	rCounter 											; decrement counter
+(2)   44/     14E : 8D                  	glo 	rCounter 											; exit if zero.
+(2)   45/     14F : 32 69               	bz 		__DIVExit
+(2)   46/     151 :                     
+(2)   47/     151 : 8E                  	glo 	rRemainder 											; shift DF into the remainder
+(2)   48/     152 : 7E                  	rshl
+(2)   49/     153 : AE                  	plo 	rRemainder
+(2)   50/     154 : 9E                  	ghi 	rRemainder
+(2)   51/     155 : 7E                  	rshl
+(2)   52/     156 : BE                  	phi 	rRemainder
+(2)   53/     157 :                     
+(2)   54/     157 : 22                  	dec 	r2 													; make space on TOS for remainder-divisor temp 	
+(2)   55/     158 : 8F                  	glo 	rRValue 											; D = LSB divisor
+(2)   56/     159 : 52                  	str 	r2
+(2)   57/     15A : 8E                  	glo 	rRemainder 											; D = LSB remainder - LSB divisor.
+(2)   58/     15B : F7                  	sm
+(2)   59/     15C : BD                  	phi 	rCounter 											; temp result in rCounter.1
+(2)   60/     15D :                     
+(2)   61/     15D : 9F                  	ghi 	rRValue 											; now repeat it with MSB.
+(2)   62/     15E : 52                  	str 	r2
+(2)   63/     15F : 9E                  	ghi 	rRemainder
+(2)   64/     160 : 77                  	smb  														; D = MSB of result.
+(2)   65/     161 : 12                  	inc 	r2 													; fix up stack.
+(2)   66/     162 :                     
+(2)   67/     162 : 3B 46               	bnf 	__DIVLoop 											; if DF = 0 loop back with DF = 0.
+(2)   68/     164 :                     
+(2)   69/     164 : BE                  	phi 	rRemainder 											; update remainder with result of the sum.
+(2)   70/     165 : 9D                  	ghi 	rCounter 											; and the interim value
+(2)   71/     166 : AE                  	plo 	rRemainder
+(2)   72/     167 : 30 46               	br 		__DIVLoop 											; loop round with DF = 1
+(2)   73/     169 :                     
+(2)   74/     169 :                     __DIVExit:														; result is already in dividend.
+(2)   75/     169 :                     
+(2)   76/     169 :                     DIVEnd:
+(2)   77/     169 :                     
+(1)  266/     169 :                     
+(1)  267/     169 : F8 4A               	ldi 	'%' * 2 											; Make rVarPtr point to remainder variable.
+(1)  268/     16B : A9                  	plo 	rVarPtr	
+(1)  269/     16C : 8E                  	glo 	rRemainder 											; write division remainder out there.
+(1)  270/     16D : 59                  	str 	rVarPtr
+(1)  271/     16E : 19                  	inc 	rVarPtr
+(1)  272/     16F : 9E                  	ghi 	rRemainder
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 9 - 8/1/2017 23:53:48
+
+
+(1)  273/     170 : 59                  	str 	rVarPtr
+(1)  274/     171 : 30 BE               	br 		__EXPRNextOperator
+(1)  275/     173 :                     
+(1)  276/     173 :                     __EXPRNotDivide:
+(1)  277/     173 : FB 6F               	xri 	'/'!'@'
+(1)  278/     175 : 3A 91               	bnz 	__EXPRNotArray 										; Array access
+(1)  279/     177 :                     ;
+(1)  280/     177 :                     ;	Index Access a @ b (b * 2 + memtop read, e.g. array access)
+(1)  281/     177 :                     ;
+(1)  282/     177 : (MACRO)             	doubleRValue 												; x array index by two as word access
+(1)  282/     177 : 8F                          glo     rRValue
+(1)  282/     178 : FE                          shl
+(1)  282/     179 : AF                          plo     rRValue
+(1)  282/     17A : 9F                          ghi     rRValue
+(1)  282/     17B : 7E                          rshl
+(1)  282/     17C : BF                          phi     rRValue
+(1)  283/     17D : F8 54               	ldi 	'*'*2 												; point rVarPtr to '*' (end of memory)
+(1)  284/     17F : A9                  	plo 	rVarPtr
+(1)  285/     180 :                     
+(1)  286/     180 : E9                  	sex 	rVarPtr 											; use that as index, briefly.
+(1)  287/     181 : 8F                  	glo 	rRValue 											; add to the doubled index, into rRValue.
+(1)  288/     182 : F4                  	add
+(1)  289/     183 : AF                  	plo 	rRValue
+(1)  290/     184 : 19                  	inc 	rVarPtr
+(1)  291/     185 : 9F                  	ghi 	rRValue
+(1)  292/     186 : 74                  	adc
+(1)  293/     187 : BF                  	phi 	rRValue
+(1)  294/     188 : E2                  	sex 	r2 													; X back to stack.
+(1)  295/     189 :                     
+(1)  296/     189 : 4F                  	lda 	rRValue 											; get LSB
+(1)  297/     18A : 52                  	str 	r2
+(1)  298/     18B : 12                  	inc 	r2
+(1)  299/     18C : 0F                  	ldn 	rRValue 											; get MSB
+(1)  300/     18D : 52                  	str 	r2
+(1)  301/     18E : 22                  	dec 	r2
+(1)  302/     18F : 30 BE               	br 		__EXPRNextOperator
+(1)  303/     191 :                     
+(1)  304/     191 :                     __EXPRNotArray:													; so we know it is not + * / @ it must be - = < >
+(1)  305/     191 :                     ;
+(1)  306/     191 :                     ;	do subtract whatever - works for - = < >
+(1)  307/     191 :                     ;
+(1)  308/     191 : 8F                  	glo 	rRValue 											; subtract rRValue from TOS.
+(1)  309/     192 : F5                  	sd
+(1)  310/     193 : 52                  	str 	r2
+(1)  311/     194 : 12                  	inc 	r2
+(1)  312/     195 : 9F                  	ghi 	rRValue
+(1)  313/     196 : 75                  	sdb
+(1)  314/     197 : 73                  	stxd
+(1)  315/     198 :                     
+(1)  316/     198 : 9E                  	ghi 	rTemp 												; get operator.
+(1)  317/     199 : FB 2D               	xri 	'-'													; if subtract, we are done.
+(1)  318/     19B : 32 BE               	bz 		__EXPRNextOperator
+(1)  319/     19D : FB 10               	xri 	'='!'-'
+(1)  320/     19F : 3A AC               	bnz 	__EXPRConditional
+(1)  321/     1A1 :                     ;
+(1)  322/     1A1 :                     ;	Equality test.
+(1)  323/     1A1 :                     ;
+(1)  324/     1A1 : 42                  	lda 	r2 													; is now 0 if equal, nonzero if different
+(1)  325/     1A2 : F1                  	or  														; (e.g. result of subtraction <> 0)
+(1)  326/     1A3 : 22                  	dec 	r2 													; fix up SP
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 10 - 8/1/2017 23:53:48
+
+
+(1)  327/     1A4 : 32 A8               	bz 		__EXPREqual2 
+(1)  328/     1A6 : F8 01               	ldi 	1
+(1)  329/     1A8 :                     __EXPREqual2: 													; now 0 if equal, 1 if different.	
+(1)  330/     1A8 : FB 01               	xri 	1 													; now 1 if equal, 0 if different
+(1)  331/     1AA : 30 B9               	br 		__EXPRSetBoolean 									; use that to set the boolean result.
+(1)  332/     1AC :                     ;
+(1)  333/     1AC :                     ;	Conditional tests < and > (note > is actually >=) and anything unrecognised is >=
+(1)  334/     1AC :                     ;
+(1)  335/     1AC :                     ;	At this point DF = 1 if >= 
+(1)  336/     1AC :                     ;
+(1)  337/     1AC :                     __EXPRConditional:
+(1)  338/     1AC : 9E                  	ghi 	rTemp 												; get the conditional.
+(1)  339/     1AD : FB 3C               	xri 	'<' 												; zero if < anything else non-zero.
+(1)  340/     1AF : 32 B3               	bz 		__EXPRConditional2
+(1)  341/     1B1 : F8 01               	ldi 	1
+(1)  342/     1B3 :                     __EXPRConditional2:												; zero if < ; one if >= (default operator)
+(1)  343/     1B3 : 7C 00               	adci 	0 													; add in DF. zero if < and true; two if >= and true
+(1)  344/     1B5 : FA 01               	ani 	1 													; now 0 if true, 1 if false
+(1)  345/     1B7 : FB 01               	xri 	1 													; now 1 if true, 0 if false
+(1)  346/     1B9 :                     __EXPRSetBoolean:	
+(1)  347/     1B9 : 52                  	str 	r2													; write 0/1 out.
+(1)  348/     1BA : 12                  	inc 	r2
+(1)  349/     1BB : F8 00               	ldi 	0 													; write MSB
+(1)  350/     1BD : 73                  	stxd	
+(1)  351/     1BE :                     
+(1)  352/     1BE :                     ; ***************************************************************************************************************
+(1)  353/     1BE :                     ;
+(1)  354/     1BE :                     ;					Having done a pending operator, we now look at the next operator.
+(1)  355/     1BE :                     ;
+(1)  356/     1BE :                     ; ***************************************************************************************************************
+(1)  357/     1BE :                     
+(1)  358/     1BE :                     __EXPRNextOperator:	
+(1)  359/     1BE : F8 04               	ldi 	4
+(1)  360/     1C0 : 30 C4               	br 		__EXPRJumpPage1
+(1)  361/     1C2 :                     
+(1)  362/     1C2 : 30 C2               st:	br		st
+(1)  363/     1C4 :                     
+(1)  364/     1C4 :                     __EXPRJumpPage1:								
+(1)  365/     1C4 : 22                  	dec 	r2 													; mark
+(1)  366/     1C5 : 79                  	mark 														; now R2 points to TOS.
+(1)  367/     1C6 : E2                  	sex 	r2 													; X back to 2.
+(1)  368/     1C7 : 12                  	inc 	r2 													; point R2 to X|P
+(1)  369/     1C8 : 02                  	ldn 	r2 													; read it.
+(1)  370/     1C9 : FB F0               	xri 	0D0h!020h 											; make it Dx e.g. SEP Rp
+(1)  371/     1CB : 52                  	str 	r2 													; write back.
+(1)  372/     1CC : D2                  	sep 	r2 													; run that instruction.
+(1)  373/     1CD :                     
+(1)  374/     1CD : 30 CD               w1:	br 		w1
+(1)  375/     1CF :                     
+(1)  376/     1CF :                     SpecialVariableHandler:
+(1)  377/     1CF : 70                  	ret
+(1)  378/     1D0 :                     
+(1)  379/     1D0 :                     
+(1)  380/     1D0 :                     ;
+(1)  381/     1D0 :                     ; get the next operator and handle 0
+(1)  382/     1D0 :                     ; push operator and loop back.
+(1)  383/     1D0 :                     ; handle ) and unstacking
+(1)  384/     1D0 :                     ;
+(1)  385/     1D0 :                     
+      44/     1D0 :                     
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 11 - 8/1/2017 23:53:48
+
+
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 12 - 8/1/2017 23:53:48
 
 
   symbol table (* = unused):
@@ -330,8 +640,9 @@
 *ARCHITECTURE :                                        x86_64-unknown-linux - |
 *BIGENDIAN :                      0 - | *BRANCHEXT :                      0 - |
 *CASESENSITIVE :                  0 - | *CONSTPI :        3.141592653589793 - |
-*DATE :                    8/1/2017 - |  EXPRESSION :                    2F C |
- EXPREXIT :                      24 C |  EXPRPAGEADDRESS :               24 C |
+*DATE :                    8/1/2017 - | *DIVEND :                       169 C |
+*DIVSTART :                     13E C |  EXPRESSION :                    25 C |
+ EXPREXIT :                      1A C |  EXPRPAGEADDRESS :               1A C |
 *FALSE :                          0 - | *FULLPMMU :                       1 - |
 *HAS64 :                          1 - | *HASDSP :                         0 - |
 *HASFPU :                         0 - | *HASPMMU :                        0 - |
@@ -339,28 +650,36 @@
 *INMAXMODE :                      0 - | *INSRCMODE :                      0 - |
 *INSUPMODE :                      0 - | *LISTON :                         1 - |
 *MACEXP :                         1 - | *MOMCPU :                      1802 - |
-*MOMCPUNAME :                  1802 - | *NESTMAX :                      100 - |
-*PACKING :                        0 - | *PADDING :                        1 - |
-*R0 :                             0 - | *R1 :                             1 - |
- R2 :                             2 - | *R3 :                             3 - |
-*R4 :                             4 - | *R5 :                             5 - |
-*RCOUNTER :                       D - | *RELAXED :                        0 - |
- REXPRESSION :                    A - |  RPARENDEPTH :                    C - |
-*RREMAINDER :                     E - |  RRESULT :                        E - |
- RRVALUE :                        F - |  RSTACKSAVE :                     B - |
- RTEMP :                          E - |  RVARPTR :                        9 - |
- SEXPRESSION :                   15 C |  SPECIALVARIABLEHANDLER :       102 C |
- ST :                           100 C | *TIME :                    19:40:54 - |
-*TRUE :                           1 - | *VERSION :                     142F - |
- __EXPRCHARACTER :               93 C |  __EXPRINTEGERLOOP :             5D C |
- __EXPRLOOP :                    3C C |  __EXPRNEWEXPRESSION :           36 C |
- __EXPRPENDINGARITHMETIC :       FF C |  __EXPRSPECIALVARIABLE :         B9 C |
- __EXPRTERMISARRAY :             9F C |  __EXPRTERMISVARIABLE :          A7 C |
+*MOMCPUNAME :                  1802 - | *MULSTART :                     112 C |
+*NESTMAX :                      100 - | *PACKING :                        0 - |
+*PADDING :                        1 - | *R0 :                             0 - |
+*R1 :                             1 - |  R2 :                             2 - |
+*R3 :                             3 - | *R4 :                             4 - |
+*R5 :                             5 - |  RCOUNTER :                       D - |
+*RELAXED :                        0 - |  REXPRESSION :                    A - |
+ RPARENDEPTH :                    C - |  RREMAINDER :                     E - |
+ RRESULT :                        E - |  RRVALUE :                        F - |
+ RSTACKSAVE :                     B - |  RTEMP :                          E - |
+ RVARPTR :                        9 - |  SEXPRESSION :                   15 C |
+ SPECIALVARIABLEHANDLER :       1CF C |  ST :                           1C2 C |
+*TIME :                    23:53:48 - | *TRUE :                           1 - |
+*VERSION :                     142F - |  W1 :                           1CD C |
+ __DIVEXIT :                    169 C |  __DIVLOOP :                    146 C |
+ __EXPRCHARACTER :               89 C |  __EXPRCONDITIONAL :            1AC C |
+ __EXPRCONDITIONAL2 :           1B3 C |  __EXPREQUAL2 :                 1A8 C |
+ __EXPRINTEGERLOOP :             53 C |  __EXPRJUMPPAGE1 :              1C4 C |
+ __EXPRLOOP :                    32 C |  __EXPRNEWEXPRESSION :           2C C |
+ __EXPRNEXTOPERATOR :           1BE C |  __EXPRNOTARRAY :               191 C |
+ __EXPRNOTDIVIDE :              173 C |  __EXPRPANOTADD :               10E C |
+ __EXPRPANOTMULTIPLY :          13A C |  __EXPRPENDINGARITHMETIC :       FF C |
+ __EXPRSETBOOLEAN :             1B9 C |  __EXPRSPECIALVARIABLE :         AF C |
+ __EXPRTERMISARRAY :             95 C |  __EXPRTERMISVARIABLE :          9D C |
+ __MULDONTADD :                 126 C |  __MULLOOP :                    116 C |
 
-     57 symbols
-     35 unused symbols
+     75 symbols
+     36 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 8 - 8/1/2017 19:40:54
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 13 - 8/1/2017 23:53:48
 
 
   defined macros:
@@ -370,7 +689,7 @@ DOUBLERVALUE                          |
 
       1 macro
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 9 - 8/1/2017 19:40:54
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 14 - 8/1/2017 23:53:48
 
 
   codepages:
@@ -379,10 +698,10 @@ DOUBLERVALUE                          |
 STANDARD (0 changed characters)
 
 
-0.01 seconds assembly time
+0.00 seconds assembly time
 
-    285 lines source file
-    303 lines incl. macro expansions
+    576 lines source file
+    600 lines incl. macro expansions
       2 passes
       0 errors
       0 warnings

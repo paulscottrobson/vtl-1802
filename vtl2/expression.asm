@@ -229,18 +229,150 @@ __EXPRSpecialVariable:
 ; ***************************************************************************************************************
 
 	org 	(EXPRPageAddress/256)*256+100h-1
+
 __EXPRPendingArithmetic:
 	lda 	r2 													; get the pending operator off the stack.
+	phi 	rTemp 												; save in rTemp.1
+	xri 	'+'
+	bnz 	__EXPRPANotAdd
+;
+;	Addition
+;
+	glo 	rRValue 											; Add.
+	add
+	str 	r2
+	inc 	r2
+	ghi 	rRValue
+	adc
+	stxd
+	br 		__EXPRNextOperator
 
+__EXPRPANotAdd:
+	xri 	'+'!'*'
+	bnz 	__EXPRPANotMultiply
+;
+;	Multiplication
+;
+	include multiply.asm 										; Multiply
+	br 		__EXPRNextOperator
+__EXPRPANotMultiply:
+
+	xri 	'*'!'/'
+	bnz 	__EXPRNotDivide
+;
+;	Division (with remainder)
+;
+	include divide.asm 											; Divide.
+
+	ldi 	'%' * 2 											; Make rVarPtr point to remainder variable.
+	plo 	rVarPtr	
+	glo 	rRemainder 											; write division remainder out there.
+	str 	rVarPtr
+	inc 	rVarPtr
+	ghi 	rRemainder
+	str 	rVarPtr
+	br 		__EXPRNextOperator
+
+__EXPRNotDivide:
+	xri 	'/'!'@'
+	bnz 	__EXPRNotArray 										; Array access
+;
+;	Index Access a @ b (b * 2 + memtop read, e.g. array access)
+;
+	doubleRValue 												; x array index by two as word access
+	ldi 	'*'*2 												; point rVarPtr to '*' (end of memory)
+	plo 	rVarPtr
+
+	sex 	rVarPtr 											; use that as index, briefly.
+	glo 	rRValue 											; add to the doubled index, into rRValue.
+	add
+	plo 	rRValue
+	inc 	rVarPtr
+	ghi 	rRValue
+	adc
+	phi 	rRValue
+	sex 	r2 													; X back to stack.
+
+	lda 	rRValue 											; get LSB
+	str 	r2
+	inc 	r2
+	ldn 	rRValue 											; get MSB
+	str 	r2
+	dec 	r2
+	br 		__EXPRNextOperator
+
+__EXPRNotArray:													; so we know it is not + * / @ it must be - = < >
+;
+;	do subtract whatever - works for - = < >
+;
+	glo 	rRValue 											; subtract rRValue from TOS.
+	sd
+	str 	r2
+	inc 	r2
+	ghi 	rRValue
+	sdb
+	stxd
+
+	ghi 	rTemp 												; get operator.
+	xri 	'-'													; if subtract, we are done.
+	bz 		__EXPRNextOperator
+	xri 	'='!'-'
+	bnz 	__EXPRConditional
+;
+;	Equality test.
+;
+	lda 	r2 													; is now 0 if equal, nonzero if different
+	or  														; (e.g. result of subtraction <> 0)
+	dec 	r2 													; fix up SP
+	bz 		__EXPREqual2 
+	ldi 	1
+__EXPREqual2: 													; now 0 if equal, 1 if different.	
+	xri 	1 													; now 1 if equal, 0 if different
+	br 		__EXPRSetBoolean 									; use that to set the boolean result.
+;
+;	Conditional tests < and > (note > is actually >=) and anything unrecognised is >=
+;
+;	At this point DF = 1 if >= 
+;
+__EXPRConditional:
+	ghi 	rTemp 												; get the conditional.
+	xri 	'<' 												; zero if < anything else non-zero.
+	bz 		__EXPRConditional2
+	ldi 	1
+__EXPRConditional2:												; zero if < ; one if >= (default operator)
+	adci 	0 													; add in DF. zero if < and true; two if >= and true
+	ani 	1 													; now 0 if true, 1 if false
+	xri 	1 													; now 1 if true, 0 if false
+__EXPRSetBoolean:	
+	str 	r2													; write 0/1 out.
+	inc 	r2
+	ldi 	0 													; write MSB
+	stxd	
+
+; ***************************************************************************************************************
+;
+;					Having done a pending operator, we now look at the next operator.
+;
+; ***************************************************************************************************************
+
+__EXPRNextOperator:	
+	ldi 	4
+	br 		__EXPRJumpPage1
 
 st:	br		st
 
-SpecialVariableHandler:
-	inc 	r2
-	ret
+__EXPRJumpPage1:								
 ;
-; handle character constants not done so far.
-; add pending arithmetic + * / @ [- > < = group]
+;	Code to jump to offset D in page 1 of expression......
+;
+w1:	br 		w1
+
+
+SpecialVariableHandler:
+	ret
+
+
+;
 ; get the next operator and handle 0
 ; push operator and loop back.
 ; handle ) and unstacking
