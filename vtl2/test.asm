@@ -23,8 +23,8 @@ rRValue = 15
 	plo 	r2
 
 
-v1 = 62770
-v2 = 11537
+v1 = 130
+v2 = 32
 
 	sex 	r2													; set up stack with left value.
 	dec 	r2 													; (R2) = LSB (R2-1) = MSB

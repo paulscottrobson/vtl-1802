@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 7/1/2017 22:07:25
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 8/1/2017 12:24:37
 
 
        1/       0 :                     
@@ -14,7 +14,7 @@
       11/       0 :                     
       12/       0 :                     
       13/       0 : =DH                 rCounter = 13
-      14/       0 : =EH                 rResult = 14
+      14/       0 : =EH                 rResult = 14 							
       15/       0 : =EH                 rRemainder = 14
       16/       0 : =FH                 rRValue = 15
       17/       0 :                     
@@ -26,20 +26,20 @@
       23/       7 : A2                  	plo 	r2
       24/       8 :                     
       25/       8 :                     
-      26/       8 : =F532H              v1 = 62770
-      27/       8 : =2D11H              v2 = 11537
+      26/       8 : =82H                v1 = 130
+      27/       8 : =20H                v2 = 32
       28/       8 :                     
       29/       8 : E2                  	sex 	r2													; set up stack with left value.
       30/       9 : 22                  	dec 	r2 													; (R2) = LSB (R2-1) = MSB
-      31/       A : F8 32               	ldi 	v1&255
+      31/       A : F8 82               	ldi 	v1&255
       32/       C : 73                  	stxd
-      33/       D : F8 F5               	ldi 	v1/256
+      33/       D : F8 00               	ldi 	v1/256
       34/       F : 52                  	str 	r2
       35/      10 : 12                  	inc 	r2
       36/      11 :                     
-      37/      11 : F8 2D               	ldi 	v2/256 												; set up rRValue with right value.
+      37/      11 : F8 00               	ldi 	v2/256 												; set up rRValue with right value.
       38/      13 : BF                  	phi 	rRValue
-      39/      14 : F8 11               	ldi 	v2&255
+      39/      14 : F8 20               	ldi 	v2&255
       40/      16 : AF                  	plo 	rRValue
       41/      17 :                     
       42/      17 :                     ;	include 	multiply.asm
@@ -61,12 +61,12 @@
 (1)   15/      17 :                     ;
 (1)   16/      17 :                     ;		On entry, first value is (R2-1)(R2) (e.g. on the stack, TOS = LSB), second is in rRValue
 (1)   17/      17 :                     ;		On entry, X is 2.
- AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 2 - 7/1/2017 22:07:25
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 2 - 8/1/2017 12:24:37
 
 
 (1)   18/      17 :                     ;		On exit, result is in R2-1/R2 (MSB/LSB). Remainder of division is in rRemainder.
 (1)   19/      17 :                     ;	
-(1)   20/      17 :                     ;		R2 (stack pointer) is unchanged. rRValue is changed. rResult is changed
+(1)   20/      17 :                     ;		R2 (stack pointer) is unchanged. rRValue is changed. rCounter is changed.
 (1)   21/      17 :                     ;
 (1)   22/      17 :                     ; ***************************************************************************************************************
 (1)   23/      17 :                     
@@ -124,7 +124,7 @@
 (1)   75/      44 :                     
 (1)   76/      44 :                     __DIVExit:														; result is already in dividend.
 (1)   77/      44 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 3 - 7/1/2017 22:07:25
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 3 - 8/1/2017 12:24:37
 
 
 (1)   78/      44 :                     DIVEnd:
@@ -135,7 +135,7 @@
       47/      44 :                     
       48/      44 : 30 44               st:	br		st
       49/      46 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 4 - 7/1/2017 22:07:25
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 4 - 8/1/2017 12:24:37
 
 
   symbol table (* = unused):
@@ -144,7 +144,7 @@
 *ARCHITECTURE :                                        x86_64-unknown-linux - |
 *BIGENDIAN :                      0 - | *BRANCHEXT :                      0 - |
 *CASESENSITIVE :                  0 - | *CONSTPI :        3.141592653589793 - |
-*DATE :                    7/1/2017 - | *DIVEND :                        44 C |
+*DATE :                    8/1/2017 - | *DIVEND :                        44 C |
 *DIVSTART :                      17 C | *FALSE :                          0 - |
 *FULLPMMU :                       1 - | *HAS64 :                          1 - |
 *HASDSP :                         0 - | *HASFPU :                         0 - |
@@ -160,15 +160,15 @@
 *R5 :                             5 - |  RCOUNTER :                       D - |
 *RELAXED :                        0 - |  RREMAINDER :                     E - |
 *RRESULT :                        E - |  RRVALUE :                        F - |
- ST :                            44 C | *TIME :                    22:07:25 - |
-*TRUE :                           1 - |  V1 :                          F532 - |
- V2 :                          2D11 - | *VERSION :                     142F - |
+ ST :                            44 C | *TIME :                    12:24:37 - |
+*TRUE :                           1 - |  V1 :                            82 - |
+ V2 :                            20 - | *VERSION :                     142F - |
  __DIVEXIT :                     44 C |  __DIVLOOP :                     1F C |
 
      45 symbols
      36 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 5 - 7/1/2017 22:07:25
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 5 - 8/1/2017 12:24:37
 
 
   codepages:

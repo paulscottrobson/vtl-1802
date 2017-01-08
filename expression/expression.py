@@ -1,9 +1,7 @@
 #
 #	Expression Evaluator - non recursive stack based left to right expression evaluator.
-# 	any variable ! ? $ operator cause *type* and *lvalue* to be stored.
-#	e.g. a!4 causes a+4 as lvalue, '!' as type.
-#		 a causes &a as lvalue, '!' as type.
 #
+#	
 import re
 
 class Evaluator:
@@ -32,9 +30,9 @@ class Evaluator:
 	def debug(self):
 		print(self.stack,'"'+self.expression+'"',self.parenthesisDepth)
 
-	def newExpression(self):
+	def newExpression(self,operator = '+'):
 		self.stack.append(0)															# start a new evaluate, 0+
-		self.stack.append('+')
+		self.stack.append(operator)
 
 	def getTerm(self):
 		parenthesis = False
@@ -43,6 +41,13 @@ class Evaluator:
 			self.expression = self.expression[1:] 										# lose (
 			self.parenthesisDepth += 1 											 		# bump parenthesis counter.
 			parenthesis = True															# causes get a new term.
+
+		elif self.expression[0] == ':':													# :<expr>) array element.
+			self.newExpression('@')
+			self.expression = self.expression[1:] 										# lose (
+			self.parenthesisDepth += 1 											 		# bump parenthesis counter.
+			parenthesis = True															# causes get a new term.
+
 		else:
 			m = re.match("^(\\d+)(.*)$",self.expression) 								# rip digits out.
 			assert m is not None,"Bad expression "+self.expression
@@ -60,6 +65,8 @@ class Evaluator:
 			self.stack[-2] = self.stack[-2] * self.nextTerm
 		elif self.stack[-1] == '/': 							
 			self.stack[-2] = self.stack[-2] / self.nextTerm
+		elif self.stack[-1] == '@': 													# array operator.			
+			self.stack[-2] = 100000 + self.nextTerm 									# <a> @ <b> = memory[b]
 		else:
 			assert False,self.stack
 		self.stack = self.stack[0:-1]													# remove top of stack operator.
@@ -67,7 +74,7 @@ class Evaluator:
 	def nextOperator(self):
 		unstacking = False 																# true if closing parenthesis
 
-		if "+-*/".find(self.expression[0]) >= 0:										# known operator.
+		if "+-*/@".find(self.expression[0]) >= 0:										# known operator.
 			self.stack.append(self.expression[0])										# push it on the stack
 			self.expression = self.expression[1:]										# remove from input
 		elif self.expression[0] == ')':													# close bracket.
@@ -82,11 +89,14 @@ class Evaluator:
 			self.completed = True
 		return unstacking
 
-n = Evaluator("42-(2*(7-3))",34)
-n = Evaluator("2*((2+3)*(4+5))*2",180)
-n = Evaluator("1+(2*3)",7)
-n = Evaluator("1+2*3",9)
-n = Evaluator("1+(2*3)*4",28)
-n = Evaluator("(1-2)*(4+3)*5",-35)
-n = Evaluator("((1+2)*3)+4",13)
-n = Evaluator("2+(2)",4)
+n = Evaluator(":2+(4*2))")
+n = Evaluator(":0-1)")
+if False:
+	n = Evaluator("42-(2*(7-3))",34)
+	n = Evaluator("2*((2+3)*(4+5))*2",180)
+	n = Evaluator("1+(2*3)",7)
+	n = Evaluator("1+2*3",9)
+	n = Evaluator("1+(2*3)*4",28)
+	n = Evaluator("(1-2)*(4+3)*5",-35)
+	n = Evaluator("((1+2)*3)+4",13)
+	n = Evaluator("2+(2)",4)
