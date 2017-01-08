@@ -9,10 +9,15 @@ r4 = 4
 r5 = 5
 
 
+rVarPtr = 9 													; variable pointer.
+rExpression = 10 												; pointer to string expression.
+rStackSave = 11 												; original stack value.
+rParenDepth = 12 												; (lower byte) parenthesis depth.
 
-rCounter = 13
+rCounter = 13 													; used in multiply and divide.
 rResult = 14 							
 rRemainder = 14
+rTemp = 14
 rRValue = 15
 
 	dis
@@ -21,28 +26,18 @@ rRValue = 15
 	phi 	r2
 	ldi 	000h
 	plo 	r2
+	sex 	r2
+	ldi 	sExpression/256 									; set up string pointer.
+	phi 	rExpression
+	ldi 	sExpression&255
+	plo 	rExpression
 
+	ldi 	03Eh 												; variables in this page.
+	phi 	rVarPtr
 
-v1 = 130
-v2 = 32
+	lbr 	EXPRession
 
-	sex 	r2													; set up stack with left value.
-	dec 	r2 													; (R2) = LSB (R2-1) = MSB
-	ldi 	v1&255
-	stxd
-	ldi 	v1/256
-	str 	r2
-	inc 	r2
+sExpression:
+	db 		" \"4\" 5) comment"
 
-	ldi 	v2/256 												; set up rRValue with right value.
-	phi 	rRValue
-	ldi 	v2&255
-	plo 	rRValue
-
-;	include 	multiply.asm
-	include 	divide.asm
-
-
-
-
-st:	br		st
+	include expression.asm

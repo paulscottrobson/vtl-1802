@@ -8,7 +8,7 @@ class Evaluator:
 	def __init__(self,expression,result = None):
 		self.stack = [ ] 																# calculation stack
 		self.parenthesisDepth = 0 														# parenthesis count.
-		self.expression = expression.replace(" ","").lower()+":" 						# expression.
+		self.expression = expression.replace(" ","").lower()+")" 						# expression, add ending parenthesis
 		self.completed = False 															# true when completed.
 		self.newExpression() 															# push 0+ onto stack.
 		while not self.completed:
@@ -78,20 +78,22 @@ class Evaluator:
 			self.stack.append(self.expression[0])										# push it on the stack
 			self.expression = self.expression[1:]										# remove from input
 		elif self.expression[0] == ')':													# close bracket.
-			assert self.parenthesisDepth > 0,"No open bracket" 							# check and decrement parenthesis count
-			self.parenthesisDepth -= 1
-			self.expression = self.expression[1:] 										# remove bracket
-			self.nextTerm = self.stack[-1] 												# pop next term off top of stack.
-			self.stack = self.stack[0:-1]
-			unstacking = True
+			if self.parenthesisDepth > 0: 												# check and decrement parenthesis count
+				self.parenthesisDepth -= 1
+				self.expression = self.expression[1:] 									# remove bracket
+				self.nextTerm = self.stack[-1] 											# pop next term off top of stack.
+				self.stack = self.stack[0:-1]
+				unstacking = True
+			else:
+				self.completed = True
 		else: 																			# done
-			assert self.parenthesisDepth == 0,"Unclosed parenthesis" 					# check all brackets closed.
+			assert self.expression != "","Unclosed parenthesis" 						# check all brackets closed.
 			self.completed = True
 		return unstacking
 
 n = Evaluator(":2+(4*2))")
 n = Evaluator(":0-1)")
-if False:
+if True:
 	n = Evaluator("42-(2*(7-3))",34)
 	n = Evaluator("2*((2+3)*(4+5))*2",180)
 	n = Evaluator("1+(2*3)",7)

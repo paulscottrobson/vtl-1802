@@ -13,9 +13,9 @@
 ;
 ;		16 bit multiplier. 
 ;
-;		On entry, first value is (R2-1)(R2) (e.g. on the stack, TOS = LSB), second is in rRValue
+;		On entry, first value is (R2)(R2+1) (e.g. on the stack, [R2] = LSB), second is in rRValue
 ;		On entry, X is 2.
-;		On exit, result is in R2-1/R2 (MSB/LSB).
+;		On exit, result is in (R2)(R2+1) e.g. replacing first value.
 ;	
 ;		R2 (stack pointer) is unchanged. rRValue is changed. rResult is changed
 ;
@@ -39,21 +39,21 @@ __MULLoop:
 	glo 	rResult 											; add value on stack (multiplicand) to rResult
 	add
 	plo 	rResult
-	dec 	r2
+	inc 	r2
 	ghi 	rResult
 	adc
 	phi 	rResult
-	inc 	r2
+	dec 	r2
 
 __MULDontAdd:	
 	
 	ldn 	r2 													; shift multiplicand left
 	add
-	stxd
+	str		r2
+	inc 	r2
 	ldn 	r2
 	adc
-	str 	r2
-	inc 	r2
+	stxd
 
 	glo 	rRValue 											; loop back if multiplier is non-zero.
 	bnz 	__MULLoop
@@ -61,9 +61,9 @@ __MULDontAdd:
 	bnz 	__MULLoop
 
 	glo 	rResult 											; copy result out to stack.
-	stxd
-	ghi 	rResult
 	str 	r2
 	inc 	r2
+	ghi 	rResult
+	stxd
 
 

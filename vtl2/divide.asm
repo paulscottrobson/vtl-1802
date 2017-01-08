@@ -13,9 +13,9 @@
 ;
 ;		16 bit divisor.
 ;
-;		On entry, first value is (R2-1)(R2) (e.g. on the stack, TOS = LSB), second is in rRValue
+;		On entry, first value is (R2)(R2+1) (e.g. on the stack, TOS = LSB), second is in rRValue
 ;		On entry, X is 2.
-;		On exit, result is in R2-1/R2 (MSB/LSB). Remainder of division is in rRemainder.
+;		On exit, result is in R2/R2+1 (MSB/LSB). Remainder of division is in rRemainder.
 ;	
 ;		R2 (stack pointer) is unchanged. rRValue is changed. rCounter is changed.
 ;
@@ -34,11 +34,11 @@ DIVStart:
 __DIVLoop:
 	ldn 	r2 													; read LSB of Dividend.
 	rshl 														; shift carry into it left
-	stxd  														; write back, point to MSB of Dividend.
+	str 	r2  												; write back, point to MSB of Dividend.
+	inc 	r2
 	ldn 	r2													; read MSB
 	rshl 														; shift into that
-	str 	r2 													; write it back.
-	inc 	r2 													; fix stack to point to LSB of Dividend.
+	stxd 														; write it back fix up SP
 
 	dec 	rCounter 											; decrement counter
 	glo 	rCounter 											; exit if zero.
@@ -52,7 +52,6 @@ __DIVLoop:
 	phi 	rRemainder
 
 	dec 	r2 													; make space on TOS for remainder-divisor temp 	
-	dec 	r2
 	glo 	rRValue 											; D = LSB divisor
 	str 	r2
 	glo 	rRemainder 											; D = LSB remainder - LSB divisor.
@@ -64,7 +63,6 @@ __DIVLoop:
 	ghi 	rRemainder
 	smb  														; D = MSB of result.
 	inc 	r2 													; fix up stack.
-	inc 	r2
 
 	bnf 	__DIVLoop 											; if DF = 0 loop back with DF = 0.
 
