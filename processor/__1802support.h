@@ -19,8 +19,8 @@ static void inline __Mark(void) {
  R[2]--;
 }
 static void inline __Return(void) {
- MA = R[2];READ();
- R[2]++;
+ MA = R[X];READ();
+ R[X]++;
  X = (MB >> 4);P = (MB & 0x0F);
 }
 static void __1802Interrupt(void) {

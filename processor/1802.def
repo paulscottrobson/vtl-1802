@@ -171,8 +171,8 @@ E0-EF 	"SEX R@X"		X = @R													// Set X
 
 																				// Array of pointers
 :static void inline __Return(void) {
-:	MA = R[2];READ(); 															// M(R(2)) read
-:	R[2]++;																		// Post inc of R(X)
+:	MA = R[X];READ(); 															// M(R(2)) read
+:	R[X]++;																		// Post inc of R(X)
 :	X = (MB >> 4);P = (MB & 0x0F);												// Put M(R(X)) -> (X,P)
 :}
 
