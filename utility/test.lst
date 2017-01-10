@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 10/1/2017 11:12:06
 
 
        1/       0 :                     
@@ -61,7 +61,7 @@
       42/      1E :                     wait:
       43/      1E : 30 1E               	br 	wait
       44/      20 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 2 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 2 - 10/1/2017 11:12:06
 
 
       45/      20 : 01 01 01 01 01 01   	db 	1,1,1,1,1,1
@@ -124,7 +124,7 @@
 (1)   44/     11F : AF                  	plo 	rParam2
 (1)   45/     120 : 42                  	lda 	r2
 (1)   46/     121 : BF                  	phi 	rParam2
- AS V1.42 Beta [Bld 114] - source file test.asm(itoa.asm) - page 3 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm(itoa.asm) - page 3 - 10/1/2017 11:12:06
 
 
 (1)   47/     122 : 02                  	ldn 	r2 															; restore digit
@@ -187,7 +187,7 @@
 (1)   46/     145 : 9F                  	ghi 	rParam2
 (1)   47/     146 : 74                  	adc
 (1)   48/     147 : 73                  	stxd 
- AS V1.42 Beta [Bld 114] - source file test.asm(multiply.asm) - page 4 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm(multiply.asm) - page 4 - 10/1/2017 11:12:06
 
 
 (1)   49/     148 :                     
@@ -250,7 +250,7 @@
 (1)   42/     165 :                     __DIVLoopIncR2IncR2:
 (1)   43/     165 : 12                  	inc		r2 															; point R2 back to the counter.
 (1)   44/     166 :                     __DIVLoopIncR2:
- AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 5 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 5 - 10/1/2017 11:12:06
 
 
 (1)   45/     166 : 12                  	inc 	r2
@@ -313,7 +313,7 @@
 (1)   13/     18C :                     ; *******************************************************************************************************************
 (1)   14/     18C :                     ;
 (1)   15/     18C :                     ;	Takes one value in rParam1, pointer to a string, returns number read in rParam2.
- AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 6 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 6 - 10/1/2017 11:12:06
 
 
 (1)   16/     18C :                     ;	rParam1 points to the next character after the last one of the number.	
@@ -376,7 +376,7 @@
 (1)   60/     1B4 : BF                          phi     rParam2
 (1)   61/     1B5 : 8F                  	glo 	rParam2 													; add stack values on there.
 (1)   62/     1B6 : F4                  	add
- AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 7 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 7 - 10/1/2017 11:12:06
 
 
 (1)   63/     1B7 : AF                  	plo 	rParam2
@@ -406,7 +406,7 @@
 (1)   81/     1CF :                     
       53/     1CF :                     
       54/     1CF :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 8 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 8 - 10/1/2017 11:12:06
 
 
   symbol table (* = unused):
@@ -432,7 +432,7 @@
 *R4 :                             4 - | *R5 :                             5 - |
 *RELAXED :                        0 - |  RPARAM1 :                        E - |
  RPARAM2 :                        F - |  RSUBPC :                         D - |
-*TIME :                    11:09:29 - | *TRUE :                           1 - |
+*TIME :                    11:12:06 - | *TRUE :                           1 - |
 *VERSION :                     142F - |  WAIT :                          1E C |
  __ATOIEXIT :                   18C C |  __ATOILOOP :                   195 C |
  __DIVEXIT :                    156 C | *__DIVLOOP :                    167 C |
@@ -444,7 +444,7 @@
      54 symbols
      35 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 9 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 9 - 10/1/2017 11:12:06
 
 
   defined macros:
@@ -455,7 +455,7 @@ __ATOIDOUBLERPARAM2                   |
 
       3 macros
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 10 - 10/1/2017 11:09:29
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 10 - 10/1/2017 11:12:06
 
 
   codepages:
