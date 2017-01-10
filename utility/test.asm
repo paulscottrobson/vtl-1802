@@ -13,6 +13,7 @@ return macro
 	dis
 	endm
 
+rSubPC = 13
 rParam1 = 14
 rParam2 = 15
 
@@ -28,11 +29,11 @@ ldr macro 	r,n
 	dis
 	db 		0
 
-	ldr 	r2,03FFFh
+	ldr 	r2,3FFFh
 	sex 	r2
-	ldr 	rParam1,51132 	; result 4DFr5
-	ldr 	rParam2,41
-	ldr 	r3,Divide
+	ldr 	rParam1,47258
+	ldr 	rParam2,buffer-1
+	ldr 	r3,IntegerToASCII
 
 	mark	
 	sep 	r3
@@ -41,7 +42,12 @@ ldr macro 	r,n
 wait:
 	br 	wait
 
+	db 	1,1,1,1,1,1
+buffer:
 
+	org 		100h
+	include 	itoa.asm
+	include 	multiply.asm
 	include 	divide.asm
 	include 	atoi.asm
 

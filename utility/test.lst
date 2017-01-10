@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 9/1/2017 23:07:52
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 10/1/2017 11:09:29
 
 
        1/       0 :                     
@@ -16,290 +16,435 @@
       13/       0 :                     	dis
       14/       0 :                     	endm
       15/       0 :                     
-      16/       0 : =EH                 rParam1 = 14
-      17/       0 : =FH                 rParam2 = 15
-      18/       0 :                     
+      16/       0 : =DH                 rSubPC = 13
+      17/       0 : =EH                 rParam1 = 14
+      18/       0 : =FH                 rParam2 = 15
       19/       0 :                     
-      20/       0 :                     ldr macro 	r,n
-      21/       0 :                     	ldi 	(n)/256
-      22/       0 :                     	phi 	r
-      23/       0 :                     	ldi 	(n)&255
-      24/       0 :                     	plo 	r
-      25/       0 :                     	endm
-      26/       0 :                     
+      20/       0 :                     
+      21/       0 :                     ldr macro 	r,n
+      22/       0 :                     	ldi 	(n)/256
+      23/       0 :                     	phi 	r
+      24/       0 :                     	ldi 	(n)&255
+      25/       0 :                     	plo 	r
+      26/       0 :                     	endm
       27/       0 :                     
-      28/       0 : 71                  	dis
-      29/       1 : 00                  	db 		0
-      30/       2 :                     
-      31/       2 : (MACRO)             	ldr 	r2,03FFFh
-      31/       2 : F8 3F                       ldi     (03FFFH)/256
-      31/       4 : B2                          phi     R2
-      31/       5 : F8 FF                       ldi     (03FFFH)&255
-      31/       7 : A2                          plo     R2
-      32/       8 : E2                  	sex 	r2
-      33/       9 : (MACRO)             	ldr 	rParam1,51132 	; result 4DFr5
-      33/       9 : F8 C7                       ldi     (51132)/256
-      33/       B : BE                          phi     RPARAM1
-      33/       C : F8 BC                       ldi     (51132)&255
-      33/       E : AE                          plo     RPARAM1
-      34/       F : (MACRO)             	ldr 	rParam2,41
-      34/       F : F8 00                       ldi     (41)/256
-      34/      11 : BF                          phi     RPARAM2
-      34/      12 : F8 29                       ldi     (41)&255
-      34/      14 : AF                          plo     RPARAM2
-      35/      15 : (MACRO)             	ldr 	r3,Divide
-      35/      15 : F8 00                       ldi     (DIVIDE)/256
-      35/      17 : B3                          phi     R3
-      35/      18 : F8 22                       ldi     (DIVIDE)&255
-      35/      1A : A3                          plo     R3
-      36/      1B :                     
-      37/      1B : 79                  	mark	
-      38/      1C : D3                  	sep 	r3
-      39/      1D : 22                  	dec 	r2
-      40/      1E :                     
-      41/      1E :                     wait:
-      42/      1E : 30 1E               	br 	wait
-      43/      20 :                     
+      28/       0 :                     
+      29/       0 : 71                  	dis
+      30/       1 : 00                  	db 		0
+      31/       2 :                     
+      32/       2 : (MACRO)             	ldr 	r2,3FFFh
+      32/       2 : F8 3F                       ldi     (3FFFH)/256
+      32/       4 : B2                          phi     R2
+      32/       5 : F8 FF                       ldi     (3FFFH)&255
+      32/       7 : A2                          plo     R2
+      33/       8 : E2                  	sex 	r2
+      34/       9 : (MACRO)             	ldr 	rParam1,47258
+      34/       9 : F8 B8                       ldi     (47258)/256
+      34/       B : BE                          phi     RPARAM1
+      34/       C : F8 9A                       ldi     (47258)&255
+      34/       E : AE                          plo     RPARAM1
+      35/       F : (MACRO)             	ldr 	rParam2,buffer-1
+      35/       F : F8 00                       ldi     (BUFFER-1)/256
+      35/      11 : BF                          phi     RPARAM2
+      35/      12 : F8 25                       ldi     (BUFFER-1)&255
+      35/      14 : AF                          plo     RPARAM2
+      36/      15 : (MACRO)             	ldr 	r3,IntegerToASCII
+      36/      15 : F8 01                       ldi     (INTEGERTOASCII)/256
+      36/      17 : B3                          phi     R3
+      36/      18 : F8 02                       ldi     (INTEGERTOASCII)&255
+      36/      1A : A3                          plo     R3
+      37/      1B :                     
+      38/      1B : 79                  	mark	
+      39/      1C : D3                  	sep 	r3
+      40/      1D : 22                  	dec 	r2
+      41/      1E :                     
+      42/      1E :                     wait:
+      43/      1E : 30 1E               	br 	wait
       44/      20 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 2 - 9/1/2017 23:07:52
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 2 - 10/1/2017 11:09:29
 
 
-      45/      20 :                     	include 	divide.asm
-(1)    1/      20 :                     ; ***************************************************************************************************************
-(1)    2/      20 :                     ; ***************************************************************************************************************
-(1)    3/      20 :                     ;
-(1)    4/      20 :                     ;		File:		divide.asm
-(1)    5/      20 :                     ;		Purpose:	Divide two 16 bit integers.
-(1)    6/      20 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
-(1)    7/      20 :                     ;		Date:		9th January 2017.
-(1)    8/      20 :                     ;		Size: 		54 bytes.
-(1)    9/      20 :                     ;
-(1)   10/      20 :                     ; ***************************************************************************************************************
-(1)   11/      20 :                     ; ***************************************************************************************************************
-(1)   12/      20 :                     
-(1)   13/      20 :                     ; *******************************************************************************************************************
-(1)   14/      20 :                     ;
-(1)   15/      20 :                     ;				Calculate rParam1 / rParam2.  Result in rParam1. Remainder in rParam2.
-(1)   16/      20 :                     ;
-(1)   17/      20 :                     ; *******************************************************************************************************************
-(1)   18/      20 :                     
-(1)   19/      20 :                     __DIVExit:
-(1)   20/      20 : 12                  	inc 	r2 															; point to XP on the stack
-(1)   21/      21 : (MACRO)             	return
-(1)   21/      21 : 71                          dis
-(1)   22/      22 :                     
-(1)   23/      22 :                     Divide:
-(1)   24/      22 : E2                  	sex 	r2 															; back using R2 as the index register
-(1)   25/      23 :                     																		; rParam1 is the dividend.
-(1)   26/      23 :                     																		; rParam2 is the remainder.
-(1)   27/      23 :                     																		; tos is [divisor:2][counter:1] 
-(1)   28/      23 :                     
-(1)   29/      23 : F8 10               	ldi 	16															; push counter on stack - 16 because post	
-(1)   30/      25 : 73                  	stxd 																; decrements in main loop.
-(1)   31/      26 :                     
-(1)   32/      26 : 9F                  	ghi 	rParam2 													; push divisor on stack.
-(1)   33/      27 : 73                  	stxd
-(1)   34/      28 : 8F                  	glo 	rParam2
-(1)   35/      29 : 52                  	str 	r2 	
-(1)   36/      2A :                     	
-(1)   37/      2A : F8 00               	ldi 	0 															; clear the remainder
-(1)   38/      2C : BF                  	phi 	rParam2
-(1)   39/      2D : AF                  	plo 	rParam2
-(1)   40/      2E : F4                  	add 																; anything + 0 clears DF.
-(1)   41/      2F :                     
-(1)   42/      2F :                     __DIVLoopIncR2IncR2:
-(1)   43/      2F : 12                  	inc		r2 															; point R2 back to the counter.
-(1)   44/      30 :                     __DIVLoopIncR2:
-(1)   45/      30 : 12                  	inc 	r2
-(1)   46/      31 :                     
-(1)   47/      31 :                     __DIVLoop:
-(1)   48/      31 :                     
-(1)   49/      31 : 8E                  	glo 	rParam1 													; shift DF into dividend, shift old bit 15 to DF
-(1)   50/      32 : 7E                  	rshl
-(1)   51/      33 : AE                  	plo 	rParam1
-(1)   52/      34 : 9E                  	ghi 	rParam1
-(1)   53/      35 : 7E                  	rshl
-(1)   54/      36 : BE                  	phi 	rParam1
-(1)   55/      37 :                     
-(1)   56/      37 : 02                  	ldn 	r2 															; look at counter.
-(1)   57/      38 : 32 20               	bz 		__DIVExit 													; if zero then complete (decrement done later)
-(1)   58/      3A :                     
- AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 3 - 9/1/2017 23:07:52
+      45/      20 : 01 01 01 01 01 01   	db 	1,1,1,1,1,1
+      46/      26 :                     buffer:
+      47/      26 :                     
+      48/     100 :                     	org 		100h
+      49/     100 :                     	include 	itoa.asm
+(1)    1/     100 :                     ; ***************************************************************************************************************
+(1)    2/     100 :                     ; ***************************************************************************************************************
+(1)    3/     100 :                     ;
+(1)    4/     100 :                     ;		File:		itoa.asm
+(1)    5/     100 :                     ;		Purpose:	Convert 16 bit integer to ASCIIZ string
+(1)    6/     100 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(1)    7/     100 :                     ;		Date:		10th January 2017.
+(1)    8/     100 :                     ;		Size: 		47 bytes.
+(1)    9/     100 :                     ;
+(1)   10/     100 :                     ; ***************************************************************************************************************
+(1)   11/     100 :                     ; ***************************************************************************************************************
+(1)   12/     100 :                     
+(1)   13/     100 :                     ; *******************************************************************************************************************
+(1)   14/     100 :                     ;
+(1)   15/     100 :                     ;	rParam1 is the number to convert. rParam2 is the end of the buffer, which is written backwards. On exit.
+(1)   16/     100 :                     ;	rParam2 points to the string terminated in a NULL character.
+(1)   17/     100 :                     ;
+(1)   18/     100 :                     ; *******************************************************************************************************************
+(1)   19/     100 :                     
+(1)   20/     100 :                     __ITOAExit:
+(1)   21/     100 : 12                  	inc 	r2
+(1)   22/     101 : (MACRO)             	return
+(1)   22/     101 : 71                          dis
+(1)   23/     102 :                     
+(1)   24/     102 :                     IntegerToASCII:
+(1)   25/     102 : E2                  	sex 	r2 															; index back at 2
+(1)   26/     103 : F8 00               	ldi 	0 															; write the NULL terminator.
+(1)   27/     105 : 5F                  	str 	rParam2
+(1)   28/     106 :                     __ITOALoop:
+(1)   29/     106 : 73                  	stxd 																; push dummy value, digit return stored here.
+(1)   30/     107 : 9F                  	ghi 	rParam2 													; push rParam2 on the stack.
+(1)   31/     108 : 73                  	stxd
+(1)   32/     109 : 8F                  	glo	 	rParam2
+(1)   33/     10A : 73                  	stxd
+(1)   34/     10B : (MACRO)             	ldr 	rParam2,10 													; set to divide by 10.
+(1)   34/     10B : F8 00                       ldi     (10)/256
+(1)   34/     10D : BF                          phi     RPARAM2
+(1)   34/     10E : F8 0A                       ldi     (10)&255
+(1)   34/     110 : AF                          plo     RPARAM2
+(1)   35/     111 : (MACRO)             	ldr 	rSubPC,Divide 												; set for call.
+(1)   35/     111 : F8 01                       ldi     (DIVIDE)/256
+(1)   35/     113 : BD                          phi     RSUBPC
+(1)   35/     114 : F8 58                       ldi     (DIVIDE)&255
+(1)   35/     116 : AD                          plo     RSUBPC
+(1)   36/     117 : 79                  	mark  
+(1)   37/     118 : DD                  	sep 	rSubPC 														; do the call.
+(1)   38/     119 : 12                  	inc 	r2
+(1)   39/     11A : 12                  	inc 	r2 															; save digit result in dummy space
+(1)   40/     11B : 8F                  	glo 	rParam2
+(1)   41/     11C : 73                  	stxd 
+(1)   42/     11D : 22                  	dec 	r2 															; now points to memory pointer for result
+(1)   43/     11E : 42                  	lda 	r2 															; restore buffer pointer
+(1)   44/     11F : AF                  	plo 	rParam2
+(1)   45/     120 : 42                  	lda 	r2
+(1)   46/     121 : BF                  	phi 	rParam2
+ AS V1.42 Beta [Bld 114] - source file test.asm(itoa.asm) - page 3 - 10/1/2017 11:09:29
 
 
-(1)   59/      3A : 8F                  	glo	 	rParam2 													; shift DF into then remainder (rParam2)
-(1)   60/      3B : 7E                  	rshl
-(1)   61/      3C : AF                  	plo 	rParam2
-(1)   62/      3D : 9F                  	ghi 	rParam2
-(1)   63/      3E : 7E                  	rshl
-(1)   64/      3F : BF                  	phi 	rParam2
-(1)   65/      40 :                     
-(1)   66/      40 : 02                  	ldn 	r2 															; decrement the counter (AFTER the test)
-(1)   67/      41 : FF 01               	smi 	1
-(1)   68/      43 : 73                  	stxd 																; when saving back, point R2 to divisor LSB.
-(1)   69/      44 : 22                  	dec 	r2
-(1)   70/      45 :                     
-(1)   71/      45 : 8F                  	glo 	rParam2 													; calculate remainder.0 - divisor.0
-(1)   72/      46 : F7                  	sm
-(1)   73/      47 : 22                  	dec 	r2 															; save the interim value below the LSB.
-(1)   74/      48 : 52                  	str 	r2
-(1)   75/      49 : 12                  	inc 	r2 															; to LSB
-(1)   76/      4A : 12                  	inc		r2 															; to MSB
-(1)   77/      4B : 9F                  	ghi 	rParam2 													; calculate remainder.1 - divisor.1
-(1)   78/      4C : 77                  	smb
-(1)   79/      4D :                     
-(1)   80/      4D : 3B 30               	bnf 	__DIVLoopIncR2 												; if DF = 0 then inc r2 (to ctr) and loop back
-(1)   81/      4F :                     
-(1)   82/      4F : BF                  	phi 	rParam2 													; copy result to remainder
-(1)   83/      50 : 22                  	dec 	r2 															; to divisor.0
-(1)   84/      51 : 22                  	dec 	r2 															; to temp result
-(1)   85/      52 : 42                  	lda 	r2 															; get temp result, to divisor.0
-(1)   86/      53 : AF                  	plo 	rParam2
-(1)   87/      54 : 30 2F               	br 		__DIVLoopIncR2IncR2 										; go back, inc r2 twice to counter
-(1)   88/      56 :                     
-      46/      56 :                     	include 	atoi.asm
-(1)    1/      56 :                     ; ***************************************************************************************************************
-(1)    2/      56 :                     ; ***************************************************************************************************************
-(1)    3/      56 :                     ;
-(1)    4/      56 :                     ;		File:		atoi.asm
-(1)    5/      56 :                     ;		Purpose:	Extract 16 bit integer from ASCII string.
-(1)    6/      56 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
-(1)    7/      56 :                     ;		Date:		9th January 2017.
-(1)    8/      56 :                     ;		Size: 		67 bytes.
-(1)    9/      56 :                     ;
-(1)   10/      56 :                     ; ***************************************************************************************************************
-(1)   11/      56 :                     ; ***************************************************************************************************************
-(1)   12/      56 :                     
-(1)   13/      56 :                     ; *******************************************************************************************************************
-(1)   14/      56 :                     ;
-(1)   15/      56 :                     ;	Takes one value in rParam1, pointer to a string, returns number read in rParam2.
-(1)   16/      56 :                     ;	rParam1 points to the next character after the last one of the number.	
-(1)   17/      56 :                     ;	
-(1)   18/      56 :                     ;	On exit non-zero if a digit was read.
-(1)   19/      56 :                     ;
-(1)   20/      56 :                     ; *******************************************************************************************************************
-(1)   21/      56 :                     
-(1)   22/      56 :                     __ATOIExit:
-(1)   23/      56 : 2E                  	dec 	rParam1 													; undo the last read, wasn't a digit.
-(1)   24/      57 : 42                  	lda 	r2 															; read the flag for 'digits read'
-(1)   25/      58 : (MACRO)             	return
-(1)   25/      58 : 71                          dis
-(1)   26/      59 :                     
-(1)   27/      59 :                     ASCIIToInteger:
-(1)   28/      59 : E2                  	sex 	r2 															; index back at 2
- AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 4 - 9/1/2017 23:07:52
+(1)   47/     122 : 02                  	ldn 	r2 															; restore digit
+(1)   48/     123 : F9 30               	ori		'0'															; make ASCII 
+(1)   49/     125 : 2F                  	dec 	rParam2 													; back one character.
+(1)   50/     126 : 5F                  	str 	rParam2 													; write into buffer
+(1)   51/     127 :                     
+(1)   52/     127 : 8E                  	glo 	rParam1 													; go around again if non-zero
+(1)   53/     128 : 3A 06               	bnz 	__ITOALoop
+(1)   54/     12A : 9E                  	ghi 	rParam1
+(1)   55/     12B : 3A 06               	bnz 	__ITOALoop
+(1)   56/     12D : 30 00               	br 		__ITOAExit 													; and prepare to exit.
+      50/     12F :                     	include 	multiply.asm
+(1)    1/     12F :                     ; ***************************************************************************************************************
+(1)    2/     12F :                     ; ***************************************************************************************************************
+(1)    3/     12F :                     ;
+(1)    4/     12F :                     ;		File:		multiply.asm
+(1)    5/     12F :                     ;		Purpose:	Multiply two 16 bit integers.
+(1)    6/     12F :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(1)    7/     12F :                     ;		Date:		9th January 2017.
+(1)    8/     12F :                     ;		Size: 		41 bytes.
+(1)    9/     12F :                     ;
+(1)   10/     12F :                     ; ***************************************************************************************************************
+(1)   11/     12F :                     ; ***************************************************************************************************************
+(1)   12/     12F :                     
+(1)   13/     12F :                     ; *******************************************************************************************************************
+(1)   14/     12F :                     ;
+(1)   15/     12F :                     ;	Multiply the values in rParam1 and rParam2 , returning result in rParam1.
+(1)   16/     12F :                     ;
+(1)   17/     12F :                     ; *******************************************************************************************************************
+(1)   18/     12F :                     
+(1)   19/     12F :                     __MULExit:
+(1)   20/     12F : 42                  	lda 	r2 															; pop LSB result off stack.
+(1)   21/     130 : AE                  	plo 	rParam1
+(1)   22/     131 : 42                  	lda 	r2  														; pop MSB result off stack, do inc r2
+(1)   23/     132 : BE                  	phi 	rParam1
+(1)   24/     133 : (MACRO)             	return
+(1)   24/     133 : 71                          dis
+(1)   25/     134 :                     
+(1)   26/     134 :                     Multiply:
+(1)   27/     134 : E2                  	sex 	r2 															; back using R2 as the index register
+(1)   28/     135 : F8 00               	ldi 	0 															; reset the result, which is on the stack.
+(1)   29/     137 : 73                  	stxd	
+(1)   30/     138 : 52                  	str 	r2
+(1)   31/     139 :                     
+(1)   32/     139 :                     __MULLoop:
+(1)   33/     139 :                     
+(1)   34/     139 : 9E                  	ghi 	rParam1 													; shift first multiplier right into DF
+(1)   35/     13A : F6                  	shr
+(1)   36/     13B : BE                  	phi 	rParam1
+(1)   37/     13C : 8E                  	glo 	rParam1
+(1)   38/     13D : 76                  	rshr
+(1)   39/     13E : AE                  	plo 	rParam1
+(1)   40/     13F : 3B 48               	bnf 	__MULDontAdd 												; if DF is set add rParam2 to the result.
+(1)   41/     141 :                     
+(1)   42/     141 : 8F                  	glo 	rParam2 													; add rParam2 to result on TOS.
+(1)   43/     142 : F4                  	add 
+(1)   44/     143 : 52                  	str 	r2
+(1)   45/     144 : 12                  	inc 	r2
+(1)   46/     145 : 9F                  	ghi 	rParam2
+(1)   47/     146 : 74                  	adc
+(1)   48/     147 : 73                  	stxd 
+ AS V1.42 Beta [Bld 114] - source file test.asm(multiply.asm) - page 4 - 10/1/2017 11:09:29
 
 
-(1)   29/      5A : F8 00               	ldi 	0 															; clear number read
-(1)   30/      5C : AF                  	plo 	rParam2
-(1)   31/      5D : BF                  	phi 	rParam2
-(1)   32/      5E : 52                  	str 	r2 															; [TOS] is count of digits read okay.
-(1)   33/      5F :                     
-(1)   34/      5F :                     __ATOILoop:
-(1)   35/      5F : 4E                  	lda 	rParam1 													; read next character and bump
-(1)   36/      60 : FB 20               	xri 	' ' 														; skip over spaces.
-(1)   37/      62 : 32 5F               	bz 		__ATOILoop 												
-(1)   38/      64 : FB 20               	xri 	' ' 														; fix it back.
-(1)   39/      66 : FC C6               	adi 	255-'9' 													; will cause DF if >= '9'
-(1)   40/      68 : 33 56               	bdf 	__ATOIExit
-(1)   41/      6A : FC 0A               	adi 	10 															; adding 10 will cause NF if < '0'	
-(1)   42/      6C : 3B 56               	bnf 	__ATOIExit
-(1)   43/      6E :                     
-(1)   44/      6E : 73                  	stxd 																; push digit value, current value of number
-(1)   45/      6F : 9F                  	ghi 	rParam2  													; on stack.
-(1)   46/      70 : 73                  	stxd
-(1)   47/      71 : 8F                  	glo 	rParam2
-(1)   48/      72 : 52                  	str 	r2
-(1)   49/      73 :                     
-(1)   50/      73 :                     __ATOIDoubleRParam2 macro 												; macro that doubles the value in rParam2
-(1)   51/      73 :                     	glo 	rParam2 													
-(1)   52/      73 :                     	shl
-(1)   53/      73 :                     	plo 	rParam2
-(1)   54/      73 :                     	ghi 	rParam2
-(1)   55/      73 :                     	rshl
-(1)   56/      73 :                     	phi 	rParam2
-(1)   57/      73 :                     	endm
-(1)   58/      73 :                     
-(1)   59/      73 : (MACRO)             	__ATOIDoubleRParam2 												; rParam2 * 2
-(1)   59/      73 : 8F                          glo     rParam2                                                                                                         
-(1)   59/      74 : FE                          shl
-(1)   59/      75 : AF                          plo     rParam2
-(1)   59/      76 : 9F                          ghi     rParam2
-(1)   59/      77 : 7E                          rshl
-(1)   59/      78 : BF                          phi     rParam2
-(1)   60/      79 : (MACRO)             	__ATOIDoubleRParam2 												; rParam2 * 4
-(1)   60/      79 : 8F                          glo     rParam2                                                                                                         
-(1)   60/      7A : FE                          shl
-(1)   60/      7B : AF                          plo     rParam2
-(1)   60/      7C : 9F                          ghi     rParam2
-(1)   60/      7D : 7E                          rshl
-(1)   60/      7E : BF                          phi     rParam2
-(1)   61/      7F : 8F                  	glo 	rParam2 													; add stack values on there.
-(1)   62/      80 : F4                  	add
-(1)   63/      81 : AF                  	plo 	rParam2
-(1)   64/      82 : 12                  	inc 	r2
-(1)   65/      83 : 9F                  	ghi 	rParam2
-(1)   66/      84 : 74                  	adc
-(1)   67/      85 : BF                  	phi 	rParam2  													; so now rParam * 5
-(1)   68/      86 : (MACRO)             	__ATOIDoubleRParam2 												; so now rParam * 10
-(1)   68/      86 : 8F                          glo     rParam2                                                                                                         
-(1)   68/      87 : FE                          shl
-(1)   68/      88 : AF                          plo     rParam2
-(1)   68/      89 : 9F                          ghi     rParam2
-(1)   68/      8A : 7E                          rshl
-(1)   68/      8B : BF                          phi     rParam2
-(1)   69/      8C :                     
-(1)   70/      8C : 12                  	inc 	r2 															; point to digit value
- AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 5 - 9/1/2017 23:07:52
+(1)   49/     148 :                     
+(1)   50/     148 :                     __MULDontAdd:
+(1)   51/     148 : 8F                  	glo 	rParam2 													; shift rParam2 left
+(1)   52/     149 : FE                  	shl
+(1)   53/     14A : AF                  	plo 	rParam2
+(1)   54/     14B : 9F                  	ghi 	rParam2
+(1)   55/     14C : 7E                  	rshl
+(1)   56/     14D : BF                  	phi 	rParam2
+(1)   57/     14E :                     
+(1)   58/     14E : 8E                  	glo 	rParam1 													; is first multiplier non zero, if not go back.
+(1)   59/     14F : 3A 39               	bnz 	__MULLoop
+(1)   60/     151 : 9E                  	ghi 	rParam1
+(1)   61/     152 : 3A 39               	bnz 	__MULLoop
+(1)   62/     154 : 30 2F               	br 		__MULExit 													; both are zero, so exit.	
+      51/     156 :                     	include 	divide.asm
+(1)    1/     156 :                     ; ***************************************************************************************************************
+(1)    2/     156 :                     ; ***************************************************************************************************************
+(1)    3/     156 :                     ;
+(1)    4/     156 :                     ;		File:		divide.asm
+(1)    5/     156 :                     ;		Purpose:	Divide two 16 bit integers.
+(1)    6/     156 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(1)    7/     156 :                     ;		Date:		9th January 2017.
+(1)    8/     156 :                     ;		Size: 		54 bytes.
+(1)    9/     156 :                     ;
+(1)   10/     156 :                     ; ***************************************************************************************************************
+(1)   11/     156 :                     ; ***************************************************************************************************************
+(1)   12/     156 :                     
+(1)   13/     156 :                     ; *******************************************************************************************************************
+(1)   14/     156 :                     ;
+(1)   15/     156 :                     ;				Calculate rParam1 / rParam2.  Result in rParam1. Remainder in rParam2.
+(1)   16/     156 :                     ;
+(1)   17/     156 :                     ; *******************************************************************************************************************
+(1)   18/     156 :                     
+(1)   19/     156 :                     __DIVExit:
+(1)   20/     156 : 12                  	inc 	r2 															; point to XP on the stack
+(1)   21/     157 : (MACRO)             	return
+(1)   21/     157 : 71                          dis
+(1)   22/     158 :                     
+(1)   23/     158 :                     Divide:
+(1)   24/     158 : E2                  	sex 	r2 															; back using R2 as the index register
+(1)   25/     159 :                     																		; rParam1 is the dividend.
+(1)   26/     159 :                     																		; rParam2 is the remainder.
+(1)   27/     159 :                     																		; tos is [divisor:2][counter:1] 
+(1)   28/     159 :                     
+(1)   29/     159 : F8 10               	ldi 	16															; push counter on stack - 16 because post	
+(1)   30/     15B : 73                  	stxd 																; decrements in main loop.
+(1)   31/     15C :                     
+(1)   32/     15C : 9F                  	ghi 	rParam2 													; push divisor on stack.
+(1)   33/     15D : 73                  	stxd
+(1)   34/     15E : 8F                  	glo 	rParam2
+(1)   35/     15F : 52                  	str 	r2 	
+(1)   36/     160 :                     	
+(1)   37/     160 : F8 00               	ldi 	0 															; clear the remainder
+(1)   38/     162 : BF                  	phi 	rParam2
+(1)   39/     163 : AF                  	plo 	rParam2
+(1)   40/     164 : F4                  	add 																; anything + 0 clears DF.
+(1)   41/     165 :                     
+(1)   42/     165 :                     __DIVLoopIncR2IncR2:
+(1)   43/     165 : 12                  	inc		r2 															; point R2 back to the counter.
+(1)   44/     166 :                     __DIVLoopIncR2:
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 5 - 10/1/2017 11:09:29
 
 
-(1)   71/      8D : 8F                  	glo 	rParam2
-(1)   72/      8E : F4                  	add
-(1)   73/      8F : AF                  	plo 	rParam2
-(1)   74/      90 : 9F                  	ghi 	rParam2
-(1)   75/      91 : 7C 00               	adci 	0
-(1)   76/      93 : BF                  	phi 	rParam2
-(1)   77/      94 :                     
-(1)   78/      94 : F8 FF               	ldi 	0FFh 														; set the 'read a digit' flag.
-(1)   79/      96 : 52                  	str 	r2 
-(1)   80/      97 : 30 5F               	br 		__ATOILoop
-(1)   81/      99 :                     
-      47/      99 :                     
-      48/      99 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 6 - 9/1/2017 23:07:52
+(1)   45/     166 : 12                  	inc 	r2
+(1)   46/     167 :                     
+(1)   47/     167 :                     __DIVLoop:
+(1)   48/     167 :                     
+(1)   49/     167 : 8E                  	glo 	rParam1 													; shift DF into dividend, shift old bit 15 to DF
+(1)   50/     168 : 7E                  	rshl
+(1)   51/     169 : AE                  	plo 	rParam1
+(1)   52/     16A : 9E                  	ghi 	rParam1
+(1)   53/     16B : 7E                  	rshl
+(1)   54/     16C : BE                  	phi 	rParam1
+(1)   55/     16D :                     
+(1)   56/     16D : 02                  	ldn 	r2 															; look at counter.
+(1)   57/     16E : 32 56               	bz 		__DIVExit 													; if zero then complete (decrement done later)
+(1)   58/     170 :                     
+(1)   59/     170 : 8F                  	glo	 	rParam2 													; shift DF into then remainder (rParam2)
+(1)   60/     171 : 7E                  	rshl
+(1)   61/     172 : AF                  	plo 	rParam2
+(1)   62/     173 : 9F                  	ghi 	rParam2
+(1)   63/     174 : 7E                  	rshl
+(1)   64/     175 : BF                  	phi 	rParam2
+(1)   65/     176 :                     
+(1)   66/     176 : 02                  	ldn 	r2 															; decrement the counter (AFTER the test)
+(1)   67/     177 : FF 01               	smi 	1
+(1)   68/     179 : 73                  	stxd 																; when saving back, point R2 to divisor LSB.
+(1)   69/     17A : 22                  	dec 	r2
+(1)   70/     17B :                     
+(1)   71/     17B : 8F                  	glo 	rParam2 													; calculate remainder.0 - divisor.0
+(1)   72/     17C : F7                  	sm
+(1)   73/     17D : 22                  	dec 	r2 															; save the interim value below the LSB.
+(1)   74/     17E : 52                  	str 	r2
+(1)   75/     17F : 12                  	inc 	r2 															; to LSB
+(1)   76/     180 : 12                  	inc		r2 															; to MSB
+(1)   77/     181 : 9F                  	ghi 	rParam2 													; calculate remainder.1 - divisor.1
+(1)   78/     182 : 77                  	smb
+(1)   79/     183 :                     
+(1)   80/     183 : 3B 66               	bnf 	__DIVLoopIncR2 												; if DF = 0 then inc r2 (to ctr) and loop back
+(1)   81/     185 :                     
+(1)   82/     185 : BF                  	phi 	rParam2 													; copy result to remainder
+(1)   83/     186 : 22                  	dec 	r2 															; to divisor.0
+(1)   84/     187 : 22                  	dec 	r2 															; to temp result
+(1)   85/     188 : 42                  	lda 	r2 															; get temp result, to divisor.0
+(1)   86/     189 : AF                  	plo 	rParam2
+(1)   87/     18A : 30 65               	br 		__DIVLoopIncR2IncR2 										; go back, inc r2 twice to counter
+(1)   88/     18C :                     
+      52/     18C :                     	include 	atoi.asm
+(1)    1/     18C :                     ; ***************************************************************************************************************
+(1)    2/     18C :                     ; ***************************************************************************************************************
+(1)    3/     18C :                     ;
+(1)    4/     18C :                     ;		File:		atoi.asm
+(1)    5/     18C :                     ;		Purpose:	Extract 16 bit integer from ASCII string.
+(1)    6/     18C :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(1)    7/     18C :                     ;		Date:		9th January 2017.
+(1)    8/     18C :                     ;		Size: 		67 bytes.
+(1)    9/     18C :                     ;
+(1)   10/     18C :                     ; ***************************************************************************************************************
+(1)   11/     18C :                     ; ***************************************************************************************************************
+(1)   12/     18C :                     
+(1)   13/     18C :                     ; *******************************************************************************************************************
+(1)   14/     18C :                     ;
+(1)   15/     18C :                     ;	Takes one value in rParam1, pointer to a string, returns number read in rParam2.
+ AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 6 - 10/1/2017 11:09:29
+
+
+(1)   16/     18C :                     ;	rParam1 points to the next character after the last one of the number.	
+(1)   17/     18C :                     ;	
+(1)   18/     18C :                     ;	On exit non-zero if a digit was read.
+(1)   19/     18C :                     ;
+(1)   20/     18C :                     ; *******************************************************************************************************************
+(1)   21/     18C :                     
+(1)   22/     18C :                     __ATOIExit:
+(1)   23/     18C : 2E                  	dec 	rParam1 													; undo the last read, wasn't a digit.
+(1)   24/     18D : 42                  	lda 	r2 															; read the flag for 'digits read'
+(1)   25/     18E : (MACRO)             	return
+(1)   25/     18E : 71                          dis
+(1)   26/     18F :                     
+(1)   27/     18F :                     ASCIIToInteger:
+(1)   28/     18F : E2                  	sex 	r2 															; index back at 2
+(1)   29/     190 : F8 00               	ldi 	0 															; clear number read
+(1)   30/     192 : AF                  	plo 	rParam2
+(1)   31/     193 : BF                  	phi 	rParam2
+(1)   32/     194 : 52                  	str 	r2 															; [TOS] is count of digits read okay.
+(1)   33/     195 :                     
+(1)   34/     195 :                     __ATOILoop:
+(1)   35/     195 : 4E                  	lda 	rParam1 													; read next character and bump
+(1)   36/     196 : FB 20               	xri 	' ' 														; skip over spaces.
+(1)   37/     198 : 32 95               	bz 		__ATOILoop 												
+(1)   38/     19A : FB 20               	xri 	' ' 														; fix it back.
+(1)   39/     19C : FC C6               	adi 	255-'9' 													; will cause DF if >= '9'
+(1)   40/     19E : 33 8C               	bdf 	__ATOIExit
+(1)   41/     1A0 : FC 0A               	adi 	10 															; adding 10 will cause NF if < '0'	
+(1)   42/     1A2 : 3B 8C               	bnf 	__ATOIExit
+(1)   43/     1A4 :                     
+(1)   44/     1A4 : 73                  	stxd 																; push digit value, current value of number
+(1)   45/     1A5 : 9F                  	ghi 	rParam2  													; on stack.
+(1)   46/     1A6 : 73                  	stxd
+(1)   47/     1A7 : 8F                  	glo 	rParam2
+(1)   48/     1A8 : 52                  	str 	r2
+(1)   49/     1A9 :                     
+(1)   50/     1A9 :                     __ATOIDoubleRParam2 macro 												; macro that doubles the value in rParam2
+(1)   51/     1A9 :                     	glo 	rParam2 													
+(1)   52/     1A9 :                     	shl
+(1)   53/     1A9 :                     	plo 	rParam2
+(1)   54/     1A9 :                     	ghi 	rParam2
+(1)   55/     1A9 :                     	rshl
+(1)   56/     1A9 :                     	phi 	rParam2
+(1)   57/     1A9 :                     	endm
+(1)   58/     1A9 :                     
+(1)   59/     1A9 : (MACRO)             	__ATOIDoubleRParam2 												; rParam2 * 2
+(1)   59/     1A9 : 8F                          glo     rParam2                                                                                                         
+(1)   59/     1AA : FE                          shl
+(1)   59/     1AB : AF                          plo     rParam2
+(1)   59/     1AC : 9F                          ghi     rParam2
+(1)   59/     1AD : 7E                          rshl
+(1)   59/     1AE : BF                          phi     rParam2
+(1)   60/     1AF : (MACRO)             	__ATOIDoubleRParam2 												; rParam2 * 4
+(1)   60/     1AF : 8F                          glo     rParam2                                                                                                         
+(1)   60/     1B0 : FE                          shl
+(1)   60/     1B1 : AF                          plo     rParam2
+(1)   60/     1B2 : 9F                          ghi     rParam2
+(1)   60/     1B3 : 7E                          rshl
+(1)   60/     1B4 : BF                          phi     rParam2
+(1)   61/     1B5 : 8F                  	glo 	rParam2 													; add stack values on there.
+(1)   62/     1B6 : F4                  	add
+ AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 7 - 10/1/2017 11:09:29
+
+
+(1)   63/     1B7 : AF                  	plo 	rParam2
+(1)   64/     1B8 : 12                  	inc 	r2
+(1)   65/     1B9 : 9F                  	ghi 	rParam2
+(1)   66/     1BA : 74                  	adc
+(1)   67/     1BB : BF                  	phi 	rParam2  													; so now rParam * 5
+(1)   68/     1BC : (MACRO)             	__ATOIDoubleRParam2 												; so now rParam * 10
+(1)   68/     1BC : 8F                          glo     rParam2                                                                                                         
+(1)   68/     1BD : FE                          shl
+(1)   68/     1BE : AF                          plo     rParam2
+(1)   68/     1BF : 9F                          ghi     rParam2
+(1)   68/     1C0 : 7E                          rshl
+(1)   68/     1C1 : BF                          phi     rParam2
+(1)   69/     1C2 :                     
+(1)   70/     1C2 : 12                  	inc 	r2 															; point to digit value
+(1)   71/     1C3 : 8F                  	glo 	rParam2
+(1)   72/     1C4 : F4                  	add
+(1)   73/     1C5 : AF                  	plo 	rParam2
+(1)   74/     1C6 : 9F                  	ghi 	rParam2
+(1)   75/     1C7 : 7C 00               	adci 	0
+(1)   76/     1C9 : BF                  	phi 	rParam2
+(1)   77/     1CA :                     
+(1)   78/     1CA : F8 FF               	ldi 	0FFh 														; set the 'read a digit' flag.
+(1)   79/     1CC : 52                  	str 	r2 
+(1)   80/     1CD : 30 95               	br 		__ATOILoop
+(1)   81/     1CF :                     
+      53/     1CF :                     
+      54/     1CF :                     
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 8 - 10/1/2017 11:09:29
 
 
   symbol table (* = unused):
   ------------------------
 
 *ARCHITECTURE :                                        x86_64-unknown-linux - |
-*ASCIITOINTEGER :                59 C | *BIGENDIAN :                      0 - |
-*BRANCHEXT :                      0 - | *CASESENSITIVE :                  0 - |
-*CONSTPI :        3.141592653589793 - | *DATE :                    9/1/2017 - |
- DIVIDE :                        22 C | *FALSE :                          0 - |
-*FULLPMMU :                       1 - | *HAS64 :                          1 - |
-*HASDSP :                         0 - | *HASFPU :                         0 - |
-*HASPMMU :                        0 - | *INEXTMODE :                      0 - |
-*INLWORDMODE :                    0 - | *INMAXMODE :                      0 - |
-*INSRCMODE :                      0 - | *INSUPMODE :                      0 - |
+*ASCIITOINTEGER :               18F C | *BIGENDIAN :                      0 - |
+*BRANCHEXT :                      0 - |  BUFFER :                        26 C |
+*CASESENSITIVE :                  0 - | *CONSTPI :        3.141592653589793 - |
+*DATE :                   10/1/2017 - |  DIVIDE :                       158 C |
+*FALSE :                          0 - | *FULLPMMU :                       1 - |
+*HAS64 :                          1 - | *HASDSP :                         0 - |
+*HASFPU :                         0 - | *HASPMMU :                        0 - |
+*INEXTMODE :                      0 - | *INLWORDMODE :                    0 - |
+*INMAXMODE :                      0 - | *INSRCMODE :                      0 - |
+*INSUPMODE :                      0 - |  INTEGERTOASCII :               102 C |
 *LISTON :                         1 - | *MACEXP :                         1 - |
 *MOMCPU :                      1802 - | *MOMCPUNAME :                  1802 - |
-*NESTMAX :                      100 - | *PACKING :                        0 - |
-*PADDING :                        1 - | *R0 :                             0 - |
-*R1 :                             1 - |  R2 :                             2 - |
- R3 :                             3 - | *R4 :                             4 - |
-*R5 :                             5 - | *RELAXED :                        0 - |
- RPARAM1 :                        E - |  RPARAM2 :                        F - |
-*TIME :                    23:07:52 - | *TRUE :                           1 - |
+*MULTIPLY :                     134 C | *NESTMAX :                      100 - |
+*PACKING :                        0 - | *PADDING :                        1 - |
+*R0 :                             0 - | *R1 :                             1 - |
+ R2 :                             2 - |  R3 :                             3 - |
+*R4 :                             4 - | *R5 :                             5 - |
+*RELAXED :                        0 - |  RPARAM1 :                        E - |
+ RPARAM2 :                        F - |  RSUBPC :                         D - |
+*TIME :                    11:09:29 - | *TRUE :                           1 - |
 *VERSION :                     142F - |  WAIT :                          1E C |
- __ATOIEXIT :                    56 C |  __ATOILOOP :                    5F C |
- __DIVEXIT :                     20 C | *__DIVLOOP :                     31 C |
- __DIVLOOPINCR2 :                30 C |  __DIVLOOPINCR2INCR2 :           2F C |
+ __ATOIEXIT :                   18C C |  __ATOILOOP :                   195 C |
+ __DIVEXIT :                    156 C | *__DIVLOOP :                    167 C |
+ __DIVLOOPINCR2 :               166 C |  __DIVLOOPINCR2INCR2 :          165 C |
+ __ITOAEXIT :                   100 C |  __ITOALOOP :                   106 C |
+ __MULDONTADD :                 148 C |  __MULEXIT :                    12F C |
+ __MULLOOP :                    139 C |
 
-     45 symbols
-     34 unused symbols
+     54 symbols
+     35 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 7 - 9/1/2017 23:07:52
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 9 - 10/1/2017 11:09:29
 
 
   defined macros:
@@ -310,7 +455,7 @@ __ATOIDOUBLERPARAM2                   |
 
       3 macros
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 8 - 9/1/2017 23:07:52
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 10 - 10/1/2017 11:09:29
 
 
   codepages:
@@ -319,10 +464,10 @@ __ATOIDOUBLERPARAM2                   |
 STANDARD (0 changed characters)
 
 
-0.00 seconds assembly time
+0.01 seconds assembly time
 
-    217 lines source file
-    253 lines incl. macro expansions
+    341 lines source file
+    387 lines incl. macro expansions
       2 passes
       0 errors
       0 warnings
