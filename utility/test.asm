@@ -1,22 +1,18 @@
 
 	cpu 	1802
 	
-r0 = 0
-r1 = 1
-r2 = 2
-r3 = 3
-r4 = 4
-r5 = 5
-
-
 return macro
 	dis
 	endm
 
-rSubPC = 13
-rParam1 = 14
-rParam2 = 15
+r0 = 0 															; not used (may be used in interrupt display)
+r1 = 1 															; interrupt register
+r2 = 2 															; stack pointer
 
+rUtilPC = 12 													; used as P register calling routines (not mandated)
+rSubPC = 13														; used as P register to call routines within routines
+rParam1 = 14 													; subroutine parameters/return values.
+rParam2 = 15
 
 ldr macro 	r,n
 	ldi 	(n)/256
@@ -31,12 +27,12 @@ ldr macro 	r,n
 
 	ldr 	r2,3FFFh
 	sex 	r2
-	ldr 	rParam1,47258
+	ldr 	rParam1,65432
 	ldr 	rParam2,buffer-1
-	ldr 	r3,IntegerToASCII
+	ldr 	rUtilPC,IntegerToASCII
 
 	mark	
-	sep 	r3
+	sep 	rUtilPC
 	dec 	r2
 
 wait:

@@ -12,8 +12,9 @@
 
 ; *******************************************************************************************************************
 ;
-;	rParam1 is the number to convert. rParam2 is the end of the buffer, which is written backwards. On exit.
-;	rParam2 points to the string terminated in a NULL character.
+;	rParam1 is the number to convert. rParam2 is the end of the buffer, the digits are written backwards. On exit.
+;	rParam2 points to the string terminated in a NULL character. The NULL character is at the original value
+;	of rParam2. 
 ;
 ; *******************************************************************************************************************
 
@@ -31,8 +32,14 @@ __ITOALoop:
 	stxd
 	glo	 	rParam2
 	stxd
-	ldr 	rParam2,10 													; set to divide by 10.
-	ldr 	rSubPC,Divide 												; set for call.
+	ldi 	0		 													; set to divide by 10.
+	phi 	rParam2
+	ldi 	10
+	plo 	rParam2
+	ldi 	Divide/256
+	phi 	rSubPC
+	ldi 	Divide&255
+	plo 	rSubPC
 	mark  
 	sep 	rSubPC 														; do the call.
 	inc 	r2
