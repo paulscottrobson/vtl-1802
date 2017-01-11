@@ -8,6 +8,7 @@ return macro
 r0 = 0 															; not used (may be used in interrupt display)
 r1 = 1 															; interrupt register
 r2 = 2 															; stack pointer
+r3 = 3 															; general run P
 
 rVarPtr = 6 													; always points to variables.
 rExprPC = 7 													; used as P register in expression (mandated)
@@ -30,8 +31,17 @@ ldr macro 	r,n
 	endm
 
 
-	dis
+	dis 														; preamble.
 	db 		0
+	ldi 	start/256
+	phi 	r3
+	ldi 	start&255
+	plo 	r3
+	sep 	r3
+
+	include 	expression.asm
+
+start:
 	ldr 	r2,3FFFh 											; stack
 	sex 	r2
 	ldr 	rVarPtr,2800h 										; varptr high byte only reqd
@@ -47,18 +57,9 @@ wait:
 SpecialHandler:
 	sep 	rExprPC
 
-
-	org 		100h
-	include 	expression.asm
-
-	org 		200h
-UtilityPage:	
-	include 	utility/itoa.asm
-	include 	utility/multiply.asm
-	include 	utility/divide.asm
-	include 	utility/atoi.asm
-
 eString:
+	db 		"\"z\"*3",0
+;	db 		"40003>40004",0
 ;	db 		" \"A\"+1",0
 ;	db 		":2)-1",0
 ;	db 		"42 ) this is a comment",0

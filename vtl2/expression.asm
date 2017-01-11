@@ -28,8 +28,8 @@
 ;	rExprPC and the original rExprPC,rSrc,rParenthesisLevel and rSaveStack must be saved. rVarPtr does not change
 ;	but must be restored if changed by an external routine.
 ;
-;	This is a long single function of 170 bytes or thereabouts. The add/sub/lookup routines and lookup table towards
-;	the end can be moved to other pages if required ; it doesn't matter where these routines are in memory.
+;	The routine is designed to occupy two complete pages. At present there are about 16 bytes free at the end of
+;	each page allowing for bug fixing, if the first page is preceded by the preamble (dis ; loading r3 ; sep r3)
 ;
 ; ***************************************************************************************************************
 
@@ -73,9 +73,9 @@ __EXPRNewTerm:
 	ghi 	rSrc
 	phi 	rParam1
 
-	ldi 	UtilityPage/256  											; set Utility Page.1
+	ldi 	ASCIIToInteger/256  										; call the atoi() routine.
 	phi 	rUtilPC 
-	ldi 	ASCIIToInteger & 255 										; call the atoi() routine.
+	ldi 	ASCIIToInteger & 255 										
 	plo 	rUtilPC
 	mark
 	sep 	rUtilPC
@@ -225,6 +225,17 @@ __OperatorTable:
 
 ; ***************************************************************************************************************
 ;
+;										Divide Code here
+;
+; ***************************************************************************************************************
+
+	include 	utility/divide.asm
+
+NewPage1: 															; switch to the next page.
+	org 	(NewPage1+255)/256*256 
+
+; ***************************************************************************************************************
+;
 ;								Addition. rParam1 := rParam1 + rParam2
 ;
 ; ***************************************************************************************************************
@@ -274,6 +285,7 @@ __OpLookUp: 														; rParam1 := Memory[* + rParam2 * 2]
 	plo 	rParam1
 	ldn 	rParam2
 	phi 	rParam1
+__OpReturn:	
 	sex 	r2
 	inc 	r2
 	return
@@ -297,5 +309,51 @@ __OpSub:															; rParam1 := rParam1 - rParam2
 	ghi 	rParam1
 	smb
 	phi 	rParam1
-	inc 	r2
+
+	ghi 	rParenthesisLevel 										; this is the saved operator character
+	xri 	'-'														; exit if '-'
+	bz 		__OpReturn
+	xri 	'-'!'='													; check if equals.
+	bz 		__OpEquality
+;
+;	Handle < > option. Note that > is actually the >= operation and is also the overall default.
+;
+	xri 	'>'!'='													; will now be 0 if >= , nonzero for < if anything else.
+	bz 		__OpLT0 	
+	ldi 	1
+__OpLT0: 															; now 0 if >, 1 if <
+	adci 	0 														; will now be odd if correct - adds in result from subtract
+	ani 	1 														; so isolate bit zero
+	br 		__OpWriteBoolean 										; and write it out.
+
 	return
+;
+;	Handle = option
+;
+__OpEquality:
+	glo 	rParam1 												; get low result
+	bnz 	__OpEqNZ 	
+	ghi 	rParam1 												; if zero get high result
+__OpEqNZ:															; if zero here both are zero e.g. it is 'true'
+	bz 		__OpEqIsTrue 											
+	ldi 	1 															
+__OpEqIsTrue:														; now 0 true 1 false
+	xri 	1 														; now 1 true 0 false
+__OpWriteBoolean:	
+	plo 	rParam1 												; put into rParam1
+	ldi 	0
+	phi 	rParam1 							
+	br 		__OpReturn
+
+; ***************************************************************************************************************
+;
+;										Outstanding utility routines fit here
+;
+; ***************************************************************************************************************
+
+	include 	utility/itoa.asm
+	include 	utility/multiply.asm
+	include 	utility/atoi.asm
+
+NewPage2: 															; switch to the next page.
+	org 	(NewPage2+255)/256*256 
