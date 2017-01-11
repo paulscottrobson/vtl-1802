@@ -40,7 +40,8 @@ ldr macro 	r,n
 	sep 	r3
 
 	include 	expression.asm
-
+	include 	handler.asm
+	
 start:
 	ldr 	r2,3FFFh 											; stack
 	sex 	r2
@@ -54,11 +55,8 @@ start:
 wait:
 	br 	wait
 
-SpecialHandler:
-	sep 	rExprPC
-
 eString:
-	db 		"\"z\"*3",0
+	db 		"?",0
 ;	db 		"40003>40004",0
 ;	db 		" \"A\"+1",0
 ;	db 		":2)-1",0

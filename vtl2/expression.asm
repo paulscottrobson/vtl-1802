@@ -257,11 +257,11 @@ __OpAdd:
 
 ; ***************************************************************************************************************
 ;
-;				Array Lookup. rParam1 := Memory['*' + rParam * 2]. '*' is the top of memory variable.
+;				Array Lookup. rParam1 := Memory['&' + rParam * 2]. '*' is the top of memory variable.
 ;
 ; ***************************************************************************************************************
 
-__OpLookUp: 														; rParam1 := Memory[* + rParam2 * 2]
+__OpLookUp: 														; rParam1 := Memory[& + rParam2 * 2]
 	sex 	r2
 	glo 	rParam2 												; double rParam2
 	shl
@@ -269,11 +269,11 @@ __OpLookUp: 														; rParam1 := Memory[* + rParam2 * 2]
 	ghi 	rParam2
 	rshl
 	phi 	rParam2
-	ldi 	'*' * 2 												; point VarPtr to '*' variable
+	ldi 	'&' * 2 												; point VarPtr to '&' variable
 	plo 	rVarPtr
 	sex 	rVarPtr
 
-	glo 	rParam2 												; add * to rParam2 
+	glo 	rParam2 												; add contents of & to rParam2 
 	add
 	plo 	rParam2		
 	inc 	rVarPtr
