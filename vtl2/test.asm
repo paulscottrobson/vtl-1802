@@ -39,13 +39,18 @@ ldr macro 	r,n
 	plo 	r3
 	sep 	r3
 
-	include 	expression.asm
-	include 	handler.asm
-	
+	include 	expression.asm 									; expression evaluator, arithmetic, atoi/itoa (2 pages)
+
+	include 	handler.asm 									; special routine handler.
+
+NewPage3:
+	org 	(NewPage3+255)/256*256 
+
 start:
 	ldr 	r2,3FFFh 											; stack
 	sex 	r2
-	ldr 	rVarPtr,2800h 										; varptr high byte only reqd
+
+	ldr 	rVarPtr,2800h 										; varptr high byte only reqd unchanged throughout
 	ldr 	rSrc,eString 										; evaluate the string
 	ldr 	rExprPC,EXPRevaluate 								; the code
 	ldr 	rSpecialHandler,SpecialHandler 						; dummy special handler.
@@ -56,10 +61,12 @@ wait:
 	br 	wait
 
 eString:
-	db 		"?",0
+	db 		"12+*/2",0
 ;	db 		"40003>40004",0
 ;	db 		" \"A\"+1",0
 ;	db 		":2)-1",0
 ;	db 		"42 ) this is a comment",0
 ;	db 		"4+255+",0
 	db 		"(4*5)-(2*3)*2",0
+
+	include	virtualio.asm 										; I/O routines that are hardware specific.

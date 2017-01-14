@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 1 - 14/1/2017 8:06:30
 
 
        1/       0 :                     
@@ -36,9 +36,9 @@
       33/       0 :                     
       34/       0 : 71                  	dis 														; preamble.
       35/       1 : 00                  	db 		0
-      36/       2 : F8 02               	ldi 	start/256
+      36/       2 : F8 03               	ldi 	start/256
       37/       4 : B3                  	phi 	r3
-      38/       5 : F8 0D               	ldi 	start&255
+      38/       5 : F8 00               	ldi 	start&255
       39/       7 : A3                  	plo 	r3
       40/       8 : D3                  	sep 	r3
       41/       9 :                     
@@ -61,7 +61,7 @@
 (1)   16/       9 :                     ;	rSrc 			points to ASCIIZ expression, next character on exit. 
 (1)   17/       9 :                     ;	rExprPC 		runs in this R(P), this is mandatory.
 (1)   18/       9 :                     ;	rVarPtr.1 		points to variables
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 2 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 2 - 14/1/2017 8:06:30
 
 
 (1)   19/       9 :                     ; 	rParam1 		returned value of expression.
@@ -124,7 +124,7 @@
 (1)   75/      28 :                     
 (1)   76/      28 : F8 01               	ldi 	ASCIIToInteger/256  										; call the atoi() routine.
 (1)   77/      2A : BC                  	phi 	rUtilPC 
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 3 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 3 - 14/1/2017 8:06:30
 
 
 (1)   78/      2B : F8 B0               	ldi 	ASCIIToInteger & 255 										
@@ -187,7 +187,7 @@
 (1)  135/      68 : BE                  	phi 	rParam1
 (1)  136/      69 : F8 AB               	ldi 	(__OperatorTable-2)&255
 (1)  137/      6B : AE                  	plo 	rParam1
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 4 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 4 - 14/1/2017 8:06:30
 
 
 (1)  138/      6C :                     __EXPRFindOperation:
@@ -250,7 +250,7 @@
 (1)  195/      A2 :                     ;
 (1)  196/      A2 :                     __EXPRDestackBracket:
 (1)  197/      A2 : 2A                  	dec 	rParenthesisLevel 											; dec brackets
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 5 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 5 - 14/1/2017 8:06:30
 
 
 (1)  198/      A3 : 8A                  	glo 	rParenthesisLevel 											; if zero it is end of expression ) so exit.	
@@ -313,7 +313,7 @@
 (2)   18/      BC :                     
 (2)   19/      BC :                     __DIVExit:
 (2)   20/      BC : 12                  	inc 	r2 															; point to XP on the stack
- AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 6 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 6 - 14/1/2017 8:06:30
 
 
 (2)   21/      BD : (MACRO)             	return
@@ -376,7 +376,7 @@
 (2)   77/      E7 : 9F                  	ghi 	rParam2 													; calculate remainder.1 - divisor.1
 (2)   78/      E8 : 77                  	smb
 (2)   79/      E9 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 7 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(divide.asm) - page 7 - 14/1/2017 8:06:30
 
 
 (2)   80/      E9 : 3B CC               	bnf 	__DIVLoopIncR2 												; if DF = 0 then inc r2 (to ctr) and loop back
@@ -439,7 +439,7 @@
 (1)  280/     11C : 9F                  	ghi 	rParam2
 (1)  281/     11D : 74                  	adc
 (1)  282/     11E : BF                  	phi 	rParam2 
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 8 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 8 - 14/1/2017 8:06:30
 
 
 (1)  283/     11F :                     
@@ -502,7 +502,7 @@
 (1)  338/     14B : 32 4F               	bz 		__OpEqIsTrue 											
 (1)  339/     14D : F8 01               	ldi 	1 															
 (1)  340/     14F :                     __OpEqIsTrue:														; now 0 true 1 false
- AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 9 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(expression.asm) - page 9 - 14/1/2017 8:06:30
 
 
 (1)  341/     14F : FB 01               	xri 	1 														; now 1 true 0 false
@@ -565,7 +565,7 @@
 (2)   43/     16E : 79                  	mark  
 (2)   44/     16F : DD                  	sep 	rSubPC 														; do the call.
 (2)   45/     170 : 12                  	inc 	r2
- AS V1.42 Beta [Bld 114] - source file test.asm(itoa.asm) - page 10 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(itoa.asm) - page 10 - 14/1/2017 8:06:30
 
 
 (2)   46/     171 : 12                  	inc 	r2 															; save digit result in dummy space
@@ -628,7 +628,7 @@
 (2)   38/     194 : 76                  	rshr
 (2)   39/     195 : AE                  	plo 	rParam1
 (2)   40/     196 : 3B 9F               	bnf 	__MULDontAdd 												; if DF is set add rParam2 to the result.
- AS V1.42 Beta [Bld 114] - source file test.asm(multiply.asm) - page 11 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(multiply.asm) - page 11 - 14/1/2017 8:06:30
 
 
 (2)   41/     198 :                     
@@ -691,7 +691,7 @@
 (2)   34/     1B6 :                     __ATOILoop:
 (2)   35/     1B6 : 4E                  	lda 	rParam1 													; read next character and bump
 (2)   36/     1B7 : FB 20               	xri 	' ' 														; skip over spaces.
- AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 12 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 12 - 14/1/2017 8:06:30
 
 
 (2)   37/     1B9 : 32 B6               	bz 		__ATOILoop 												
@@ -754,7 +754,7 @@
 (2)   76/     1EA : BF                  	phi 	rParam2
 (2)   77/     1EB :                     
 (2)   78/     1EB : F8 FF               	ldi 	0FFh 														; set the 'read a digit' flag.
- AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 13 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm(atoi.asm) - page 13 - 14/1/2017 8:06:30
 
 
 (2)   79/     1ED : 52                  	str 	r2 
@@ -776,81 +776,218 @@
 (1)    9/     200 :                     ; ***************************************************************************************************************
 (1)   10/     200 :                     ; ***************************************************************************************************************
 (1)   11/     200 :                     
-(1)   12/     200 :                     ; ***************************************************************************************************************
-(1)   13/     200 :                     ;
-(1)   14/     200 :                     ;		This routine provides the variable in D. On exit, if D = 0 the "variable" has been accessed and
-(1)   15/     200 :                     ;		put in rParam2.
-(1)   16/     200 :                     ;
-(1)   17/     200 :                     ;		The right hand variables with side effects in VTL-2 are :-
-(1)   18/     200 :                     ;
-(1)   19/     200 :                     ;		?	input an expression
-(1)   20/     200 :                     ; 		$ 	input a single character
-(1)   21/     200 :                     ;
-(1)   22/     200 :                     ; ***************************************************************************************************************
-(1)   23/     200 :                     
-(1)   24/     200 :                     SpecialHandler:
-(1)   25/     200 : FB 3F               	xri 	'?'
-(1)   26/     202 : 32 05               	bz 		__SHGetKey
-(1)   27/     204 : D7                  	sep 	rExprPC
-(1)   28/     205 :                     
-(1)   29/     205 :                     __SHGetKey:
-(1)   30/     205 : 69                  	inp 	1
-(1)   31/     206 : 32 05               	bz 		__SHGetKey
-(1)   32/     208 : AF                  	plo 	rParam2
-(1)   33/     209 : F8 00               	ldi 	0
-(1)   34/     20B : BF                  	phi 	rParam2
-(1)   35/     20C : D7                  	sep 	rExprPC	
-(1)   36/     20D :                     
-(1)   37/     20D :                     
-      44/     20D :                     	
-      45/     20D :                     start:
-      46/     20D : (MACRO)             	ldr 	r2,3FFFh 											; stack
-      46/     20D : F8 3F                       ldi     (3FFFH)/256
-      46/     20F : B2                          phi     R2
-      46/     210 : F8 FF                       ldi     (3FFFH)&255
-      46/     212 : A2                          plo     R2
-      47/     213 : E2                  	sex 	r2
-      48/     214 : (MACRO)             	ldr 	rVarPtr,2800h 										; varptr high byte only reqd
-      48/     214 : F8 28                       ldi     (2800H)/256
-      48/     216 : B6                          phi     RVARPTR
-      48/     217 : F8 00                       ldi     (2800H)&255
-      48/     219 : A6                          plo     RVARPTR
-      49/     21A : (MACRO)             	ldr 	rSrc,eString 										; evaluate the string
-      49/     21A : F8 02                       ldi     (ESTRING)/256
- AS V1.42 Beta [Bld 114] - source file test.asm - page 14 - 11/1/2017 13:13:50
+(1)   12/     200 :                     xpush macro n
+(1)   13/     200 :                     	glo 	n
+(1)   14/     200 :                     	stxd
+(1)   15/     200 :                     	ghi 	n
+(1)   16/     200 :                     	stxd
+(1)   17/     200 :                     	endm
+(1)   18/     200 :                     
+(1)   19/     200 :                     xpull macro n
+(1)   20/     200 :                     	inc 	r2
+(1)   21/     200 :                     	lda 	r2
+(1)   22/     200 :                     	phi 	n
+(1)   23/     200 :                     	ldn 	r2
+(1)   24/     200 :                     	plo 	n
+(1)   25/     200 :                     	endm
+(1)   26/     200 :                     
+(1)   27/     200 :                     ; ***************************************************************************************************************
+(1)   28/     200 :                     ;
+(1)   29/     200 :                     ;		This routine provides the variable in D. On exit, if D = 0 the "variable" has been accessed and
+(1)   30/     200 :                     ;		put in rParam2.
+(1)   31/     200 :                     ;
+(1)   32/     200 :                     ;		The right hand variables with side effects in VTL-2 are :-
+(1)   33/     200 :                     ;
+(1)   34/     200 :                     ;		?	input an expression (we will probably do integer here.)
+(1)   35/     200 :                     ; 		$ 	input a single character
+(1)   36/     200 :                     ;
+(1)   37/     200 :                     ;		This is run with P = rSpecialHandler X = 2
+(1)   38/     200 :                     ;
+(1)   39/     200 :                     ;		Must preserve: rSrc, rVarPtr*, rExprPC, rParenthesisLevel, rSaveStack and of course R2.
+(1)   40/     200 :                     ;
+(1)   41/     200 :                     ;		* can be assumed constant.
+(1)   42/     200 :                     ;
+(1)   43/     200 :                     ;		Use: rUtilPC, rSubPC, rParam1, rParam2.
+(1)   44/     200 :                     ;
+(1)   45/     200 :                     ; ***************************************************************************************************************
+(1)   46/     200 :                     
+(1)   47/     200 :                     __SHExit:
+(1)   48/     200 : D7                  	sep 	rExprPC
+(1)   49/     201 :                     SpecialHandler:
+(1)   50/     201 : FB 3F               	xri 	'?'															; check if '?' (get character)
+(1)   51/     203 : 32 0B               	bz 		__SHGetKey
+(1)   52/     205 : FB 15               	xri 	'*'!'?'														; check if '*' (get string expression)
+ AS V1.42 Beta [Bld 114] - source file test.asm(handler.asm) - page 14 - 14/1/2017 8:06:30
 
 
-      49/     21C : B8                          phi     RSRC
-      49/     21D : F8 31                       ldi     (ESTRING)&255
-      49/     21F : A8                          plo     RSRC
-      50/     220 : (MACRO)             	ldr 	rExprPC,EXPRevaluate 								; the code
-      50/     220 : F8 00                       ldi     (EXPREVALUATE)/256
-      50/     222 : B7                          phi     REXPRPC
-      50/     223 : F8 14                       ldi     (EXPREVALUATE)&255
-      50/     225 : A7                          plo     REXPRPC
-      51/     226 : (MACRO)             	ldr 	rSpecialHandler,SpecialHandler 						; dummy special handler.
-      51/     226 : F8 02                       ldi     (SPECIALHANDLER)/256
-      51/     228 : B9                          phi     RSPECIALHANDLER
-      51/     229 : F8 00                       ldi     (SPECIALHANDLER)&255
-      51/     22B : A9                          plo     RSPECIALHANDLER
-      52/     22C : 79                  	mark
-      53/     22D : D7                  	sep 	rExprPC
-      54/     22E : 22                  	dec 	r2
-      55/     22F :                     wait:
-      56/     22F : 30 2F               	br 	wait
-      57/     231 :                     
-      58/     231 :                     eString:
-      59/     231 : 3F 00               	db 		"?",0
-      60/     233 :                     ;	db 		"40003>40004",0
-      61/     233 :                     ;	db 		" \"A\"+1",0
-      62/     233 :                     ;	db 		":2)-1",0
-      63/     233 :                     ;	db 		"42 ) this is a comment",0
-      64/     233 :                     ;	db 		"4+255+",0
-      65/     233 : 28 34 2A 35 29 2D   	db 		"(4*5)-(2*3)*2",0
+(1)   53/     207 : 32 1A               	bz 		__SHInput
+(1)   54/     209 : 30 00               	br 		__SHExit
+(1)   55/     20B :                     
+(1)   56/     20B :                     ; ***************************************************************************************************************
+(1)   57/     20B :                     ;
+(1)   58/     20B :                     ;							? operator. Returns a single key press in rParam2
+(1)   59/     20B :                     ;
+(1)   60/     20B :                     ; ***************************************************************************************************************
+(1)   61/     20B :                     
+(1)   62/     20B :                     __SHGetKey:
+(1)   63/     20B : (MACRO)             	ldr 	rUtilPC,XIOGetKey 											; this is the external function which reads the keyboard
+(1)   63/     20B : F8 02                       ldi     (XIOGETKEY)/256
+(1)   63/     20D : BC                          phi     RUTILPC
+(1)   63/     20E : F8 5A                       ldi     (XIOGETKEY)&255
+(1)   63/     210 : AC                          plo     RUTILPC
+(1)   64/     211 : 79                  	mark 																; and it is called using the MARK method. 
+(1)   65/     212 : DC                  	sep 	rUtilPC
+(1)   66/     213 : 22                  	dec 	r2
+(1)   67/     214 : AF                  	plo 	rParam2 													; put result in rParam2.0
+(1)   68/     215 : F8 00               	ldi 	0 															; clear rParam2.1 and D, indicating successful processing.
+(1)   69/     217 : BF                  	phi 	rParam2
+(1)   70/     218 : 30 00               	br 		__SHExit 													; and exit.
+(1)   71/     21A :                     
+(1)   72/     21A :                     ; ***************************************************************************************************************
+(1)   73/     21A :                     ;
+(1)   74/     21A :                     ;							* operator. Inputs a string, evaluates it and returns.
+(1)   75/     21A :                     ;
+(1)   76/     21A :                     ; ***************************************************************************************************************
+(1)   77/     21A :                     
+(1)   78/     21A :                     __SHInput:
+(1)   79/     21A : (MACRO)             	xpush 	rSrc 														; we call expression recursively so save stuff on stack.
+(1)   79/     21A : 88                          glo     RSRC
+(1)   79/     21B : 73                          stxd
+(1)   79/     21C : 98                          ghi     RSRC
+(1)   79/     21D : 73                          stxd
+(1)   80/     21E : (MACRO)             	xpush 	rExprPC
+(1)   80/     21E : 87                          glo     REXPRPC
+(1)   80/     21F : 73                          stxd
+(1)   80/     220 : 97                          ghi     REXPRPC
+(1)   80/     221 : 73                          stxd
+(1)   81/     222 : (MACRO)             	xpush 	rParenthesisLevel
+(1)   81/     222 : 8A                          glo     RPARENTHESISLEVEL
+(1)   81/     223 : 73                          stxd
+(1)   81/     224 : 9A                          ghi     RPARENTHESISLEVEL
+(1)   81/     225 : 73                          stxd
+(1)   82/     226 : (MACRO)             	xpush 	rSaveStack
+(1)   82/     226 : 8B                          glo     RSAVESTACK
+(1)   82/     227 : 73                          stxd
+(1)   82/     228 : 9B                          ghi     RSAVESTACK
+(1)   82/     229 : 73                          stxd
+(1)   83/     22A :                     
+(1)   84/     22A : (MACRO)             	ldr 	rSrc,zString 								
+(1)   84/     22A : F8 02                       ldi     (ZSTRING)/256
+(1)   84/     22C : B8                          phi     RSRC
+(1)   84/     22D : F8 55                       ldi     (ZSTRING)&255
+(1)   84/     22F : A8                          plo     RSRC
+(1)   85/     230 :                     
+(1)   86/     230 : (MACRO)             	ldr 	rExprPC,EXPRevaluate 										; set up to recursively call evaluator
+(1)   86/     230 : F8 00                       ldi     (EXPREVALUATE)/256
+(1)   86/     232 : B7                          phi     REXPRPC
+ AS V1.42 Beta [Bld 114] - source file test.asm(handler.asm) - page 15 - 14/1/2017 8:06:30
+
+
+(1)   86/     233 : F8 14                       ldi     (EXPREVALUATE)&255
+(1)   86/     235 : A7                          plo     REXPRPC
+(1)   87/     236 : 79                  	mark 																; and do so.
+(1)   88/     237 : D7                  	sep 	rExprPC
+(1)   89/     238 : 22                  	dec 	r2
+(1)   90/     239 :                     
+(1)   91/     239 : 8E                  	glo 	rParam1 													; result comes back in rParam1, so copy it to rParam2.
+(1)   92/     23A : AF                  	plo 	rParam2
+(1)   93/     23B : 9E                  	ghi 	rParam1
+(1)   94/     23C : BF                  	phi 	rParam2
+(1)   95/     23D :                     
+(1)   96/     23D : (MACRO)             	xpull 	rSaveStack 													; restore registers.
+(1)   96/     23D : 12                          inc     r2
+(1)   96/     23E : 42                          lda     r2
+(1)   96/     23F : BB                          phi     RSAVESTACK
+(1)   96/     240 : 02                          ldn     r2
+(1)   96/     241 : AB                          plo     RSAVESTACK
+(1)   97/     242 : (MACRO)             	xpull 	rParenthesisLevel
+(1)   97/     242 : 12                          inc     r2
+(1)   97/     243 : 42                          lda     r2
+(1)   97/     244 : BA                          phi     RPARENTHESISLEVEL
+(1)   97/     245 : 02                          ldn     r2
+(1)   97/     246 : AA                          plo     RPARENTHESISLEVEL
+(1)   98/     247 : (MACRO)             	xpull 	rExprPC
+(1)   98/     247 : 12                          inc     r2
+(1)   98/     248 : 42                          lda     r2
+(1)   98/     249 : B7                          phi     REXPRPC
+(1)   98/     24A : 02                          ldn     r2
+(1)   98/     24B : A7                          plo     REXPRPC
+(1)   99/     24C : (MACRO)             	xpull 	rSrc
+(1)   99/     24C : 12                          inc     r2
+(1)   99/     24D : 42                          lda     r2
+(1)   99/     24E : B8                          phi     RSRC
+(1)   99/     24F : 02                          ldn     r2
+(1)   99/     250 : A8                          plo     RSRC
+(1)  100/     251 :                     
+(1)  101/     251 : F8 00               	ldi 	0  															; and exit with D = 0 indicating done.
+(1)  102/     253 : 30 00               	br 		__SHExit 
+(1)  103/     255 :                     
+(1)  104/     255 :                     zString:
+(1)  105/     255 : 34 32 2A 32 00      	db 		"42*2",0
+(1)  106/     25A :                     
+(1)  107/     25A :                     XIOGetKey:
+(1)  108/     25A : E2                  	sex 	r2
+(1)  109/     25B : 69                  	inp 	1
+(1)  110/     25C : 32 5A               	bz 		XIOGetKey
+(1)  111/     25E : 12                  	inc 	r2
+(1)  112/     25F : (MACRO)             	return
+(1)  112/     25F : 71                          dis
+(1)  113/     260 :                     
+(1)  114/     260 :                     
+(1)  115/     260 :                     
+      44/     260 :                     
+      45/     260 :                     NewPage3:
+      46/     300 :                     	org 	(NewPage3+255)/256*256 
+      47/     300 :                     	
+      48/     300 :                     start:
+      49/     300 : (MACRO)             	ldr 	r2,3FFFh 											; stack
+      49/     300 : F8 3F                       ldi     (3FFFH)/256
+      49/     302 : B2                          phi     R2
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 16 - 14/1/2017 8:06:30
+
+
+      49/     303 : F8 FF                       ldi     (3FFFH)&255
+      49/     305 : A2                          plo     R2
+      50/     306 : E2                  	sex 	r2
+      51/     307 : (MACRO)             	ldr 	rVarPtr,2800h 										; varptr high byte only reqd
+      51/     307 : F8 28                       ldi     (2800H)/256
+      51/     309 : B6                          phi     RVARPTR
+      51/     30A : F8 00                       ldi     (2800H)&255
+      51/     30C : A6                          plo     RVARPTR
+      52/     30D : (MACRO)             	ldr 	rSrc,eString 										; evaluate the string
+      52/     30D : F8 03                       ldi     (ESTRING)/256
+      52/     30F : B8                          phi     RSRC
+      52/     310 : F8 24                       ldi     (ESTRING)&255
+      52/     312 : A8                          plo     RSRC
+      53/     313 : (MACRO)             	ldr 	rExprPC,EXPRevaluate 								; the code
+      53/     313 : F8 00                       ldi     (EXPREVALUATE)/256
+      53/     315 : B7                          phi     REXPRPC
+      53/     316 : F8 14                       ldi     (EXPREVALUATE)&255
+      53/     318 : A7                          plo     REXPRPC
+      54/     319 : (MACRO)             	ldr 	rSpecialHandler,SpecialHandler 						; dummy special handler.
+      54/     319 : F8 02                       ldi     (SPECIALHANDLER)/256
+      54/     31B : B9                          phi     RSPECIALHANDLER
+      54/     31C : F8 01                       ldi     (SPECIALHANDLER)&255
+      54/     31E : A9                          plo     RSPECIALHANDLER
+      55/     31F : 79                  	mark
+      56/     320 : D7                  	sep 	rExprPC
+      57/     321 : 22                  	dec 	r2
+      58/     322 :                     wait:
+      59/     322 : 30 22               	br 	wait
+      60/     324 :                     
+      61/     324 :                     eString:
+      62/     324 : 31 32 2B 2A 2F 32   	db 		"12+*/2",0
+                    00 
+      63/     32B :                     ;	db 		"40003>40004",0
+      64/     32B :                     ;	db 		" \"A\"+1",0
+      65/     32B :                     ;	db 		":2)-1",0
+      66/     32B :                     ;	db 		"42 ) this is a comment",0
+      67/     32B :                     ;	db 		"4+255+",0
+      68/     32B : 28 34 2A 35 29 2D   	db 		"(4*5)-(2*3)*2",0
                     28 32 2A 33 29 2A 
                     32 00 
-      66/     241 :                     
- AS V1.42 Beta [Bld 114] - source file test.asm - page 15 - 11/1/2017 13:13:50
+      69/     339 :                     
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 17 - 14/1/2017 8:06:30
 
 
   symbol table (* = unused):
@@ -859,8 +996,8 @@
 *ARCHITECTURE :                                        x86_64-unknown-linux - |
  ASCIITOINTEGER :               1B0 C | *BIGENDIAN :                      0 - |
 *BRANCHEXT :                      0 - | *CASESENSITIVE :                  0 - |
-*CONSTPI :        3.141592653589793 - | *DATE :                   11/1/2017 - |
- DIVIDE :                        BE C |  ESTRING :                      231 C |
+*CONSTPI :        3.141592653589793 - | *DATE :                   14/1/2017 - |
+ DIVIDE :                        BE C |  ESTRING :                      324 C |
  EXPREVALUATE :                  14 C | *FALSE :                          0 - |
 *FULLPMMU :                       1 - | *HAS64 :                          1 - |
 *HASDSP :                         0 - | *HASFPU :                         0 - |
@@ -871,51 +1008,55 @@
 *MACEXP :                         1 - | *MOMCPU :                      1802 - |
 *MOMCPUNAME :                  1802 - |  MULTIPLY :                     18B C |
 *NESTMAX :                      100 - |  NEWPAGE1 :                      F2 C |
- NEWPAGE2 :                     1F0 C | *PACKING :                        0 - |
-*PADDING :                        1 - | *R0 :                             0 - |
-*R1 :                             1 - |  R2 :                             2 - |
- R3 :                             3 - | *RELAXED :                        0 - |
- REXPRPC :                        7 - |  RPARAM1 :                        E - |
- RPARAM2 :                        F - |  RPARENTHESISLEVEL :              A - |
- RSAVESTACK :                     B - |  RSPECIALHANDLER :                9 - |
- RSRC :                           8 - |  RSUBPC :                         D - |
- RUTILPC :                        C - |  RVARPTR :                        6 - |
- SPECIALHANDLER :               200 C |  START :                        20D C |
-*TIME :                    13:13:50 - | *TRUE :                           1 - |
-*VERSION :                     142F - |  WAIT :                         22F C |
- __ATOIEXIT :                   1AD C |  __ATOILOOP :                   1B6 C |
- __DIVEXIT :                     BC C | *__DIVLOOP :                     CD C |
- __DIVLOOPINCR2 :                CC C |  __DIVLOOPINCR2INCR2 :           CB C |
- __EXPRARRAY :                   55 C |  __EXPRDESTACKBRACKET :          A2 C |
- __EXPREXIT :                     A C |  __EXPREXITDEC :                  9 C |
- __EXPRFINDOPERATION :           6C C |  __EXPRFOUNDOPERATION :          74 C |
- __EXPRGOTCHARACTER :            5D C |  __EXPRGOTTERM :                 65 C |
- __EXPRNEWLEVEL :                1C C |  __EXPRNEWTERM :                 24 C |
- __EXPRNOTDIVIDE :               8E C |  __EXPRSKIPSPACE :               92 C |
- __ITOAEXIT :                   157 C |  __ITOALOOP :                   15D C |
- __MULDONTADD :                 19F C |  __MULEXIT :                    186 C |
- __MULLOOP :                    190 C |  __OPADD :                      100 C |
- __OPEQISTRUE :                 14F C |  __OPEQNZ :                     14B C |
- __OPEQUALITY :                 147 C |  __OPERATORTABLE :               AD C |
- __OPLOOKUP :                   10D C |  __OPLT0 :                      140 C |
- __OPRETURN :                   123 C |  __OPSUB :                      126 C |
- __OPWRITEBOOLEAN :             151 C |  __SHGETKEY :                   205 C |
+ NEWPAGE2 :                     1F0 C |  NEWPAGE3 :                     260 C |
+*PACKING :                        0 - | *PADDING :                        1 - |
+*R0 :                             0 - | *R1 :                             1 - |
+ R2 :                             2 - |  R3 :                             3 - |
+*RELAXED :                        0 - |  REXPRPC :                        7 - |
+ RPARAM1 :                        E - |  RPARAM2 :                        F - |
+ RPARENTHESISLEVEL :              A - |  RSAVESTACK :                     B - |
+ RSPECIALHANDLER :                9 - |  RSRC :                           8 - |
+ RSUBPC :                         D - |  RUTILPC :                        C - |
+ RVARPTR :                        6 - |  SPECIALHANDLER :               201 C |
+ START :                        300 C | *TIME :                     8:06:30 - |
+*TRUE :                           1 - | *VERSION :                     142F - |
+ WAIT :                         322 C |  XIOGETKEY :                    25A C |
+ ZSTRING :                      255 C |  __ATOIEXIT :                   1AD C |
+ __ATOILOOP :                   1B6 C |  __DIVEXIT :                     BC C |
+*__DIVLOOP :                     CD C |  __DIVLOOPINCR2 :                CC C |
+ __DIVLOOPINCR2INCR2 :           CB C |  __EXPRARRAY :                   55 C |
+ __EXPRDESTACKBRACKET :          A2 C |  __EXPREXIT :                     A C |
+ __EXPREXITDEC :                  9 C |  __EXPRFINDOPERATION :           6C C |
+ __EXPRFOUNDOPERATION :          74 C |  __EXPRGOTCHARACTER :            5D C |
+ __EXPRGOTTERM :                 65 C |  __EXPRNEWLEVEL :                1C C |
+ __EXPRNEWTERM :                 24 C |  __EXPRNOTDIVIDE :               8E C |
+ __EXPRSKIPSPACE :               92 C |  __ITOAEXIT :                   157 C |
+ __ITOALOOP :                   15D C |  __MULDONTADD :                 19F C |
+ __MULEXIT :                    186 C |  __MULLOOP :                    190 C |
+ __OPADD :                      100 C |  __OPEQISTRUE :                 14F C |
+ __OPEQNZ :                     14B C |  __OPEQUALITY :                 147 C |
+ __OPERATORTABLE :               AD C |  __OPLOOKUP :                   10D C |
+ __OPLT0 :                      140 C |  __OPRETURN :                   123 C |
+ __OPSUB :                      126 C |  __OPWRITEBOOLEAN :             151 C |
+ __SHEXIT :                     200 C |  __SHGETKEY :                   20B C |
+ __SHINPUT :                    21A C |
 
-     87 symbols
+     92 symbols
      32 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 16 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 18 - 14/1/2017 8:06:30
 
 
   defined macros:
   ---------------
 
 LDR                                   | OPER                                 
-RETURN                                | __ATOIDOUBLERPARAM2                  
+RETURN                                | XPULL                                
+XPUSH                                 | __ATOIDOUBLERPARAM2                  
 
-      4 macros
+      6 macros
 
- AS V1.42 Beta [Bld 114] - source file test.asm - page 17 - 11/1/2017 13:13:50
+ AS V1.42 Beta [Bld 114] - source file test.asm - page 19 - 14/1/2017 8:06:30
 
 
   codepages:
@@ -924,10 +1065,10 @@ RETURN                                | __ATOIDOUBLERPARAM2
 STANDARD (0 changed characters)
 
 
-0.00 seconds assembly time
+0.01 seconds assembly time
 
-    757 lines source file
-    808 lines incl. macro expansions
+    838 lines source file
+    938 lines incl. macro expansions
       2 passes
       0 errors
       0 warnings
