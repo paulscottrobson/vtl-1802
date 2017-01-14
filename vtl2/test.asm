@@ -10,7 +10,7 @@ r1 = 1 															; interrupt register
 r2 = 2 															; stack pointer
 r3 = 3 															; general run P
 
-rVarPtr = 6 													; always points to variables.
+rVarPtr = 6 													; always points to variables (64 variables 2 bytes each 6 bit ASCII)
 rExprPC = 7 													; used as P register in expression (mandated)
 rSrc = 8 														; source code.
 rSpecialHandler = 9 											; special variables handler.
@@ -61,7 +61,7 @@ wait:
 	br 	wait
 
 eString:
-	db 		"12+*/2",0
+	db 		"?+1",0
 ;	db 		"40003>40004",0
 ;	db 		" \"A\"+1",0
 ;	db 		":2)-1",0

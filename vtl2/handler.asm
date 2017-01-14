@@ -9,21 +9,6 @@
 ; ***************************************************************************************************************
 ; ***************************************************************************************************************
 
-xpush macro n
-	glo 	n
-	stxd
-	ghi 	n
-	stxd
-	endm
-
-xpull macro n
-	inc 	r2
-	lda 	r2
-	phi 	n
-	ldn 	r2
-	plo 	n
-	endm
-
 ; ***************************************************************************************************************
 ;
 ;		This routine provides the variable in D. On exit, if D = 0 the "variable" has been accessed and
@@ -31,7 +16,7 @@ xpull macro n
 ;
 ;		The right hand variables with side effects in VTL-2 are :-
 ;
-;		?	input an expression (we will probably do integer here.)
+;		?	input an integer (technically an expression .....)
 ; 		$ 	input a single character
 ;
 ;		This is run with P = rSpecialHandler X = 2
@@ -47,15 +32,15 @@ xpull macro n
 __SHExit:
 	sep 	rExprPC
 SpecialHandler:
-	xri 	'?'															; check if '?' (get character)
+	xri 	'$'															; check if '$' (get character)
 	bz 		__SHGetKey
-	xri 	'*'!'?'														; check if '*' (get string expression)
+	xri 	'$'!'?'														; check if '?' (get string expression)
 	bz 		__SHInput
 	br 		__SHExit
 
 ; ***************************************************************************************************************
 ;
-;							? operator. Returns a single key press in rParam2
+;							$ operator. Returns a single key press in rParam2
 ;
 ; ***************************************************************************************************************
 
@@ -71,44 +56,74 @@ __SHGetKey:
 
 ; ***************************************************************************************************************
 ;
-;							* operator. Inputs a string, evaluates it and returns.
+;							? operator. Inputs a string, evaluates it and returns.
 ;
 ; ***************************************************************************************************************
 
 __SHInput:
-	xpush 	rSrc 														; we call expression recursively so save stuff on stack.
-	xpush 	rExprPC
-	xpush 	rParenthesisLevel
-	xpush 	rSaveStack
-
-	ldr 	rSrc,zString 								
-
-	ldr 	rExprPC,EXPRevaluate 										; set up to recursively call evaluator
-	mark 																; and do so.
-	sep 	rExprPC
+	ldr 	rSubPC,XIOWriteCharacter 									; prompt.
+	ldi 	'?'
+	mark
+	sep 	rSubPC
 	dec 	r2
 
-	glo 	rParam1 													; result comes back in rParam1, so copy it to rParam2.
-	plo 	rParam2
-	ghi 	rParam1
-	phi 	rParam2
+	ldr 	rUtilPC,READLine 											; read line into input buffer.
+	mark 																; returns it in rParam1
+	sep 	rUtilPC 
+	dec 	r2
 
-	xpull 	rSaveStack 													; restore registers.
-	xpull 	rParenthesisLevel
-	xpull 	rExprPC
-	xpull 	rSrc
+	ldr 	rUtilPC,ASCIIToInteger										; convert to number
+	mark 																; and do so.
+	sep 	rUtilPC
+	dec 	r2
+	bz 		__SHInput
 
 	ldi 	0  															; and exit with D = 0 indicating done.
 	br 		__SHExit 
 
-zString:
-	db 		"42*2",0
+; ***************************************************************************************************************
+;
+;						Read Line in from Keyboard, returns address in rParam1
+;
+; ***************************************************************************************************************
 
-XIOGetKey:
-	sex 	r2
-	inp 	1
-	bz 		XIOGetKey
-	inc 	r2
+READLine:
+	ldi 	7Fh 														; set up rParam1 to point to the string.
+	plo 	rParam1
+	ghi 	rVarPtr
+	phi 	rParam1
+
+__RLLNextCharacter:
+	inc 	rParam1
+__RLLLoop:
+	sex 	r2 															; use R2 as index
+	ldr 	rSubPC,XIOGetKey 											; call get key routine.
+	mark 	
+	sep 	rSubPC
+	dec 	r2
+	str 	rParam1	 													; save in text buffer.
+
+	ldr 	rSubPC,XIOWriteCharacter
+	ldn 	rParam1
+	mark
+	sep 	rSubPC
+	dec 	r2
+
+	ldn 	rParam1
+	xri 	8 															; Ctl+H
+	bz 		__RLLPrevCharacter 											; get previous character
+	xri 	13!8 														; is it CR ?
+	bnz 	__RLLNextCharacter 											; no go around again
+__RLLExit:
+	str 	rParam1 													; save the zero in rVarPtr making string ASCIIZ.
+	ldi 	80h 														; point rParam1 to the start of the string.
+	plo 	rParam1
+	inc 	r2 															; and exit.
 	return
 
-
+__RLLPrevCharacter:
+	dec 	rParam1
+	glo 	rParam1
+	shl
+	bdf 	__RLLLoop
+	br 		__RLLNextCharacter

@@ -99,6 +99,8 @@ __EXPRNewTerm:
 	xri 	':' 														; so make it back to the correct character.
 	sep 	rSpecialHandler 											; check for 'special ones'
 	bz 		__EXPRGotTerm 												; if found one, we've got a term.
+
+	ani 	03Fh 														; convert to six bit ASCII.
 	shl 																; byte size to word size
 	plo 	rVarPtr 													; now point to variable
 	lda 	rVarPtr 													; read LSB into Param2
@@ -164,7 +166,7 @@ __EXPRFoundOperation:
 	ghi 	rParenthesisLevel 											; get the operator
 	xri 	'/'															; was it divide ?
 	bnz 	__EXPRNotDivide
-	ldi 	'%' * 2 													; point rVarPtr to % variable
+	ldi 	('%' & 03Fh) * 2 											; point rVarPtr to % variable
 	plo 	rVarPtr
 	glo 	rParam2 													; save remainder there
 	str 	rVarPtr
@@ -269,7 +271,7 @@ __OpLookUp: 														; rParam1 := Memory[& + rParam2 * 2]
 	ghi 	rParam2
 	rshl
 	phi 	rParam2
-	ldi 	'&' * 2 												; point VarPtr to '&' variable
+	ldi 	('&' & 03Fh) * 2 										; point VarPtr to '&' variable
 	plo 	rVarPtr
 	sex 	rVarPtr
 
