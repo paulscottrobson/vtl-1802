@@ -73,10 +73,7 @@ __EXPRNewTerm:
 	ghi 	rSrc
 	phi 	rParam1
 
-	ldi 	ASCIIToInteger/256  										; call the atoi() routine.
-	phi 	rUtilPC 
-	ldi 	ASCIIToInteger & 255 										
-	plo 	rUtilPC
+	lrx 	rUtilPC,ASCIIToInteger 										; call the atoi() routine.
 	mark
 	sep 	rUtilPC
 	dec 	r2 		
@@ -133,10 +130,7 @@ __EXPRGotCharacter:
 ;
 __EXPRGotTerm:  														; new term is in rParam2.
 	inc 	r2 															; point stack to operator.
-	ldi 	(__OperatorTable-2)/256 									; rParam1 is the operator look up table.
-	phi 	rParam1
-	ldi 	(__OperatorTable-2)&255
-	plo 	rParam1
+	lrx 	rParam1,(__OperatorTable-2) 								; rParam1 is the operator look up table.
 __EXPRFindOperation:
 	inc 	rParam1
 	inc 	rParam1
@@ -215,15 +209,15 @@ __EXPRDestackBracket:
 ; ***************************************************************************************************************
 
 oper macro chdb,addr
-	db 		chdb,addr & 255,addr / 256
+	db 		chdb,(addr) & 255,(addr) / 256
 	endm 
 
 __OperatorTable:
-	oper 		'+',__OpAdd 
-	oper		'*',Multiply
-	oper 		'/',Divide
-	oper 		'@',__OpLookUp 
-	oper 		0,__OpSub
+	oper 	'+',__OpAdd 
+	oper	'*',Multiply
+	oper 	'/',Divide
+	oper 	'@',__OpLookUp 
+	oper 	0,__OpSub
 
 ; ***************************************************************************************************************
 ;
@@ -231,11 +225,9 @@ __OperatorTable:
 ;
 ; ***************************************************************************************************************
 
-	include 	utility/divide.asm
-
-NewPage1: 															; switch to the next page.
-	org 	(NewPage1+255)/256*256 
-
+	include utility/divide.asm
+	align 	256
+	
 ; ***************************************************************************************************************
 ;
 ;								Addition. rParam1 := rParam1 + rParam2
@@ -353,9 +345,6 @@ __OpWriteBoolean:
 ;
 ; ***************************************************************************************************************
 
-	include 	utility/itoa.asm
-	include 	utility/multiply.asm
-	include 	utility/atoi.asm
-
-NewPage2: 															; switch to the next page.
-	org 	(NewPage2+255)/256*256 
+	include utility/itoa.asm
+	include utility/multiply.asm
+	include utility/atoi.asm

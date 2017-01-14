@@ -22,12 +22,13 @@
 ;
 ; ***************************************************************************************************************
 
+	return
 XIOGetKey:
 	sex 	r2 															; fix up after Mark.
 	inp 	1 															; read keyboard port
 	bz 		XIOGetKey 													; no key, keep trying
 	inc 	r2 															; standard return.
-	return
+	br 		XIOGetKey-1
 
 ; ***************************************************************************************************************
 ;
@@ -35,10 +36,11 @@ XIOGetKey:
 ;
 ; ***************************************************************************************************************
 
+	return
 XIOWriteCharacter:
 	sex 	r2
 	str 	r2
 	out 	1
 	dec 	r2
 	inc 	r2
-	return
+	br 		XIOWriteCharacter-1
