@@ -55,7 +55,7 @@ lrx macro 	r,n 														; load 16 bit value into register macro
 	align 	256 
 	include handler.asm 												; special routine handler.
 	include readline.asm 												; line input routine.
-
+	include editing.asm 												; line editing code	
 	align 	256
 
 ; ***************************************************************************************************************
@@ -127,10 +127,12 @@ EnterCommand:
 	mark
 	sep 	rUtilPC
 	dec 	r2
+
 	lrx 	rUtilPC,ASCIIToInteger 										; see if there is a number up front
 	mark
 	sep 	rUtilPC
 	dec 	r2 															; if there is it will be in rParam2 and D # 0, rParam1 points to first non-space
+
 	bz 		Execute 													; if D = 0, it is text, so execute the command in rParam1.
 
 	glo 	rParam2 													; if rParam2 is non zero, then go to edit
@@ -167,6 +169,7 @@ __ListLoop:
 	lrx 	rUtilPC,IntegerToASCII 										; and convert it to ASCII
 	mark 	
 	sep 	rUtilPC
+	dec 	r2
 
 	lrx 	rUtilPC,__PrintString 										; print it.
 	sep 	rUtilPC
@@ -205,6 +208,7 @@ __PrintString:
 	bz 		__PrintString-1
 	mark
 	sep 	rSubPC
+	dec	 	r2
 	br 		__PrintString
 
 __Prompt: 																; VTL-2 Prompt.
@@ -217,21 +221,34 @@ __Prompt: 																; VTL-2 Prompt.
 ; ***************************************************************************************************************
 
 Edit: 																	; edit line - number in rParam2, new text in rParam1.
-	br 	Edit
-
+	glo 	rParam2 													; save line number in rSrc
+	plo 	rSrc
+	ghi 	rParam2
+	phi 	rSrc
+	lrx 	rUtilPC,LocateLine 											; find the line.
+	mark 
+	sep 	rUtilPC
+	dec 	r2
+	bnf 	__DontDelete 												; if DF = 0 not found line to delete.
+	;
+	;	Delete Line at rParam2
+	;
+__DontDelete:
+	ldn 	rParam1  													; look at first not space character
+	bz 		EnterCommand 												; if zero, it's delete only.
+	;
+	;	Insert line at rParam2, rSrc line Number, rParam1 text to insert.
+	;
+w1:	br w1
 
 Execute:
 	; do it. look for side effects, #=n goes into a different routine which runs code.
 	br 	Execute
 
-
-
-RunMode:
-	br 		RunMode
-
-
 	align 	256
 	include	virtualio.asm 												; I/O routines that are hardware specific.
+
+
 
 
 ; ***************************************************************************************************************
