@@ -24,12 +24,7 @@ LocateLine:
 	glo 	rParam2
 	str 	r2
 
-	ldi 	('&' & 03Fh) * 2  											; read base of program into rParam2
-	plo 	rVarPtr
-	lda 	rVarPtr 												
-	plo 	rParam2
-	ldn 	rVarPtr
-	phi 	rParam2
+	lrx 	rParam2,ProgramStart  										; read base of program into rParam2
 	
 __LLSearch:
 	ldn 	rParam2 													; look at the link.	
@@ -74,3 +69,53 @@ __LLExit:
 	inc 	r2
 	inc 	r2 															; return from subroutine.
 	return 
+
+; ***************************************************************************************************************
+;
+;				Delete program line at rParam2 (address), breaks rSubPC, rParenthesisLevel
+;
+; ***************************************************************************************************************
+
+DeleteLine:
+	sex 	rParam2 													; (X) is the offset
+
+	glo 	rParam2 
+	plo 	rParenthesisLevel
+	add
+	plo 	rSubPC 														; copy from rSubPC to rParenthesisLevel
+	ghi 	rParam2
+	phi 	rParenthesisLevel
+	adci 	0
+	phi 	rSubPC
+
+	ldi 	('&' & 03Fh) * 2 											; point rVarPtr to the end of memory.
+	plo 	rVarPtr
+	sex 	rVarPtr
+
+	dec 	rSubPC
+	dec 	rParenthesisLevel
+__DeleteLoop:
+	inc 	rParenthesisLevel 											; copy one byte over.
+	inc 	rSubPC
+	ldn 	rSubPC
+	str 	rParenthesisLevel
+	ldi 	0 															; clear newly cleared memory (not really required)
+	str 	rSubPC
+	glo 	rSubPC 														; loop back if not at end
+	xor
+	bnz 	__DeleteLoop
+	inc 	rVarPtr
+	ghi 	rSubPC 														; source reached program top ?
+	xor
+	dec 	rVarPtr
+	bnz 	__DeleteLoop 												
+
+	glo 	rParenthesisLevel 											; update top of program.
+	str 	rVarPtr
+	inc 	rVarPtr
+	ghi 	rParenthesisLevel
+	str 	rVarPtr
+
+	sex 	r2
+	inc 	r2
+	return	

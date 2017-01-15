@@ -89,12 +89,12 @@ foundRAMTop:
 	ldi 	0 															; zero RAMTop LSB
 	str 	rVarPtr
 
-	ldi 	('&' & 03Fh) * 2  											; set program pointer ; optional ?
+	ldi 	('&' & 03Fh) * 2  											; set program end pointer (&)
 	plo 	rVarPtr
-	ldi 	(ProgramCode & 255)
+	ldi 	(ProgramEnd & 255)
 	str 	rVarPtr
 	inc 	rVarPtr
-	ldi 	(ProgramCode / 256)
+	ldi 	(ProgramEnd / 256)
 	str 	rVarPtr
 
 ; ***************************************************************************************************************
@@ -147,12 +147,8 @@ EnterCommand:
 ; ***************************************************************************************************************
 
 ListProgram:
-	ldi 	('&' & 03Fh) * 2  											; point to & (program area)
-	plo 	rVarPtr
-	lda 	rVarPtr 													; read & into rSrc ready for listing.
-	plo 	rSrc
-	ldn 	rVarPtr
-	phi 	rSrc
+
+	lrx 	rSrc,ProgramStart 											; point rSrc to the start of the program
 __ListLoop:
 	lda 	rSrc 														; read the offset link, which we don't use as a step
 	bz 		Prompt 														; if the link is zero, we have reached the end of the program.
@@ -230,9 +226,12 @@ Edit: 																	; edit line - number in rParam2, new text in rParam1.
 	sep 	rUtilPC
 	dec 	r2
 	bnf 	__DontDelete 												; if DF = 0 not found line to delete.
-	;
-	;	Delete Line at rParam2
-	;
+
+	lrx 	rUtilPC,DeleteLine 											; Delete line (address in rParam2)
+	mark 
+	sep 	rUtilPC
+	dec 	r2
+
 __DontDelete:
 	ldn 	rParam1  													; look at first not space character
 	bz 		EnterCommand 												; if zero, it's delete only.
@@ -257,7 +256,6 @@ Execute:
 ;
 ; ***************************************************************************************************************
 
-
 vtl macro line,code 													; creating VTL-2 code in line.
 startLine:
 	db 		endLine-startLine 											; +0 offset to next
@@ -266,8 +264,15 @@ startLine:
 endLine:	
 	endm
 
-ProgramCode:
+ProgramStart:
 	vtl 	10,"A=42) this is a comment"
 	vtl 	20,"#=?"		
 	vtl 	30,"?=A"
+	vtl	 	40,"a"
+	vtl 	50,"b"
+	vtl 	60,"c"
+	vtl 	1260,"z"
+	vtl 	32260,"zz"
+	vtl 	40000,"qq"
+ProgramEnd:	
 	db 		0
