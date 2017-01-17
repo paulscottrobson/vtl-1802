@@ -44,3 +44,20 @@ XIOWriteCharacter:
 	dec 	r2
 	inc 	r2
 	br 		XIOWriteCharacter-1
+
+; ***************************************************************************************************************
+;
+;			Print String at rParam2 (ASCIIZ) , on exit leaves rSubPC set up to print a character
+;
+; ***************************************************************************************************************
+
+	sep 	r3
+__PrintString:
+	lrx 	rSubPC,XIOWriteCharacter 									; print character routine
+	lda 	rParam2
+	bz 		__PrintString-1
+	mark
+	sep 	rSubPC
+	dec	 	r2
+	br 		__PrintString
+

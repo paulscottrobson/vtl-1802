@@ -97,6 +97,12 @@ __EXPRNewTerm:
 	sep 	rSpecialHandler 											; check for 'special ones'
 	bz 		__EXPRGotTerm 												; if found one, we've got a term.
 
+	adi 	256-'a' 													; a+ will generate DF
+	bnf 	__EXPRNotLower
+	smbi 	32
+__EXPRNotLower:	
+	smi 	256-'a'
+
 	ani 	03Fh 														; convert to six bit ASCII.
 	shl 																; byte size to word size
 	plo 	rVarPtr 													; now point to variable

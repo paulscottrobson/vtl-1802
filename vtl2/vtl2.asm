@@ -15,7 +15,8 @@ r0 = 0 																	; not used (may be used in interrupt display)
 r1 = 1 																	; interrupt register
 r2 = 2 																	; stack pointer
 r3 = 3 																	; general run P
-
+rExecutePC = 4 															; execute commands using R4. (param1 = code to execute)
+rCurrentLine = 5 														; current line pointer.
 rVarPtr = 6 															; always points to variables (64 variables 2 bytes each 6 bit ASCII)
 rExprPC = 7 															; used as P register in expression (mandated)
 rSrc = 8 																; source code.
@@ -49,13 +50,6 @@ lrx macro 	r,n 														; load 16 bit value into register macro
 	db 		000h
 	lrx 	r3,Initialise 												; jump to start.
 	sep 	r3
-
-	include expression.asm 												; expression evaluator, all arithmetic, atoi/itoa
-
-	align 	256 
-	include handler.asm 												; special routine handler.
-	include editing.asm 												; line editing code	
-	align 	256
 
 ; ***************************************************************************************************************
 ;
@@ -96,9 +90,13 @@ foundRAMTop:
 	ldi 	(ProgramEnd / 256)
 	str 	rVarPtr
 
+	ldi 	(39 & 03Fh) * 2 											; initialise RNG
+	plo 	rVarPtr
+	str 	rVarPtr
+
 ; ***************************************************************************************************************
 ;
-;										OK Prompt (Come here after CMD exec, or #=0)
+;						OK Prompt (Come here after CMD exec, or program halted) also clears #
 ;
 ; ***************************************************************************************************************
 
@@ -192,25 +190,6 @@ __ListNext: 															; advance pointer forward and do next.
 
 ; ***************************************************************************************************************
 ;
-;			Print String at rParam2 (ASCIIZ) , on exit leaves rSubPC set up to print a character
-;
-; ***************************************************************************************************************
-
-	sep 	r3
-__PrintString:
-	lrx 	rSubPC,XIOWriteCharacter 									; print character routine
-	lda 	rParam2
-	bz 		__PrintString-1
-	mark
-	sep 	rSubPC
-	dec	 	r2
-	br 		__PrintString
-
-__Prompt: 																; VTL-2 Prompt.
-	db 		"OK",13,0
-
-; ***************************************************************************************************************
-;
 ;									Edit Line rParam2, new text in rParam1
 ;
 ; ***************************************************************************************************************
@@ -231,8 +210,6 @@ Edit: 																	; edit line - number in rParam2, new text in rParam1.
 	sep 	rUtilPC
 	dec 	r2
 
-
-
 __DontDelete:
 	ldn 	rParam1  													; look at first not space character
 	bz 		EnterCommand 												; if zero, it's delete only.
@@ -243,18 +220,127 @@ __DontDelete:
 	dec 	r2
 	br 		EnterCommand
 
+; ***************************************************************************************************************
+;	
+;										Execute line in rParam1
+;
+; ***************************************************************************************************************
 
 Execute:
-	; do it. look for side effects, #=n goes into a different routine which runs code.
-	br 	Execute
+	ldn 	rParam1 													; read first character
+	bz 		EnterCommand 												; blank line, do nothing
+	lrx 	rExecutePC,ExecuteCommand 									; execute command in P1.
+	sep 	rExecutePC 
+
+	ldi 	('#' & 03Fh) * 2 											; look at '#'
+	plo 	rVarPtr
+	lda 	rVarPtr 													; if non zero go to run code.
+	bnz 	RunProgram
+	ldn 	rVarPtr 	
+	bz 		Prompt  													; if zero, loop back, displaying "OK"
+
+; ***************************************************************************************************************
+;
+;													In Run Mode.
+;
+; ***************************************************************************************************************
+
+RunProgram:
+	ldn		rCurrentLine 												; if current offset = 0 (end of program) then exit to prompt
+	str 	r2 															; save at TOS.
+	bz 		Prompt
+	glo 	rCurrentLine 												; copy current line into rCurrentLine
+	plo 	rParam1
+	ghi 	rCurrentLine
+	phi 	rParam1
+
+	glo 	rCurrentLine 												; set currentPC to point to next line.
+	add  																; done here so the Execute Routine can update it if it wants.
+	plo 	rCurrentLine
+	ghi 	rCurrentLine
+	adci 	0
+	phi 	rCurrentLine
+
+	ldi 	('#' & 03Fh) * 2 											; set rVarPtr to point to current line number
+	str 	rVarPtr
+	inc 	rParam1 													; skip over offset
+	lda 	rParam1 													; read line# low
+	str 	rVarPtr 													; copy to # low
+	lda 	rParam1 													; read line# high
+	inc 	rVarPtr 													; copy to # high
+	str 	rVarPtr 	 												; now points to first byte of command.
+
+	sep 	rExecutePC 													; and execute it.
+	br 		RunProgram
+
 
 	align 	256
-	include	virtualio.asm 												; I/O routines that are hardware specific.
+	include expression.asm 												; expression evaluator, all arithmetic, atoi/itoa
+	align 	256 
+	include handler.asm 												; special routine handler.
+	include editing.asm 												; line editing code	
+
+__Prompt: 																; VTL-2 Prompt.
+	db 		"OK",13,0
+
+	align 	256
+
+; ***************************************************************************************************************
+;
+;											Execute command in rParam1. 
+;
+;	Side effects : # (goto, change rCurrentPC and '!') $ (char out) ? (number/literal out) :<expr>) array
+; 	handler.
+;
+; ***************************************************************************************************************
+
+__ECExit:
+	sep 	r3
+ExecuteCommand:
+	lrx 	rExprPC,EXPREvaluate 										; this is re-entrant throughout
+	ldi 	(39 & 03Fh) * 2 + 1 										; point rVarPtr to the random number MSB (39 is single quote)
+	plo 	rVarPtr
+	ldn 	rVarPtr 													; read MSB
+	shr 																; shift right and save.
+	str 	rVarPtr
+	dec 	rVarPtr
+	ldn 	rVarPtr 													; rotate into LSB
+	rshr 
+	str 	rVarPtr
+	bnf 	__ECNoXor
+	inc 	rVarPtr 													; xor the MSB with $B4 is LSB was one.
+	ldn 	rVarPtr
+	xri 	0B4h
+	str 	rVarPtr
+__ECNoXor:
+
+	ldn 	rParam1 													; look at command
+	xri 	')'															; exit if comment
+	bz 		__ECExit
+	;
+	; 	specials checks for * ? # and :
+	;
+	lda 	rParam1 													; read variable ptr and skip over it.
+	adi 	256-'a' 													; a+ will generate DF
+	bnf 	__ECNotLower
+	smi 	32
+__ECNotLower:	
+	smi 	256-'a'
+	ani 	3Fh 														; six bit ASCII
+	shl 																; 2 bytes per variable
+	stxd 																; save on stack.
+	ghi 	rVarPtr 													; push high byte of variable address on stack
+	stxd 
+
+	;	evaluate RHS
+	;	pop address
+	; 	write value there (array can reuse this code)
+
+w1:	br 		w1
+
+
 	include readline.asm 												; line input routine.
-
-
-
-
+	include	virtualio.asm 												; I/O routines that are hardware specific.
 
 ; ***************************************************************************************************************
 ;
@@ -282,3 +368,4 @@ ProgramStart:
 	vtl 	40000,"qq"
 ProgramEnd:	
 	db 		0
+
