@@ -54,7 +54,6 @@ lrx macro 	r,n 														; load 16 bit value into register macro
 
 	align 	256 
 	include handler.asm 												; special routine handler.
-	include readline.asm 												; line input routine.
 	include editing.asm 												; line editing code	
 	align 	256
 
@@ -232,13 +231,18 @@ Edit: 																	; edit line - number in rParam2, new text in rParam1.
 	sep 	rUtilPC
 	dec 	r2
 
+
+
 __DontDelete:
 	ldn 	rParam1  													; look at first not space character
 	bz 		EnterCommand 												; if zero, it's delete only.
-	;
-	;	Insert line at rParam2, rSrc line Number, rParam1 text to insert.
-	;
-w1:	br w1
+
+	lrx 	rUtilPC,InsertLine 											; Insert the new line
+	mark 
+	sep 	rUtilPC
+	dec 	r2
+	br 		EnterCommand
+
 
 Execute:
 	; do it. look for side effects, #=n goes into a different routine which runs code.
@@ -246,6 +250,8 @@ Execute:
 
 	align 	256
 	include	virtualio.asm 												; I/O routines that are hardware specific.
+	include readline.asm 												; line input routine.
+
 
 
 

@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 1 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 1 - 17/1/2017 17:33:14
 
 
        1/       0 :                     ; ***************************************************************************************************************
@@ -61,7 +61,7 @@
       53/       9 :                     	include expression.asm 												; expression evaluator, all arithmetic, atoi/itoa
 (1)    1/       9 :                     ; ***************************************************************************************************************
 (1)    2/       9 :                     ; ***************************************************************************************************************
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 2 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 2 - 17/1/2017 17:33:14
 
 
 (1)    3/       9 :                     ;
@@ -124,7 +124,7 @@
 (1)   59/      1C :                     
 (1)   60/      1C :                     __EXPRNewLevel:	
 (1)   61/      1C : F8 00               	ldi 	0 															; push $0000  + on the stack.
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 3 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 3 - 17/1/2017 17:33:14
 
 
 (1)   62/      1E : 73                  	stxd 																; MSB first
@@ -187,7 +187,7 @@
 (1)  115/      5B : 73                  	stxd
 (1)  116/      5C : 1A                  	inc 	rParenthesisLevel 											; it's like bracket with a different operator.
 (1)  117/      5D : 30 24               	br 		__EXPRNewTerm
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 4 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 4 - 17/1/2017 17:33:14
 
 
 (1)  118/      5F :                     ;
@@ -250,7 +250,7 @@
 (1)  171/      90 :                     
 (1)  172/      90 : 9E                  	ghi 	rParam1 													; push the result back on the stack.
 (1)  173/      91 : 73                  	stxd
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 5 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 5 - 17/1/2017 17:33:14
 
 
 (1)  174/      92 : 8E                  	glo 	rParam1
@@ -313,7 +313,7 @@
 (1)  226/      BE :                     ; ***************************************************************************************************************
 (1)  227/      BE :                     
 (1)  228/      BE :                     	include utility/divide.asm
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 6 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 6 - 17/1/2017 17:33:14
 
 
 (2)    1/      BE :                     ; ***************************************************************************************************************
@@ -376,7 +376,7 @@
 (2)   57/      D6 : 32 BE               	bz 		__DIVExit 													; if zero then complete (decrement done later)
 (2)   58/      D8 :                     
 (2)   59/      D8 : 8F                  	glo	 	rParam2 													; shift DF into then remainder (rParam2)
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 7 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 7 - 17/1/2017 17:33:14
 
 
 (2)   60/      D9 : 7E                  	rshl
@@ -439,7 +439,7 @@
 (1)  256/     10D :                     ; ***************************************************************************************************************
 (1)  257/     10D :                     
 (1)  258/     10D :                     __OpLookUp: 														; rParam1 := Memory[& + rParam2 * 2]
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 8 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 8 - 17/1/2017 17:33:14
 
 
 (1)  259/     10D : E2                  	sex 	r2
@@ -502,7 +502,7 @@
 (1)  315/     13A : FB 03               	xri 	'>'!'='													; will now be 0 if >= , nonzero for < if anything else.
 (1)  316/     13C : 32 40               	bz 		__OpLT0 	
 (1)  317/     13E : F8 01               	ldi 	1
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 9 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 9 - 17/1/2017 17:33:14
 
 
 (1)  318/     140 :                     __OpLT0: 															; now 0 if >, 1 if <
@@ -565,7 +565,7 @@
 (2)   25/     159 :                     IntegerToASCII:
 (2)   26/     159 : E2                  	sex 	r2 															; index back at 2
 (2)   27/     15A : F8 00               	ldi 	0 															; write the NULL terminator.
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(itoa.asm) - page 10 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(itoa.asm) - page 10 - 17/1/2017 17:33:14
 
 
 (2)   28/     15C : 5F                  	str 	rParam2
@@ -628,7 +628,7 @@
 (2)   21/     187 : AE                  	plo 	rParam1
 (2)   22/     188 : 42                  	lda 	r2  														; pop MSB result off stack, do inc r2
 (2)   23/     189 : BE                  	phi 	rParam1
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(multiply.asm) - page 11 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(multiply.asm) - page 11 - 17/1/2017 17:33:14
 
 
 (2)   24/     18A : (MACRO)             	return
@@ -691,7 +691,7 @@
 (2)   17/     1AD :                     ;	
 (2)   18/     1AD :                     ;	On exit non-zero if a digit was read.
 (2)   19/     1AD :                     ;
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 12 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 12 - 17/1/2017 17:33:14
 
 
 (2)   20/     1AD :                     ; *******************************************************************************************************************
@@ -754,7 +754,7 @@
 (2)   64/     1D9 : 12                  	inc 	r2
 (2)   65/     1DA : 9F                  	ghi 	rParam2
 (2)   66/     1DB : 74                  	adc
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 13 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 13 - 17/1/2017 17:33:14
 
 
 (2)   67/     1DC : BF                  	phi 	rParam2  													; so now rParam * 5
@@ -817,7 +817,7 @@
 (1)   33/     200 : D7                  	sep 	rExprPC
 (1)   34/     201 :                     SpecialHandler:
 (1)   35/     201 : FB 24               	xri 	'$'															; check if '$' (get character)
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(handler.asm) - page 14 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(handler.asm) - page 14 - 17/1/2017 17:33:14
 
 
 (1)   36/     203 : 32 0D               	bz 		__SHGetKey
@@ -864,9 +864,9 @@
 (1)   69/     226 : 22                  	dec 	r2
 (1)   70/     227 :                     
 (1)   71/     227 : (MACRO)             	lrx 	rUtilPC,READLine 											; read line into input buffer.
-(1)   71/     227 : F8 02                       ldi     (READLINE)/256
+(1)   71/     227 : F8 04                       ldi     (READLINE)/256
 (1)   71/     229 : BC                          phi     RUTILPC
-(1)   71/     22A : F8 3F                       ldi     (READLINE)&255
+(1)   71/     22A : F8 10                       ldi     (READLINE)&255
 (1)   71/     22C : AC                          plo     RUTILPC
 (1)   72/     22D : 79                  	mark 																; returns it in rParam1
 (1)   73/     22E : DC                  	sep 	rUtilPC 
@@ -880,7 +880,7 @@
 (1)   77/     236 : 79                  	mark 																; and do so.
 (1)   78/     237 : DC                  	sep 	rUtilPC
 (1)   79/     238 : 22                  	dec 	r2
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(handler.asm) - page 15 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(handler.asm) - page 15 - 17/1/2017 17:33:14
 
 
 (1)   80/     239 : 32 1C               	bz 		__SHInput
@@ -889,12 +889,12 @@
 (1)   83/     23D : 30 00               	br 		__SHExit 
 (1)   84/     23F :                     
 (1)   85/     23F :                     
-      57/     23F :                     	include readline.asm 												; line input routine.
+      57/     23F :                     	include editing.asm 												; line editing code	
 (1)    1/     23F :                     ; ***************************************************************************************************************
 (1)    2/     23F :                     ; ***************************************************************************************************************
 (1)    3/     23F :                     ;
-(1)    4/     23F :                     ;		File:		readline.asm
-(1)    5/     23F :                     ;		Purpose:	Read an input line
+(1)    4/     23F :                     ;		File:		editing.asm
+(1)    5/     23F :                     ;		Purpose:	Line editing/finding functionality.
 (1)    6/     23F :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
 (1)    7/     23F :                     ;		Date:		14th January 2017.
 (1)    8/     23F :                     ;
@@ -903,448 +903,462 @@
 (1)   11/     23F :                     
 (1)   12/     23F :                     ; ***************************************************************************************************************
 (1)   13/     23F :                     ;
-(1)   14/     23F :                     ;						Read Line in from Keyboard, returns address in rParam1
-(1)   15/     23F :                     ;
-(1)   16/     23F :                     ; ***************************************************************************************************************
-(1)   17/     23F :                     
-(1)   18/     23F :                     READLine:
-(1)   19/     23F : F8 7F               	ldi 	7Fh 														; set up rParam1 to point to the string.
-(1)   20/     241 : AE                  	plo 	rParam1
-(1)   21/     242 : 96                  	ghi 	rVarPtr
-(1)   22/     243 : BE                  	phi 	rParam1
-(1)   23/     244 :                     
-(1)   24/     244 :                     __RLLNextCharacter:
-(1)   25/     244 : 1E                  	inc 	rParam1
-(1)   26/     245 :                     __RLLLoop:
-(1)   27/     245 : E2                  	sex 	r2 															; use R2 as index
-(1)   28/     246 : (MACRO)             	lrx 	rSubPC,XIOGetKey 											; call get key routine.
-(1)   28/     246 : F8 04                       ldi     (XIOGETKEY)/256
-(1)   28/     248 : BD                          phi     RSUBPC
-(1)   28/     249 : F8 01                       ldi     (XIOGETKEY)&255
-(1)   28/     24B : AD                          plo     RSUBPC
-(1)   29/     24C : 79                  	mark 	
-(1)   30/     24D : DD                  	sep 	rSubPC
-(1)   31/     24E : 22                  	dec 	r2
-(1)   32/     24F : 5E                  	str 	rParam1	 													; save in text buffer.
+(1)   14/     23F :                     ;	Find line number, return pointer to it in rParam2, return DF = 1 if exact match. DF = 0 if just next one.
+(1)   15/     23F :                     ;	So if lines are 10,20,30 25 will be ^30 and DF = 0, 20 will be ^20 and DF = 1
+(1)   16/     23F :                     ;
+(1)   17/     23F :                     ; ***************************************************************************************************************
+(1)   18/     23F :                     
+(1)   19/     23F :                     LocateLine:
+(1)   20/     23F : E2                  	sex 	r2 															; save the target on the stack.
+(1)   21/     240 : 22                  	dec 	r2
+(1)   22/     241 : 9F                  	ghi 	rParam2
+(1)   23/     242 : 73                  	stxd
+(1)   24/     243 : 8F                  	glo 	rParam2
+(1)   25/     244 : 52                  	str 	r2
+(1)   26/     245 :                     
+(1)   27/     245 : (MACRO)             	lrx 	rParam2,ProgramStart  										; read base of program into rParam2
+(1)   27/     245 : F8 04                       ldi     (PROGRAMSTART)/256
+(1)   27/     247 : BF                          phi     RPARAM2
+(1)   27/     248 : F8 41                       ldi     (PROGRAMSTART)&255
+(1)   27/     24A : AF                          plo     RPARAM2
+(1)   28/     24B :                     	
+(1)   29/     24B :                     __LLSearch:
+(1)   30/     24B : 0F                  	ldn 	rParam2 													; look at the link.	
+(1)   31/     24C : FC FF               	adi 	255 														; DF will be zero if the link was zero, any +ve sets it.
+(1)   32/     24E : 3B 74               	bnf 	__LLExit
 (1)   33/     250 :                     
-(1)   34/     250 : (MACRO)             	lrx 	rSubPC,XIOWriteCharacter
-(1)   34/     250 : F8 04                       ldi     (XIOWRITECHARACTER)/256
-(1)   34/     252 : BD                          phi     RSUBPC
-(1)   34/     253 : F8 09                       ldi     (XIOWRITECHARACTER)&255
-(1)   34/     255 : AD                          plo     RSUBPC
-(1)   35/     256 : 0E                  	ldn 	rParam1
-(1)   36/     257 : 79                  	mark
-(1)   37/     258 : DD                  	sep 	rSubPC
-(1)   38/     259 : 22                  	dec 	r2
-(1)   39/     25A :                     
-(1)   40/     25A : 0E                  	ldn 	rParam1
-(1)   41/     25B : FB 08               	xri 	8 															; Ctl+H
-(1)   42/     25D : 32 69               	bz 		__RLLPrevCharacter 											; get previous character
-(1)   43/     25F : FB 05               	xri 	13!8 														; is it CR ?
-(1)   44/     261 : 3A 44               	bnz 	__RLLNextCharacter 											; no go around again
-(1)   45/     263 :                     __RLLExit:
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(readline.asm) - page 16 - 15/1/2017 18:19:44
+(1)   34/     250 : 1F                  	inc 	rParam2 													; point to line number.0
+(1)   35/     251 : 4F                  	lda 	rParam2 													; calculate current - required
+(1)   36/     252 : F7                  	sm 
+(1)   37/     253 : A6                  	plo 	rVarPtr 													; save interim value in rVarPtr.0
+(1)   38/     254 : 12                  	inc 	r2 													
+(1)   39/     255 : 0F                  	ldn 	rParam2 											
+(1)   40/     256 : 77                  	smb 
+(1)   41/     257 : 22                  	dec 	r2
+(1)   42/     258 : 33 69               	bdf 	__LLFound 													; if DF set is >= so this is the find point.
+(1)   43/     25A :                     
+(1)   44/     25A : 2F                  	dec 	rParam2 													; point rParam2 back to the offset address
+(1)   45/     25B : 2F                  	dec 	rParam2
+(1)   46/     25C : 0F                  	ldn 	rParam2 													; read offset
+(1)   47/     25D : 22                  	dec 	r2 															; save on stack.
+(1)   48/     25E : 52                  	str 	r2 												
+(1)   49/     25F : 8F                  	glo 	rParam2 													; add to position.
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 16 - 17/1/2017 17:33:14
 
 
-(1)   46/     263 : 5E                  	str 	rParam1 													; save the zero in rVarPtr making string ASCIIZ.
-(1)   47/     264 : F8 80               	ldi 	80h 														; point rParam1 to the start of the string.
-(1)   48/     266 : AE                  	plo 	rParam1
-(1)   49/     267 : 12                  	inc 	r2 															; and exit.
-(1)   50/     268 : (MACRO)             	return
-(1)   50/     268 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
-(1)   51/     269 :                     
-(1)   52/     269 :                     __RLLPrevCharacter:
-(1)   53/     269 : 2E                  	dec 	rParam1 													; handle backspace (chr(8))
-(1)   54/     26A : 8E                  	glo 	rParam1
-(1)   55/     26B : FE                  	shl
-(1)   56/     26C : 33 45               	bdf 	__RLLLoop
-(1)   57/     26E : 30 44               	br 		__RLLNextCharacter
-(1)   58/     270 :                     
-      58/     270 :                     	include editing.asm 												; line editing code	
-(1)    1/     270 :                     ; ***************************************************************************************************************
-(1)    2/     270 :                     ; ***************************************************************************************************************
-(1)    3/     270 :                     ;
-(1)    4/     270 :                     ;		File:		editing.asm
-(1)    5/     270 :                     ;		Purpose:	Line editing/finding functionality.
-(1)    6/     270 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
-(1)    7/     270 :                     ;		Date:		14th January 2017.
-(1)    8/     270 :                     ;
-(1)    9/     270 :                     ; ***************************************************************************************************************
-(1)   10/     270 :                     ; ***************************************************************************************************************
-(1)   11/     270 :                     
-(1)   12/     270 :                     ; ***************************************************************************************************************
-(1)   13/     270 :                     ;
-(1)   14/     270 :                     ;	Find line number, return pointer to it in rParam2, return DF = 1 if exact match. DF = 0 if just next one.
-(1)   15/     270 :                     ;	So if lines are 10,20,30 25 will be ^30 and DF = 0, 20 will be ^20 and DF = 1
-(1)   16/     270 :                     ;
-(1)   17/     270 :                     ; ***************************************************************************************************************
-(1)   18/     270 :                     
-(1)   19/     270 :                     LocateLine:
-(1)   20/     270 : E2                  	sex 	r2 															; save the target on the stack.
-(1)   21/     271 : 22                  	dec 	r2
-(1)   22/     272 : 9F                  	ghi 	rParam2
-(1)   23/     273 : 73                  	stxd
-(1)   24/     274 : 8F                  	glo 	rParam2
-(1)   25/     275 : 52                  	str 	r2
-(1)   26/     276 :                     
-(1)   27/     276 : (MACRO)             	lrx 	rParam2,ProgramStart  										; read base of program into rParam2
-(1)   27/     276 : F8 04                       ldi     (PROGRAMSTART)/256
-(1)   27/     278 : BF                          phi     RPARAM2
-(1)   27/     279 : F8 10                       ldi     (PROGRAMSTART)&255
-(1)   27/     27B : AF                          plo     RPARAM2
-(1)   28/     27C :                     	
-(1)   29/     27C :                     __LLSearch:
-(1)   30/     27C : 0F                  	ldn 	rParam2 													; look at the link.	
-(1)   31/     27D : FC FF               	adi 	255 														; DF will be zero if the link was zero, any +ve sets it.
-(1)   32/     27F : 3B A5               	bnf 	__LLExit
-(1)   33/     281 :                     
-(1)   34/     281 : 1F                  	inc 	rParam2 													; point to line number.0
-(1)   35/     282 : 4F                  	lda 	rParam2 													; calculate current - required
-(1)   36/     283 : F7                  	sm 
-(1)   37/     284 : A6                  	plo 	rVarPtr 													; save interim value in rVarPtr.0
-(1)   38/     285 : 12                  	inc 	r2 													
-(1)   39/     286 : 0F                  	ldn 	rParam2 											
-(1)   40/     287 : 77                  	smb 
-(1)   41/     288 : 22                  	dec 	r2
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 17 - 15/1/2017 18:19:44
+(1)   50/     260 : F4                  	add
+(1)   51/     261 : AF                  	plo 	rParam2
+(1)   52/     262 : 9F                  	ghi 	rParam2
+(1)   53/     263 : 7C 00               	adci 	0
+(1)   54/     265 : BF                  	phi 	rParam2
+(1)   55/     266 : 12                  	inc 	r2 															; drop stacked value.
+(1)   56/     267 : 30 4B               	br 		__LLSearch 													; and go to the next one.
+(1)   57/     269 :                     
+(1)   58/     269 :                     __LLFound: 																; found answer, DF set. 
+(1)   59/     269 : 2F                  	dec 	rParam2 													; point back to the link.
+(1)   60/     26A : 2F                  	dec 	rParam2
+(1)   61/     26B : FC 00               	adi 	0 															; clear DF.
+(1)   62/     26D : 3A 74               	bnz 	__LLExit 													; if results non-zero return DF = 0
+(1)   63/     26F : 86                  	glo 	rVarPtr 													
+(1)   64/     270 : 3A 74               	bnz 	__LLExit 
+(1)   65/     272 : FD 00               	sdi 	0 															; set DF
+(1)   66/     274 :                     
+(1)   67/     274 :                     __LLExit:
+(1)   68/     274 : 12                  	inc 	r2 															; throw stacked values.
+(1)   69/     275 : 12                  	inc 	r2
+(1)   70/     276 : 12                  	inc 	r2 															; return from subroutine.
+(1)   71/     277 : (MACRO)             	return 
+(1)   71/     277 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
+(1)   72/     278 :                     
+(1)   73/     278 :                     ; ***************************************************************************************************************
+(1)   74/     278 :                     ;
+(1)   75/     278 :                     ;				Delete program line at rParam2 (address), breaks rSubPC, rParenthesisLevel
+(1)   76/     278 :                     ;
+(1)   77/     278 :                     ; ***************************************************************************************************************
+(1)   78/     278 :                     
+(1)   79/     278 :                     DeleteLine:
+(1)   80/     278 : EF                  	sex 	rParam2 													; (X) is the offset
+(1)   81/     279 :                     
+(1)   82/     279 : 8F                  	glo 	rParam2 
+(1)   83/     27A : AA                  	plo 	rParenthesisLevel
+(1)   84/     27B : F4                  	add
+(1)   85/     27C : AD                  	plo 	rSubPC 														; copy from rSubPC to rParenthesisLevel
+(1)   86/     27D : 9F                  	ghi 	rParam2
+(1)   87/     27E : BA                  	phi 	rParenthesisLevel
+(1)   88/     27F : 7C 00               	adci 	0
+(1)   89/     281 : BD                  	phi 	rSubPC
+(1)   90/     282 :                     
+(1)   91/     282 : F8 4C               	ldi 	('&' & 03Fh) * 2 											; point rVarPtr to the end of memory.
+(1)   92/     284 : A6                  	plo 	rVarPtr
+(1)   93/     285 : E6                  	sex 	rVarPtr
+(1)   94/     286 :                     
+(1)   95/     286 : 2D                  	dec 	rSubPC
+(1)   96/     287 : 2A                  	dec 	rParenthesisLevel
+(1)   97/     288 :                     __DeleteLoop:
+(1)   98/     288 : 1A                  	inc 	rParenthesisLevel 											; copy one byte over.
+(1)   99/     289 : 1D                  	inc 	rSubPC
+(1)  100/     28A : 0D                  	ldn 	rSubPC
+(1)  101/     28B : 5A                  	str 	rParenthesisLevel
+(1)  102/     28C : F8 00               	ldi 	0 															; clear newly cleared memory (not really required)
+(1)  103/     28E : 5D                  	str 	rSubPC
+(1)  104/     28F : 8D                  	glo 	rSubPC 														; loop back if not at end
+(1)  105/     290 : F3                  	xor
+(1)  106/     291 : 3A 88               	bnz 	__DeleteLoop
+(1)  107/     293 : 16                  	inc 	rVarPtr
+(1)  108/     294 : 9D                  	ghi 	rSubPC 														; source reached program top ?
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 17 - 17/1/2017 17:33:14
 
 
-(1)   42/     289 : 33 9A               	bdf 	__LLFound 													; if DF set is >= so this is the find point.
-(1)   43/     28B :                     
-(1)   44/     28B : 2F                  	dec 	rParam2 													; point rParam2 back to the offset address
-(1)   45/     28C : 2F                  	dec 	rParam2
-(1)   46/     28D : 0F                  	ldn 	rParam2 													; read offset
-(1)   47/     28E : 22                  	dec 	r2 															; save on stack.
-(1)   48/     28F : 52                  	str 	r2 												
-(1)   49/     290 : 8F                  	glo 	rParam2 													; add to position.
-(1)   50/     291 : F4                  	add
-(1)   51/     292 : AF                  	plo 	rParam2
-(1)   52/     293 : 9F                  	ghi 	rParam2
-(1)   53/     294 : 7C 00               	adci 	0
-(1)   54/     296 : BF                  	phi 	rParam2
-(1)   55/     297 : 12                  	inc 	r2 															; drop stacked value.
-(1)   56/     298 : 30 7C               	br 		__LLSearch 													; and go to the next one.
-(1)   57/     29A :                     
-(1)   58/     29A :                     __LLFound: 																; found answer, DF set. 
-(1)   59/     29A : 2F                  	dec 	rParam2 													; point back to the link.
-(1)   60/     29B : 2F                  	dec 	rParam2
-(1)   61/     29C : FC 00               	adi 	0 															; clear DF.
-(1)   62/     29E : 3A A5               	bnz 	__LLExit 													; if results non-zero return DF = 0
-(1)   63/     2A0 : 86                  	glo 	rVarPtr 													
-(1)   64/     2A1 : 3A A5               	bnz 	__LLExit 
-(1)   65/     2A3 : FD 00               	sdi 	0 															; set DF
-(1)   66/     2A5 :                     
-(1)   67/     2A5 :                     __LLExit:
-(1)   68/     2A5 : 12                  	inc 	r2 															; throw stacked values.
-(1)   69/     2A6 : 12                  	inc 	r2
-(1)   70/     2A7 : 12                  	inc 	r2 															; return from subroutine.
-(1)   71/     2A8 : (MACRO)             	return 
-(1)   71/     2A8 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
-(1)   72/     2A9 :                     
-(1)   73/     2A9 :                     ; ***************************************************************************************************************
-(1)   74/     2A9 :                     ;
-(1)   75/     2A9 :                     ;				Delete program line at rParam2 (address), breaks rSubPC, rParenthesisLevel
-(1)   76/     2A9 :                     ;
-(1)   77/     2A9 :                     ; ***************************************************************************************************************
-(1)   78/     2A9 :                     
-(1)   79/     2A9 :                     DeleteLine:
-(1)   80/     2A9 : EF                  	sex 	rParam2 													; (X) is the offset
-(1)   81/     2AA :                     
-(1)   82/     2AA : 8F                  	glo 	rParam2 
-(1)   83/     2AB : AA                  	plo 	rParenthesisLevel
-(1)   84/     2AC : F4                  	add
-(1)   85/     2AD : AD                  	plo 	rSubPC 														; copy from rSubPC to rParenthesisLevel
-(1)   86/     2AE : 9F                  	ghi 	rParam2
-(1)   87/     2AF : BA                  	phi 	rParenthesisLevel
-(1)   88/     2B0 : 7C 00               	adci 	0
-(1)   89/     2B2 : BD                  	phi 	rSubPC
-(1)   90/     2B3 :                     
-(1)   91/     2B3 : F8 4C               	ldi 	('&' & 03Fh) * 2 											; point rVarPtr to the end of memory.
-(1)   92/     2B5 : A6                  	plo 	rVarPtr
-(1)   93/     2B6 : E6                  	sex 	rVarPtr
-(1)   94/     2B7 :                     
-(1)   95/     2B7 : 2D                  	dec 	rSubPC
-(1)   96/     2B8 : 2A                  	dec 	rParenthesisLevel
-(1)   97/     2B9 :                     __DeleteLoop:
-(1)   98/     2B9 : 1A                  	inc 	rParenthesisLevel 											; copy one byte over.
-(1)   99/     2BA : 1D                  	inc 	rSubPC
-(1)  100/     2BB : 0D                  	ldn 	rSubPC
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 18 - 15/1/2017 18:19:44
+(1)  109/     295 : F3                  	xor
+(1)  110/     296 : 26                  	dec 	rVarPtr
+(1)  111/     297 : 3A 88               	bnz 	__DeleteLoop 												
+(1)  112/     299 :                     
+(1)  113/     299 : 8A                  	glo 	rParenthesisLevel 											; update top of program.
+(1)  114/     29A : 56                  	str 	rVarPtr
+(1)  115/     29B : 16                  	inc 	rVarPtr
+(1)  116/     29C : 9A                  	ghi 	rParenthesisLevel
+(1)  117/     29D : 56                  	str 	rVarPtr
+(1)  118/     29E :                     
+(1)  119/     29E : E2                  	sex 	r2
+(1)  120/     29F : 12                  	inc 	r2
+(1)  121/     2A0 : (MACRO)             	return	
+(1)  121/     2A0 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
+(1)  122/     2A1 :                     
+(1)  123/     2A1 :                     ; ***************************************************************************************************************
+(1)  124/     2A1 :                     ;
+(1)  125/     2A1 :                     ;					Insert line at rParam2, rSrc line Number, rParam1 text to insert.
+(1)  126/     2A1 :                     ;
+(1)  127/     2A1 :                     ; ***************************************************************************************************************
+(1)  128/     2A1 :                     
+(1)  129/     2A1 :                     InsertLine:
+(1)  130/     2A1 : E2                  	sex 	r2
+(1)  131/     2A2 :                     
+(1)  132/     2A2 : 8E                  	glo 	rParam1 													; find how much space.
+(1)  133/     2A3 : AD                  	plo 	rSubPC
+(1)  134/     2A4 : 9E                  	ghi 	rParam1
+(1)  135/     2A5 : BD                  	phi 	rSubPC
+(1)  136/     2A6 : F8 03               	ldi 	3 															; 3 + length of string including ASCIIZ.
+(1)  137/     2A8 : 52                  	str 	r2 															; as we are going to copy offset, lsb number, msb number
+(1)  138/     2A9 :                     __ILLength:
+(1)  139/     2A9 : 02                  	ldn 	r2
+(1)  140/     2AA : FC 01               	adi 	1
+(1)  141/     2AC : 52                  	str 	r2
+(1)  142/     2AD : 4D                  	lda 	rSubPC
+(1)  143/     2AE : 3A A9               	bnz 	__ILLength
+(1)  144/     2B0 :                     
+(1)  145/     2B0 :                     
+(1)  146/     2B0 : F8 4C               	ldi 	('&' & 03Fh) * 2 											; point rVarPtr to the end of memory.
+(1)  147/     2B2 : A6                  	plo 	rVarPtr
+(1)  148/     2B3 :                     
+(1)  149/     2B3 : 46                  	lda 	rVarPtr 													; put end of program in rSubPC (copy from) rParenthesisLevel (copy to)
+(1)  150/     2B4 : AD                  	plo 	rSubPC
+(1)  151/     2B5 : F4                  	add 																; adding the adjustment as we go.
+(1)  152/     2B6 : AA                  	plo 	rParenthesisLevel
+(1)  153/     2B7 :                     
+(1)  154/     2B7 : 06                  	ldn 	rVarPtr
+(1)  155/     2B8 : BD                  	phi 	rSubPC
+(1)  156/     2B9 : 7C 00               	adci 	0
+(1)  157/     2BB : BA                  	phi 	rParenthesisLevel
+(1)  158/     2BC :                     
+(1)  159/     2BC : 56                  	str 	rVarPtr 													; write back the new top of program.
+(1)  160/     2BD : 8A                  	glo 	rParenthesisLevel
+(1)  161/     2BE : 26                  	dec 	rVarPtr
+(1)  162/     2BF : 56                  	str 	rVarPtr
+(1)  163/     2C0 :                     
+(1)  164/     2C0 :                     __ILInsert:
+(1)  165/     2C0 : 0D                  	ldn 	rSubPC 														; copy it.
+(1)  166/     2C1 : 5A                  	str 	rParenthesisLevel
+(1)  167/     2C2 : F8 FF               	ldi 	0FFh 														; write $FF to original position.
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 18 - 17/1/2017 17:33:14
 
 
-(1)  101/     2BC : 5A                  	str 	rParenthesisLevel
-(1)  102/     2BD : F8 00               	ldi 	0 															; clear newly cleared memory (not really required)
-(1)  103/     2BF : 5D                  	str 	rSubPC
-(1)  104/     2C0 : 8D                  	glo 	rSubPC 														; loop back if not at end
-(1)  105/     2C1 : F3                  	xor
-(1)  106/     2C2 : 3A B9               	bnz 	__DeleteLoop
-(1)  107/     2C4 : 16                  	inc 	rVarPtr
-(1)  108/     2C5 : 9D                  	ghi 	rSubPC 														; source reached program top ?
-(1)  109/     2C6 : F3                  	xor
-(1)  110/     2C7 : 26                  	dec 	rVarPtr
-(1)  111/     2C8 : 3A B9               	bnz 	__DeleteLoop 												
-(1)  112/     2CA :                     
-(1)  113/     2CA : 8A                  	glo 	rParenthesisLevel 											; update top of program.
-(1)  114/     2CB : 56                  	str 	rVarPtr
-(1)  115/     2CC : 16                  	inc 	rVarPtr
-(1)  116/     2CD : 9A                  	ghi 	rParenthesisLevel
-(1)  117/     2CE : 56                  	str 	rVarPtr
-(1)  118/     2CF :                     
-(1)  119/     2CF : E2                  	sex 	r2
-(1)  120/     2D0 : 12                  	inc 	r2
-(1)  121/     2D1 : (MACRO)             	return	
-(1)  121/     2D1 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
-(1)  122/     2D2 :                     
-      59/     2D2 :                     	align 	256
-      60/     300 :                     
-      61/     300 :                     ; ***************************************************************************************************************
-      62/     300 :                     ;
-      63/     300 :                     ;												Initialisation
-      64/     300 :                     ;
-      65/     300 :                     ; ***************************************************************************************************************
-      66/     300 :                     
-      67/     300 :                     Initialise:
-      68/     300 : (MACRO)             	lrx 	r2,0FFFFh 													; find top of memory for stack & vartop.
-      68/     300 : F8 FF                       ldi     (0FFFFH)/256
-      68/     302 : B2                          phi     R2
-      68/     303 : F8 FF                       ldi     (0FFFFH)&255
-      68/     305 : A2                          plo     R2
-      69/     306 : E2                  	sex 	r2 															; this won't work with mirrored memory.
-      70/     307 :                     findRAMTop:
-      71/     307 : F8 5A               	ldi 	05Ah 														; write this and re-read it.
-      72/     309 : 52                  	str 	r2 													
-      73/     30A : 02                  	ldn 	r2	
-      74/     30B : FB 5A               	xri 	05Ah 														; check the write actually worked.
-      75/     30D : 32 15               	bz		foundRAMTop
-      76/     30F : 92                  	ghi 	r2
-      77/     310 : FF 01               	smi 	1
-      78/     312 : B2                  	phi 	r2
-      79/     313 : 30 07               	br 		findRAMTop 
-      80/     315 :                     foundRAMTop:
-      81/     315 : F8 55               	ldi 	('*' & 03Fh) * 2 + 1 										; set up rVarPtr.0 so it will point to MSB of RAMTop.
-      82/     317 : A6                  	plo 	rVarPtr
-      83/     318 : 92                  	ghi 	r2 															; use the top page of RAM for the variables + keyboard buffer
-      84/     319 : B6                  	phi 	rVarPtr
-      85/     31A : FF 01               	smi 	1 															; and the page below that is the stack.
-      86/     31C : B2                  	phi 	r2
-      87/     31D : 56                  	str 	rVarPtr 													; save in RAMTop MSB
-      88/     31E : 26                  	dec 	rVarPtr
-      89/     31F : F8 00               	ldi 	0 															; zero RAMTop LSB
-      90/     321 : 56                  	str 	rVarPtr
-      91/     322 :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 19 - 15/1/2017 18:19:44
+(1)  168/     2C4 : 5D                  	str 	rSubPC
+(1)  169/     2C5 : 2D                  	dec 	rSubPC 														; decrement
+(1)  170/     2C6 : 2A                  	dec 	rParenthesisLevel
+(1)  171/     2C7 :                     
+(1)  172/     2C7 : 0F                  	ldn 	rParam2 													; has the initial write point been overwritten ?
+(1)  173/     2C8 : FB FF               	xri 	0FFh
+(1)  174/     2CA : 3A C0               	bnz 	__ILInsert
+(1)  175/     2CC :                     
+(1)  176/     2CC : 02                  	ldn 	r2 															; read bytes to copy - the offset.
+(1)  177/     2CD : 5F                  	str 	rParam2
+(1)  178/     2CE : 1F                  	inc 	rParam2
+(1)  179/     2CF : 88                  	glo 	rSrc 														; write line# LSB
+(1)  180/     2D0 : 5F                  	str 	rParam2
+(1)  181/     2D1 : 1F                  	inc 	rParam2
+(1)  182/     2D2 : 98                  	ghi 	rSrc 														; write line# MSB
+(1)  183/     2D3 : 5F                  	str 	rParam2
+(1)  184/     2D4 : 1F                  	inc 	rParam2
+(1)  185/     2D5 :                     
+(1)  186/     2D5 :                     __ILCopy: 																; copy text of line.
+(1)  187/     2D5 : 4E                  	lda 	rParam1
+(1)  188/     2D6 : 5F                  	str 	rParam2
+(1)  189/     2D7 : 1F                  	inc 	rParam2
+(1)  190/     2D8 : 3A D5               	bnz 	__ILCopy
+(1)  191/     2DA :                     
+(1)  192/     2DA : 12                  	inc 	r2
+(1)  193/     2DB : (MACRO)             	return	
+(1)  193/     2DB : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
+(1)  194/     2DC :                     
+      58/     2DC :                     	align 	256
+      59/     300 :                     
+      60/     300 :                     ; ***************************************************************************************************************
+      61/     300 :                     ;
+      62/     300 :                     ;												Initialisation
+      63/     300 :                     ;
+      64/     300 :                     ; ***************************************************************************************************************
+      65/     300 :                     
+      66/     300 :                     Initialise:
+      67/     300 : (MACRO)             	lrx 	r2,0FFFFh 													; find top of memory for stack & vartop.
+      67/     300 : F8 FF                       ldi     (0FFFFH)/256
+      67/     302 : B2                          phi     R2
+      67/     303 : F8 FF                       ldi     (0FFFFH)&255
+      67/     305 : A2                          plo     R2
+      68/     306 : E2                  	sex 	r2 															; this won't work with mirrored memory.
+      69/     307 :                     findRAMTop:
+      70/     307 : F8 5A               	ldi 	05Ah 														; write this and re-read it.
+      71/     309 : 52                  	str 	r2 													
+      72/     30A : 02                  	ldn 	r2	
+      73/     30B : FB 5A               	xri 	05Ah 														; check the write actually worked.
+      74/     30D : 32 15               	bz		foundRAMTop
+      75/     30F : 92                  	ghi 	r2
+      76/     310 : FF 01               	smi 	1
+      77/     312 : B2                  	phi 	r2
+      78/     313 : 30 07               	br 		findRAMTop 
+      79/     315 :                     foundRAMTop:
+      80/     315 : F8 55               	ldi 	('*' & 03Fh) * 2 + 1 										; set up rVarPtr.0 so it will point to MSB of RAMTop.
+      81/     317 : A6                  	plo 	rVarPtr
+      82/     318 : 92                  	ghi 	r2 															; use the top page of RAM for the variables + keyboard buffer
+      83/     319 : B6                  	phi 	rVarPtr
+      84/     31A : FF 01               	smi 	1 															; and the page below that is the stack.
+      85/     31C : B2                  	phi 	r2
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 19 - 17/1/2017 17:33:14
 
 
-      92/     322 : F8 4C               	ldi 	('&' & 03Fh) * 2  											; set program end pointer (&)
-      93/     324 : A6                  	plo 	rVarPtr
-      94/     325 : F8 59               	ldi 	(ProgramEnd & 255)
-      95/     327 : 56                  	str 	rVarPtr
-      96/     328 : 16                  	inc 	rVarPtr
-      97/     329 : F8 04               	ldi 	(ProgramEnd / 256)
-      98/     32B : 56                  	str 	rVarPtr
-      99/     32C :                     
-     100/     32C :                     ; ***************************************************************************************************************
-     101/     32C :                     ;
-     102/     32C :                     ;										OK Prompt (Come here after CMD exec, or #=0)
-     103/     32C :                     ;
-     104/     32C :                     ; ***************************************************************************************************************
-     105/     32C :                     
-     106/     32C :                     Prompt:
-     107/     32C : (MACRO)             	lrx 	rUtilPC,__PrintString 										; print Prompt
-     107/     32C : F8 03                       ldi     (__PRINTSTRING)/256
-     107/     32E : BC                          phi     RUTILPC
-     107/     32F : F8 98                       ldi     (__PRINTSTRING)&255
-     107/     331 : AC                          plo     RUTILPC
-     108/     332 : (MACRO)             	lrx 	rParam2,__Prompt
-     108/     332 : F8 03                       ldi     (__PROMPT)/256
-     108/     334 : BF                          phi     RPARAM2
-     108/     335 : F8 A6                       ldi     (__PROMPT)&255
-     108/     337 : AF                          plo     RPARAM2
-     109/     338 : DC                  	sep 	rUtilPC
-     110/     339 :                     
-     111/     339 : F8 46               	ldi 	('#' & 03Fh) * 2 											; # = 0
-     112/     33B : A6                  	plo 	rVarPtr
-     113/     33C : F8 00               	ldi 	0
-     114/     33E : 56                  	str 	rVarPtr
-     115/     33F : 16                  	inc 	rVarPtr
-     116/     340 : 56                  	str 	rVarPtr
-     117/     341 : (MACRO)             	lrx 	rSpecialHandler,SpecialHandler 								; initialise 'special handler' vector.
-     117/     341 : F8 02                       ldi     (SPECIALHANDLER)/256
-     117/     343 : B9                          phi     RSPECIALHANDLER
-     117/     344 : F8 01                       ldi     (SPECIALHANDLER)&255
-     117/     346 : A9                          plo     RSPECIALHANDLER
-     118/     347 :                     
-     119/     347 :                     ; ***************************************************************************************************************
-     120/     347 :                     ;
-     121/     347 :                     ;							Read line loop (come back here if modifying program)
-     122/     347 :                     ;
-     123/     347 :                     ; ***************************************************************************************************************
-     124/     347 :                     
-     125/     347 :                     EnterCommand:
-     126/     347 : (MACRO)             	lrx 	rUtilPC,READLine 											; input a new line.
-     126/     347 : F8 02                       ldi     (READLINE)/256
-     126/     349 : BC                          phi     RUTILPC
-     126/     34A : F8 3F                       ldi     (READLINE)&255
-     126/     34C : AC                          plo     RUTILPC
-     127/     34D : 79                  	mark
-     128/     34E : DC                  	sep 	rUtilPC
-     129/     34F : 22                  	dec 	r2
-     130/     350 :                     
-     131/     350 : (MACRO)             	lrx 	rUtilPC,ASCIIToInteger 										; see if there is a number up front
-     131/     350 : F8 01                       ldi     (ASCIITOINTEGER)/256
-     131/     352 : BC                          phi     RUTILPC
-     131/     353 : F8 B0                       ldi     (ASCIITOINTEGER)&255
-     131/     355 : AC                          plo     RUTILPC
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 20 - 15/1/2017 18:19:44
+      86/     31D : 56                  	str 	rVarPtr 													; save in RAMTop MSB
+      87/     31E : 26                  	dec 	rVarPtr
+      88/     31F : F8 00               	ldi 	0 															; zero RAMTop LSB
+      89/     321 : 56                  	str 	rVarPtr
+      90/     322 :                     
+      91/     322 : F8 4C               	ldi 	('&' & 03Fh) * 2  											; set program end pointer (&)
+      92/     324 : A6                  	plo 	rVarPtr
+      93/     325 : F8 8A               	ldi 	(ProgramEnd & 255)
+      94/     327 : 56                  	str 	rVarPtr
+      95/     328 : 16                  	inc 	rVarPtr
+      96/     329 : F8 04               	ldi 	(ProgramEnd / 256)
+      97/     32B : 56                  	str 	rVarPtr
+      98/     32C :                     
+      99/     32C :                     ; ***************************************************************************************************************
+     100/     32C :                     ;
+     101/     32C :                     ;										OK Prompt (Come here after CMD exec, or #=0)
+     102/     32C :                     ;
+     103/     32C :                     ; ***************************************************************************************************************
+     104/     32C :                     
+     105/     32C :                     Prompt:
+     106/     32C : (MACRO)             	lrx 	rUtilPC,__PrintString 										; print Prompt
+     106/     32C : F8 03                       ldi     (__PRINTSTRING)/256
+     106/     32E : BC                          phi     RUTILPC
+     106/     32F : F8 98                       ldi     (__PRINTSTRING)&255
+     106/     331 : AC                          plo     RUTILPC
+     107/     332 : (MACRO)             	lrx 	rParam2,__Prompt
+     107/     332 : F8 03                       ldi     (__PROMPT)/256
+     107/     334 : BF                          phi     RPARAM2
+     107/     335 : F8 A6                       ldi     (__PROMPT)&255
+     107/     337 : AF                          plo     RPARAM2
+     108/     338 : DC                  	sep 	rUtilPC
+     109/     339 :                     
+     110/     339 : F8 46               	ldi 	('#' & 03Fh) * 2 											; # = 0
+     111/     33B : A6                  	plo 	rVarPtr
+     112/     33C : F8 00               	ldi 	0
+     113/     33E : 56                  	str 	rVarPtr
+     114/     33F : 16                  	inc 	rVarPtr
+     115/     340 : 56                  	str 	rVarPtr
+     116/     341 : (MACRO)             	lrx 	rSpecialHandler,SpecialHandler 								; initialise 'special handler' vector.
+     116/     341 : F8 02                       ldi     (SPECIALHANDLER)/256
+     116/     343 : B9                          phi     RSPECIALHANDLER
+     116/     344 : F8 01                       ldi     (SPECIALHANDLER)&255
+     116/     346 : A9                          plo     RSPECIALHANDLER
+     117/     347 :                     
+     118/     347 :                     ; ***************************************************************************************************************
+     119/     347 :                     ;
+     120/     347 :                     ;							Read line loop (come back here if modifying program)
+     121/     347 :                     ;
+     122/     347 :                     ; ***************************************************************************************************************
+     123/     347 :                     
+     124/     347 :                     EnterCommand:
+     125/     347 : (MACRO)             	lrx 	rUtilPC,READLine 											; input a new line.
+     125/     347 : F8 04                       ldi     (READLINE)/256
+     125/     349 : BC                          phi     RUTILPC
+     125/     34A : F8 10                       ldi     (READLINE)&255
+     125/     34C : AC                          plo     RUTILPC
+     126/     34D : 79                  	mark
+     127/     34E : DC                  	sep 	rUtilPC
+     128/     34F : 22                  	dec 	r2
+     129/     350 :                     
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 20 - 17/1/2017 17:33:14
 
 
-     132/     356 : 79                  	mark
-     133/     357 : DC                  	sep 	rUtilPC
-     134/     358 : 22                  	dec 	r2 															; if there is it will be in rParam2 and D # 0, rParam1 points to first non-space
-     135/     359 :                     
-     136/     359 : 32 C7               	bz 		Execute 													; if D = 0, it is text, so execute the command in rParam1.
-     137/     35B :                     
-     138/     35B : 8F                  	glo 	rParam2 													; if rParam2 is non zero, then go to edit
-     139/     35C : 3A AA               	bnz 	Edit 														; if zero (e.g. typed line number zero) this is actually list.
-     140/     35E : 9F                  	ghi 	rParam2
-     141/     35F : 3A AA               	bnz 	Edit
-     142/     361 :                     
-     143/     361 :                     ; ***************************************************************************************************************
-     144/     361 :                     ;
-     145/     361 :                     ;												Program Listing
-     146/     361 :                     ;
-     147/     361 :                     ; ***************************************************************************************************************
-     148/     361 :                     
-     149/     361 :                     ListProgram:
-     150/     361 :                     
-     151/     361 : (MACRO)             	lrx 	rSrc,ProgramStart 											; point rSrc to the start of the program
-     151/     361 : F8 04                       ldi     (PROGRAMSTART)/256
-     151/     363 : B8                          phi     RSRC
-     151/     364 : F8 10                       ldi     (PROGRAMSTART)&255
-     151/     366 : A8                          plo     RSRC
-     152/     367 :                     __ListLoop:
-     153/     367 : 48                  	lda 	rSrc 														; read the offset link, which we don't use as a step
-     154/     368 : 32 2C               	bz 		Prompt 														; if the link is zero, we have reached the end of the program.
-     155/     36A :                     
-     156/     36A : 48                  	lda 	rSrc 														; read line number into rParam1
-     157/     36B : AE                  	plo 	rParam1 													
-     158/     36C : 48                  	lda 	rSrc
-     159/     36D : BE                  	phi 	rParam1 													
-     160/     36E :                     
-     161/     36E : 96                  	ghi 	rVarPtr 													; use keyboard buffer for conversion
-     162/     36F : BF                  	phi 	rParam2
-     163/     370 : F8 FF               	ldi 	0FFh
-     164/     372 : AF                  	plo 	rParam2
-     165/     373 : (MACRO)             	lrx 	rUtilPC,IntegerToASCII 										; and convert it to ASCII
-     165/     373 : F8 01                       ldi     (INTEGERTOASCII)/256
-     165/     375 : BC                          phi     RUTILPC
-     165/     376 : F8 59                       ldi     (INTEGERTOASCII)&255
-     165/     378 : AC                          plo     RUTILPC
-     166/     379 : 79                  	mark 	
-     167/     37A : DC                  	sep 	rUtilPC
-     168/     37B : 22                  	dec 	r2
-     169/     37C :                     
-     170/     37C : (MACRO)             	lrx 	rUtilPC,__PrintString 										; print it.
-     170/     37C : F8 03                       ldi     (__PRINTSTRING)/256
-     170/     37E : BC                          phi     RUTILPC
-     170/     37F : F8 98                       ldi     (__PRINTSTRING)&255
-     170/     381 : AC                          plo     RUTILPC
-     171/     382 : DC                  	sep 	rUtilPC
-     172/     383 :                     
-     173/     383 : F8 20               	ldi 	' '															; print a space - note this takes advantage of __PrintString
-     174/     385 : 79                  	mark 																; loading rSubPC with the XIOWriteCharacter() routine.
-     175/     386 : DD                  	sep 	rSubPC
-     176/     387 : 22                  	dec 	r2
-     177/     388 :                     
-     178/     388 : 88                  	glo 	rSrc 														; put rSrc -> rParam2 and print that.
-     179/     389 : AF                  	plo 	rParam2
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 21 - 15/1/2017 18:19:44
+     130/     350 : (MACRO)             	lrx 	rUtilPC,ASCIIToInteger 										; see if there is a number up front
+     130/     350 : F8 01                       ldi     (ASCIITOINTEGER)/256
+     130/     352 : BC                          phi     RUTILPC
+     130/     353 : F8 B0                       ldi     (ASCIITOINTEGER)&255
+     130/     355 : AC                          plo     RUTILPC
+     131/     356 : 79                  	mark
+     132/     357 : DC                  	sep 	rUtilPC
+     133/     358 : 22                  	dec 	r2 															; if there is it will be in rParam2 and D # 0, rParam1 points to first non-space
+     134/     359 :                     
+     135/     359 : 32 D0               	bz 		Execute 													; if D = 0, it is text, so execute the command in rParam1.
+     136/     35B :                     
+     137/     35B : 8F                  	glo 	rParam2 													; if rParam2 is non zero, then go to edit
+     138/     35C : 3A AA               	bnz 	Edit 														; if zero (e.g. typed line number zero) this is actually list.
+     139/     35E : 9F                  	ghi 	rParam2
+     140/     35F : 3A AA               	bnz 	Edit
+     141/     361 :                     
+     142/     361 :                     ; ***************************************************************************************************************
+     143/     361 :                     ;
+     144/     361 :                     ;												Program Listing
+     145/     361 :                     ;
+     146/     361 :                     ; ***************************************************************************************************************
+     147/     361 :                     
+     148/     361 :                     ListProgram:
+     149/     361 :                     
+     150/     361 : (MACRO)             	lrx 	rSrc,ProgramStart 											; point rSrc to the start of the program
+     150/     361 : F8 04                       ldi     (PROGRAMSTART)/256
+     150/     363 : B8                          phi     RSRC
+     150/     364 : F8 41                       ldi     (PROGRAMSTART)&255
+     150/     366 : A8                          plo     RSRC
+     151/     367 :                     __ListLoop:
+     152/     367 : 48                  	lda 	rSrc 														; read the offset link, which we don't use as a step
+     153/     368 : 32 2C               	bz 		Prompt 														; if the link is zero, we have reached the end of the program.
+     154/     36A :                     
+     155/     36A : 48                  	lda 	rSrc 														; read line number into rParam1
+     156/     36B : AE                  	plo 	rParam1 													
+     157/     36C : 48                  	lda 	rSrc
+     158/     36D : BE                  	phi 	rParam1 													
+     159/     36E :                     
+     160/     36E : 96                  	ghi 	rVarPtr 													; use keyboard buffer for conversion
+     161/     36F : BF                  	phi 	rParam2
+     162/     370 : F8 FF               	ldi 	0FFh
+     163/     372 : AF                  	plo 	rParam2
+     164/     373 : (MACRO)             	lrx 	rUtilPC,IntegerToASCII 										; and convert it to ASCII
+     164/     373 : F8 01                       ldi     (INTEGERTOASCII)/256
+     164/     375 : BC                          phi     RUTILPC
+     164/     376 : F8 59                       ldi     (INTEGERTOASCII)&255
+     164/     378 : AC                          plo     RUTILPC
+     165/     379 : 79                  	mark 	
+     166/     37A : DC                  	sep 	rUtilPC
+     167/     37B : 22                  	dec 	r2
+     168/     37C :                     
+     169/     37C : (MACRO)             	lrx 	rUtilPC,__PrintString 										; print it.
+     169/     37C : F8 03                       ldi     (__PRINTSTRING)/256
+     169/     37E : BC                          phi     RUTILPC
+     169/     37F : F8 98                       ldi     (__PRINTSTRING)&255
+     169/     381 : AC                          plo     RUTILPC
+     170/     382 : DC                  	sep 	rUtilPC
+     171/     383 :                     
+     172/     383 : F8 20               	ldi 	' '															; print a space - note this takes advantage of __PrintString
+     173/     385 : 79                  	mark 																; loading rSubPC with the XIOWriteCharacter() routine.
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 21 - 17/1/2017 17:33:14
 
 
-     180/     38A : 98                  	ghi 	rSrc
-     181/     38B : BF                  	phi 	rParam2
-     182/     38C : DC                  	sep 	rUtilPC
-     183/     38D :                     
-     184/     38D : F8 0D               	ldi 	13 															; same trick to print CR as above
-     185/     38F : 79                  	mark
-     186/     390 : DD                  	sep 	rSubPC
-     187/     391 : 22                  	dec 	r2
-     188/     392 :                     
-     189/     392 :                     __ListNext: 															; advance pointer forward and do next.
-     190/     392 : 48                  	lda 	rSrc
-     191/     393 : 3A 92               	bnz 	__ListNext
-     192/     395 : 30 67               	br 		__ListLoop
-     193/     397 :                     
-     194/     397 :                     ; ***************************************************************************************************************
-     195/     397 :                     ;
-     196/     397 :                     ;			Print String at rParam2 (ASCIIZ) , on exit leaves rSubPC set up to print a character
-     197/     397 :                     ;
-     198/     397 :                     ; ***************************************************************************************************************
-     199/     397 :                     
-     200/     397 : D3                  	sep 	r3
-     201/     398 :                     __PrintString:
-     202/     398 : (MACRO)             	lrx 	rSubPC,XIOWriteCharacter 									; print character routine
-     202/     398 : F8 04                       ldi     (XIOWRITECHARACTER)/256
-     202/     39A : BD                          phi     RSUBPC
-     202/     39B : F8 09                       ldi     (XIOWRITECHARACTER)&255
-     202/     39D : AD                          plo     RSUBPC
-     203/     39E : 4F                  	lda 	rParam2
-     204/     39F : 32 97               	bz 		__PrintString-1
-     205/     3A1 : 79                  	mark
-     206/     3A2 : DD                  	sep 	rSubPC
-     207/     3A3 : 22                  	dec	 	r2
-     208/     3A4 : 30 98               	br 		__PrintString
-     209/     3A6 :                     
-     210/     3A6 :                     __Prompt: 																; VTL-2 Prompt.
-     211/     3A6 : 4F 4B 0D 00         	db 		"OK",13,0
-     212/     3AA :                     
-     213/     3AA :                     ; ***************************************************************************************************************
-     214/     3AA :                     ;
-     215/     3AA :                     ;									Edit Line rParam2, new text in rParam1
-     216/     3AA :                     ;
-     217/     3AA :                     ; ***************************************************************************************************************
-     218/     3AA :                     
-     219/     3AA :                     Edit: 																	; edit line - number in rParam2, new text in rParam1.
-     220/     3AA : 8F                  	glo 	rParam2 													; save line number in rSrc
-     221/     3AB : A8                  	plo 	rSrc
-     222/     3AC : 9F                  	ghi 	rParam2
-     223/     3AD : B8                  	phi 	rSrc
-     224/     3AE : (MACRO)             	lrx 	rUtilPC,LocateLine 											; find the line.
-     224/     3AE : F8 02                       ldi     (LOCATELINE)/256
-     224/     3B0 : BC                          phi     RUTILPC
-     224/     3B1 : F8 70                       ldi     (LOCATELINE)&255
-     224/     3B3 : AC                          plo     RUTILPC
-     225/     3B4 : 79                  	mark 
-     226/     3B5 : DC                  	sep 	rUtilPC
-     227/     3B6 : 22                  	dec 	r2
-     228/     3B7 : 3B C2               	bnf 	__DontDelete 												; if DF = 0 not found line to delete.
-     229/     3B9 :                     
-     230/     3B9 : (MACRO)             	lrx 	rUtilPC,DeleteLine 											; Delete line (address in rParam2)
-     230/     3B9 : F8 02                       ldi     (DELETELINE)/256
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 22 - 15/1/2017 18:19:44
+     174/     386 : DD                  	sep 	rSubPC
+     175/     387 : 22                  	dec 	r2
+     176/     388 :                     
+     177/     388 : 88                  	glo 	rSrc 														; put rSrc -> rParam2 and print that.
+     178/     389 : AF                  	plo 	rParam2
+     179/     38A : 98                  	ghi 	rSrc
+     180/     38B : BF                  	phi 	rParam2
+     181/     38C : DC                  	sep 	rUtilPC
+     182/     38D :                     
+     183/     38D : F8 0D               	ldi 	13 															; same trick to print CR as above
+     184/     38F : 79                  	mark
+     185/     390 : DD                  	sep 	rSubPC
+     186/     391 : 22                  	dec 	r2
+     187/     392 :                     
+     188/     392 :                     __ListNext: 															; advance pointer forward and do next.
+     189/     392 : 48                  	lda 	rSrc
+     190/     393 : 3A 92               	bnz 	__ListNext
+     191/     395 : 30 67               	br 		__ListLoop
+     192/     397 :                     
+     193/     397 :                     ; ***************************************************************************************************************
+     194/     397 :                     ;
+     195/     397 :                     ;			Print String at rParam2 (ASCIIZ) , on exit leaves rSubPC set up to print a character
+     196/     397 :                     ;
+     197/     397 :                     ; ***************************************************************************************************************
+     198/     397 :                     
+     199/     397 : D3                  	sep 	r3
+     200/     398 :                     __PrintString:
+     201/     398 : (MACRO)             	lrx 	rSubPC,XIOWriteCharacter 									; print character routine
+     201/     398 : F8 04                       ldi     (XIOWRITECHARACTER)/256
+     201/     39A : BD                          phi     RSUBPC
+     201/     39B : F8 09                       ldi     (XIOWRITECHARACTER)&255
+     201/     39D : AD                          plo     RSUBPC
+     202/     39E : 4F                  	lda 	rParam2
+     203/     39F : 32 97               	bz 		__PrintString-1
+     204/     3A1 : 79                  	mark
+     205/     3A2 : DD                  	sep 	rSubPC
+     206/     3A3 : 22                  	dec	 	r2
+     207/     3A4 : 30 98               	br 		__PrintString
+     208/     3A6 :                     
+     209/     3A6 :                     __Prompt: 																; VTL-2 Prompt.
+     210/     3A6 : 4F 4B 0D 00         	db 		"OK",13,0
+     211/     3AA :                     
+     212/     3AA :                     ; ***************************************************************************************************************
+     213/     3AA :                     ;
+     214/     3AA :                     ;									Edit Line rParam2, new text in rParam1
+     215/     3AA :                     ;
+     216/     3AA :                     ; ***************************************************************************************************************
+     217/     3AA :                     
+     218/     3AA :                     Edit: 																	; edit line - number in rParam2, new text in rParam1.
+     219/     3AA : 8F                  	glo 	rParam2 													; save line number in rSrc
+     220/     3AB : A8                  	plo 	rSrc
+     221/     3AC : 9F                  	ghi 	rParam2
+     222/     3AD : B8                  	phi 	rSrc
+     223/     3AE : (MACRO)             	lrx 	rUtilPC,LocateLine 											; find the line.
+     223/     3AE : F8 02                       ldi     (LOCATELINE)/256
+     223/     3B0 : BC                          phi     RUTILPC
+     223/     3B1 : F8 3F                       ldi     (LOCATELINE)&255
+     223/     3B3 : AC                          plo     RUTILPC
+     224/     3B4 : 79                  	mark 
+     225/     3B5 : DC                  	sep 	rUtilPC
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 22 - 17/1/2017 17:33:14
 
 
-     230/     3BB : BC                          phi     RUTILPC
-     230/     3BC : F8 A9                       ldi     (DELETELINE)&255
-     230/     3BE : AC                          plo     RUTILPC
-     231/     3BF : 79                  	mark 
-     232/     3C0 : DC                  	sep 	rUtilPC
-     233/     3C1 : 22                  	dec 	r2
+     226/     3B6 : 22                  	dec 	r2
+     227/     3B7 : 3B C2               	bnf 	__DontDelete 												; if DF = 0 not found line to delete.
+     228/     3B9 :                     
+     229/     3B9 : (MACRO)             	lrx 	rUtilPC,DeleteLine 											; Delete line (address in rParam2)
+     229/     3B9 : F8 02                       ldi     (DELETELINE)/256
+     229/     3BB : BC                          phi     RUTILPC
+     229/     3BC : F8 78                       ldi     (DELETELINE)&255
+     229/     3BE : AC                          plo     RUTILPC
+     230/     3BF : 79                  	mark 
+     231/     3C0 : DC                  	sep 	rUtilPC
+     232/     3C1 : 22                  	dec 	r2
+     233/     3C2 :                     
      234/     3C2 :                     
-     235/     3C2 :                     __DontDelete:
-     236/     3C2 : 0E                  	ldn 	rParam1  													; look at first not space character
-     237/     3C3 : 32 47               	bz 		EnterCommand 												; if zero, it's delete only.
-     238/     3C5 :                     	;
-     239/     3C5 :                     	;	Insert line at rParam2, rSrc line Number, rParam1 text to insert.
-     240/     3C5 :                     	;
-     241/     3C5 : 30 C5               w1:	br w1
-     242/     3C7 :                     
-     243/     3C7 :                     Execute:
-     244/     3C7 :                     	; do it. look for side effects, #=n goes into a different routine which runs code.
-     245/     3C7 : 30 C7               	br 	Execute
-     246/     3C9 :                     
-     247/     3C9 :                     	align 	256
-     248/     400 :                     	include	virtualio.asm 												; I/O routines that are hardware specific.
+     235/     3C2 :                     
+     236/     3C2 :                     __DontDelete:
+     237/     3C2 : 0E                  	ldn 	rParam1  													; look at first not space character
+     238/     3C3 : 32 47               	bz 		EnterCommand 												; if zero, it's delete only.
+     239/     3C5 :                     
+     240/     3C5 : (MACRO)             	lrx 	rUtilPC,InsertLine 											; Insert the new line
+     240/     3C5 : F8 02                       ldi     (INSERTLINE)/256
+     240/     3C7 : BC                          phi     RUTILPC
+     240/     3C8 : F8 A1                       ldi     (INSERTLINE)&255
+     240/     3CA : AC                          plo     RUTILPC
+     241/     3CB : 79                  	mark 
+     242/     3CC : DC                  	sep 	rUtilPC
+     243/     3CD : 22                  	dec 	r2
+     244/     3CE : 30 47               	br 		EnterCommand
+     245/     3D0 :                     
+     246/     3D0 :                     
+     247/     3D0 :                     Execute:
+     248/     3D0 :                     	; do it. look for side effects, #=n goes into a different routine which runs code.
+     249/     3D0 : 30 D0               	br 	Execute
+     250/     3D2 :                     
+     251/     3D2 :                     	align 	256
+     252/     400 :                     	include	virtualio.asm 												; I/O routines that are hardware specific.
 (1)    1/     400 :                     ; ***************************************************************************************************************
 (1)    2/     400 :                     ; ***************************************************************************************************************
 (1)    3/     400 :                     ;
@@ -1370,6 +1384,9 @@
 (1)   23/     400 :                     ; ***************************************************************************************************************
 (1)   24/     400 :                     
 (1)   25/     400 : (MACRO)             	return
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(virtualio.asm) - page 23 - 17/1/2017 17:33:14
+
+
 (1)   25/     400 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
 (1)   26/     401 :                     XIOGetKey:
 (1)   27/     401 : E2                  	sex 	r2 															; fix up after Mark.
@@ -1384,9 +1401,6 @@
 (1)   36/     408 :                     ;
 (1)   37/     408 :                     ; ***************************************************************************************************************
 (1)   38/     408 :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(virtualio.asm) - page 23 - 15/1/2017 18:19:44
-
-
 (1)   39/     408 : (MACRO)             	return
 (1)   39/     408 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
 (1)   40/     409 :                     XIOWriteCharacter:
@@ -1396,88 +1410,160 @@
 (1)   44/     40C : 22                  	dec 	r2
 (1)   45/     40D : 12                  	inc 	r2
 (1)   46/     40E : 30 08               	br 		XIOWriteCharacter-1
-     249/     410 :                     
-     250/     410 :                     
-     251/     410 :                     
-     252/     410 :                     
-     253/     410 :                     ; ***************************************************************************************************************
-     254/     410 :                     ;
-     255/     410 :                     ;												VTL-2 Code, test 
-     256/     410 :                     ;
-     257/     410 :                     ; ***************************************************************************************************************
-     258/     410 :                     
-     259/     410 :                     vtl macro line,code 													; creating VTL-2 code in line.
-     260/     410 :                     startLine:
-     261/     410 :                     	db 		endLine-startLine 											; +0 offset to next
-     262/     410 :                     	db 		line & 255,line / 256 										; +1,+2 line number
-     263/     410 :                     	db 		code,0 														; ASCIIZ line.
-     264/     410 :                     endLine:	
-     265/     410 :                     	endm
-     266/     410 :                     
-     267/     410 :                     ProgramStart:
-     268/     410 : (MACRO)             	vtl 	10,"A=42) this is a comment"
-     268/     410 :                     startLine:
-     268/     410 : 1B                          db              endLine-startLine                                                                                       ; +0 offset to next
-     268/     411 : 0A 00                       db              10 & 255,10 / 256                                                                           ; +1,+2 10 number
-     268/     413 : 41 3D 34 32 29 20           db              "A=42) this is a comment",0                                                                                                          ; ASCIIZ 10.
+     253/     410 :                     	include readline.asm 												; line input routine.
+(1)    1/     410 :                     ; ***************************************************************************************************************
+(1)    2/     410 :                     ; ***************************************************************************************************************
+(1)    3/     410 :                     ;
+(1)    4/     410 :                     ;		File:		readline.asm
+(1)    5/     410 :                     ;		Purpose:	Read an input line
+(1)    6/     410 :                     ;		Author:		Paul Robson (paul@robsons.org.uk)
+(1)    7/     410 :                     ;		Date:		14th January 2017.
+(1)    8/     410 :                     ;
+(1)    9/     410 :                     ; ***************************************************************************************************************
+(1)   10/     410 :                     ; ***************************************************************************************************************
+(1)   11/     410 :                     
+(1)   12/     410 :                     ; ***************************************************************************************************************
+(1)   13/     410 :                     ;
+(1)   14/     410 :                     ;						Read Line in from Keyboard, returns address in rParam1
+(1)   15/     410 :                     ;
+(1)   16/     410 :                     ; ***************************************************************************************************************
+(1)   17/     410 :                     
+(1)   18/     410 :                     READLine:
+(1)   19/     410 : F8 7F               	ldi 	7Fh 														; set up rParam1 to point to the string.
+(1)   20/     412 : AE                  	plo 	rParam1
+(1)   21/     413 : 96                  	ghi 	rVarPtr
+(1)   22/     414 : BE                  	phi 	rParam1
+(1)   23/     415 :                     
+(1)   24/     415 :                     __RLLNextCharacter:
+(1)   25/     415 : 1E                  	inc 	rParam1
+(1)   26/     416 :                     __RLLLoop:
+(1)   27/     416 : E2                  	sex 	r2 															; use R2 as index
+(1)   28/     417 : (MACRO)             	lrx 	rSubPC,XIOGetKey 											; call get key routine.
+(1)   28/     417 : F8 04                       ldi     (XIOGETKEY)/256
+(1)   28/     419 : BD                          phi     RSUBPC
+(1)   28/     41A : F8 01                       ldi     (XIOGETKEY)&255
+(1)   28/     41C : AD                          plo     RSUBPC
+(1)   29/     41D : 79                  	mark 	
+(1)   30/     41E : DD                  	sep 	rSubPC
+(1)   31/     41F : 22                  	dec 	r2
+(1)   32/     420 : 5E                  	str 	rParam1	 													; save in text buffer.
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(readline.asm) - page 24 - 17/1/2017 17:33:14
+
+
+(1)   33/     421 :                     
+(1)   34/     421 : (MACRO)             	lrx 	rSubPC,XIOWriteCharacter
+(1)   34/     421 : F8 04                       ldi     (XIOWRITECHARACTER)/256
+(1)   34/     423 : BD                          phi     RSUBPC
+(1)   34/     424 : F8 09                       ldi     (XIOWRITECHARACTER)&255
+(1)   34/     426 : AD                          plo     RSUBPC
+(1)   35/     427 : 0E                  	ldn 	rParam1
+(1)   36/     428 : 79                  	mark
+(1)   37/     429 : DD                  	sep 	rSubPC
+(1)   38/     42A : 22                  	dec 	r2
+(1)   39/     42B :                     
+(1)   40/     42B : 0E                  	ldn 	rParam1
+(1)   41/     42C : FB 08               	xri 	8 															; Ctl+H
+(1)   42/     42E : 32 3A               	bz 		__RLLPrevCharacter 											; get previous character
+(1)   43/     430 : FB 05               	xri 	13!8 														; is it CR ?
+(1)   44/     432 : 3A 15               	bnz 	__RLLNextCharacter 											; no go around again
+(1)   45/     434 :                     __RLLExit:
+(1)   46/     434 : 5E                  	str 	rParam1 													; save the zero in rVarPtr making string ASCIIZ.
+(1)   47/     435 : F8 80               	ldi 	80h 														; point rParam1 to the start of the string.
+(1)   48/     437 : AE                  	plo 	rParam1
+(1)   49/     438 : 12                  	inc 	r2 															; and exit.
+(1)   50/     439 : (MACRO)             	return
+(1)   50/     439 : 71                          dis                                                                                                                             ; this program uses MARK-subroutines
+(1)   51/     43A :                     
+(1)   52/     43A :                     __RLLPrevCharacter:
+(1)   53/     43A : 2E                  	dec 	rParam1 													; handle backspace (chr(8))
+(1)   54/     43B : 8E                  	glo 	rParam1
+(1)   55/     43C : FE                  	shl
+(1)   56/     43D : 33 16               	bdf 	__RLLLoop
+(1)   57/     43F : 30 15               	br 		__RLLNextCharacter
+(1)   58/     441 :                     
+     254/     441 :                     
+     255/     441 :                     
+     256/     441 :                     
+     257/     441 :                     
+     258/     441 :                     
+     259/     441 :                     ; ***************************************************************************************************************
+     260/     441 :                     ;
+     261/     441 :                     ;												VTL-2 Code, test 
+     262/     441 :                     ;
+     263/     441 :                     ; ***************************************************************************************************************
+     264/     441 :                     
+     265/     441 :                     vtl macro line,code 													; creating VTL-2 code in line.
+     266/     441 :                     startLine:
+     267/     441 :                     	db 		endLine-startLine 											; +0 offset to next
+     268/     441 :                     	db 		line & 255,line / 256 										; +1,+2 line number
+     269/     441 :                     	db 		code,0 														; ASCIIZ line.
+     270/     441 :                     endLine:	
+     271/     441 :                     	endm
+     272/     441 :                     
+     273/     441 :                     ProgramStart:
+     274/     441 : (MACRO)             	vtl 	10,"A=42) this is a comment"
+     274/     441 :                     startLine:
+     274/     441 : 1B                          db              endLine-startLine                                                                                       ; +0 offset to next
+     274/     442 : 0A 00                       db              10 & 255,10 / 256                                                                           ; +1,+2 10 number
+     274/     444 : 41 3D 34 32 29 20           db              "A=42) this is a comment",0                                                                                                          ; ASCIIZ 10.
                     74 68 69 73 20 69 
                     73 20 61 20 63 6F 
                     6D 6D 65 6E 74 00 
-     268/     42B :                     endLine:        
-     269/     42B : (MACRO)             	vtl 	20,"#=?"		
-     269/     42B :                     startLine:
-     269/     42B : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
-     269/     42C : 14 00                       db              20 & 255,20 / 256                                                                           ; +1,+2 20 number
-     269/     42E : 23 3D 3F 00                 db              "#=?",0                                                                                                          ; ASCIIZ 20.
-     269/     432 :                     endLine:        
-     270/     432 : (MACRO)             	vtl 	30,"?=A"
-     270/     432 :                     startLine:
-     270/     432 : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
-     270/     433 : 1E 00                       db              30 & 255,30 / 256                                                                           ; +1,+2 30 number
-     270/     435 : 3F 3D 41 00                 db              "?=A",0                                                                                                          ; ASCIIZ 30.
-     270/     439 :                     endLine:        
-     271/     439 : (MACRO)             	vtl	 	40,"a"
-     271/     439 :                     startLine:
-     271/     439 : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
-     271/     43A : 28 00                       db              40 & 255,40 / 256                                                                           ; +1,+2 40 number
-     271/     43C : 61 00                       db              "a",0                                                                                                          ; ASCIIZ 40.
-     271/     43E :                     endLine:        
-     272/     43E : (MACRO)             	vtl 	50,"b"
-     272/     43E :                     startLine:
-     272/     43E : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
-     272/     43F : 32 00                       db              50 & 255,50 / 256                                                                           ; +1,+2 50 number
-     272/     441 : 62 00                       db              "b",0                                                                                                          ; ASCIIZ 50.
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 24 - 15/1/2017 18:19:44
+     274/     45C :                     endLine:        
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 25 - 17/1/2017 17:33:14
 
 
-     272/     443 :                     endLine:        
-     273/     443 : (MACRO)             	vtl 	60,"c"
-     273/     443 :                     startLine:
-     273/     443 : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
-     273/     444 : 3C 00                       db              60 & 255,60 / 256                                                                           ; +1,+2 60 number
-     273/     446 : 63 00                       db              "c",0                                                                                                          ; ASCIIZ 60.
-     273/     448 :                     endLine:        
-     274/     448 : (MACRO)             	vtl 	1260,"z"
-     274/     448 :                     startLine:
-     274/     448 : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
-     274/     449 : EC 04                       db              1260 & 255,1260 / 256                                                                           ; +1,+2 1260 number
-     274/     44B : 7A 00                       db              "z",0                                                                                                          ; ASCIIZ 1260.
-     274/     44D :                     endLine:        
-     275/     44D : (MACRO)             	vtl 	32260,"zz"
-     275/     44D :                     startLine:
-     275/     44D : 06                          db              endLine-startLine                                                                                       ; +0 offset to next
-     275/     44E : 04 7E                       db              32260 & 255,32260 / 256                                                                           ; +1,+2 32260 number
-     275/     450 : 7A 7A 00                    db              "zz",0                                                                                                          ; ASCIIZ 32260.
-     275/     453 :                     endLine:        
-     276/     453 : (MACRO)             	vtl 	40000,"qq"
-     276/     453 :                     startLine:
-     276/     453 : 06                          db              endLine-startLine                                                                                       ; +0 offset to next
-     276/     454 : 40 9C                       db              40000 & 255,40000 / 256                                                                           ; +1,+2 40000 number
-     276/     456 : 71 71 00                    db              "qq",0                                                                                                          ; ASCIIZ 40000.
-     276/     459 :                     endLine:        
-     277/     459 :                     ProgramEnd:	
-     278/     459 : 00                  	db 		0
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 25 - 15/1/2017 18:19:44
+     275/     45C : (MACRO)             	vtl 	20,"#=?"		
+     275/     45C :                     startLine:
+     275/     45C : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
+     275/     45D : 14 00                       db              20 & 255,20 / 256                                                                           ; +1,+2 20 number
+     275/     45F : 23 3D 3F 00                 db              "#=?",0                                                                                                          ; ASCIIZ 20.
+     275/     463 :                     endLine:        
+     276/     463 : (MACRO)             	vtl 	30,"?=A"
+     276/     463 :                     startLine:
+     276/     463 : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
+     276/     464 : 1E 00                       db              30 & 255,30 / 256                                                                           ; +1,+2 30 number
+     276/     466 : 3F 3D 41 00                 db              "?=A",0                                                                                                          ; ASCIIZ 30.
+     276/     46A :                     endLine:        
+     277/     46A : (MACRO)             	vtl	 	40,"a"
+     277/     46A :                     startLine:
+     277/     46A : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
+     277/     46B : 28 00                       db              40 & 255,40 / 256                                                                           ; +1,+2 40 number
+     277/     46D : 61 00                       db              "a",0                                                                                                          ; ASCIIZ 40.
+     277/     46F :                     endLine:        
+     278/     46F : (MACRO)             	vtl 	50,"b"
+     278/     46F :                     startLine:
+     278/     46F : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
+     278/     470 : 32 00                       db              50 & 255,50 / 256                                                                           ; +1,+2 50 number
+     278/     472 : 62 00                       db              "b",0                                                                                                          ; ASCIIZ 50.
+     278/     474 :                     endLine:        
+     279/     474 : (MACRO)             	vtl 	60,"c"
+     279/     474 :                     startLine:
+     279/     474 : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
+     279/     475 : 3C 00                       db              60 & 255,60 / 256                                                                           ; +1,+2 60 number
+     279/     477 : 63 00                       db              "c",0                                                                                                          ; ASCIIZ 60.
+     279/     479 :                     endLine:        
+     280/     479 : (MACRO)             	vtl 	1260,"z"
+     280/     479 :                     startLine:
+     280/     479 : 05                          db              endLine-startLine                                                                                       ; +0 offset to next
+     280/     47A : EC 04                       db              1260 & 255,1260 / 256                                                                           ; +1,+2 1260 number
+     280/     47C : 7A 00                       db              "z",0                                                                                                          ; ASCIIZ 1260.
+     280/     47E :                     endLine:        
+     281/     47E : (MACRO)             	vtl 	32260,"zz"
+     281/     47E :                     startLine:
+     281/     47E : 06                          db              endLine-startLine                                                                                       ; +0 offset to next
+     281/     47F : 04 7E                       db              32260 & 255,32260 / 256                                                                           ; +1,+2 32260 number
+     281/     481 : 7A 7A 00                    db              "zz",0                                                                                                          ; ASCIIZ 32260.
+     281/     484 :                     endLine:        
+     282/     484 : (MACRO)             	vtl 	40000,"qq"
+     282/     484 :                     startLine:
+     282/     484 : 06                          db              endLine-startLine                                                                                       ; +0 offset to next
+     282/     485 : 40 9C                       db              40000 & 255,40000 / 256                                                                           ; +1,+2 40000 number
+     282/     487 : 71 71 00                    db              "qq",0                                                                                                          ; ASCIIZ 40000.
+     282/     48A :                     endLine:        
+     283/     48A :                     ProgramEnd:	
+     284/     48A : 00                  	db 		0
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 26 - 17/1/2017 17:33:14
 
 
   symbol table (* = unused):
@@ -1486,37 +1572,37 @@
 *ARCHITECTURE :                                        x86_64-unknown-linux - |
  ASCIITOINTEGER :               1B0 C | *BIGENDIAN :                      0 - |
 *BRANCHEXT :                      0 - | *CASESENSITIVE :                  0 - |
-*CONSTPI :        3.141592653589793 - | *DATE :                   15/1/2017 - |
- DELETELINE :                   2A9 C |  DIVIDE :                        C0 C |
+*CONSTPI :        3.141592653589793 - | *DATE :                   17/1/2017 - |
+ DELETELINE :                   278 C |  DIVIDE :                        C0 C |
  EDIT :                         3AA C |  ENTERCOMMAND :                 347 C |
- EXECUTE :                      3C7 C | *EXPREVALUATE :                  14 C |
+ EXECUTE :                      3D0 C | *EXPREVALUATE :                  14 C |
 *FALSE :                          0 - |  FINDRAMTOP :                   307 C |
  FOUNDRAMTOP :                  315 C | *FULLPMMU :                       1 - |
 *HAS64 :                          1 - | *HASDSP :                         0 - |
 *HASFPU :                         0 - | *HASPMMU :                        0 - |
 *INEXTMODE :                      0 - |  INITIALISE :                   300 C |
 *INLWORDMODE :                    0 - | *INMAXMODE :                      0 - |
-*INSRCMODE :                      0 - | *INSUPMODE :                      0 - |
- INTEGERTOASCII :               159 C | *LISTON :                         1 - |
-*LISTPROGRAM :                  361 C |  LOCATELINE :                   270 C |
-*MACEXP :                         1 - | *MOMCPU :                      1802 - |
-*MOMCPUNAME :                  1802 - |  MULTIPLY :                     18B C |
-*NESTMAX :                      100 - | *PACKING :                        0 - |
-*PADDING :                        1 - |  PROGRAMEND :                   459 C |
- PROGRAMSTART :                 410 C |  PROMPT :                       32C C |
-*R0 :                             0 - | *R1 :                             1 - |
- R2 :                             2 - |  R3 :                             3 - |
- READLINE :                     23F C | *RELAXED :                        0 - |
- REXPRPC :                        7 - |  RPARAM1 :                        E - |
- RPARAM2 :                        F - |  RPARENTHESISLEVEL :              A - |
- RSAVESTACK :                     B - |  RSPECIALHANDLER :                9 - |
- RSRC :                           8 - |  RSUBPC :                         D - |
- RUTILPC :                        C - |  RVARPTR :                        6 - |
- SPECIALHANDLER :               201 C | *TIME :                    18:19:44 - |
-*TRUE :                           1 - | *VERSION :                     142F - |
- W1 :                           3C5 C |  XIOGETKEY :                    401 C |
+ INSERTLINE :                   2A1 C | *INSRCMODE :                      0 - |
+*INSUPMODE :                      0 - |  INTEGERTOASCII :               159 C |
+*LISTON :                         1 - | *LISTPROGRAM :                  361 C |
+ LOCATELINE :                   23F C | *MACEXP :                         1 - |
+*MOMCPU :                      1802 - | *MOMCPUNAME :                  1802 - |
+ MULTIPLY :                     18B C | *NESTMAX :                      100 - |
+*PACKING :                        0 - | *PADDING :                        1 - |
+ PROGRAMEND :                   48A C |  PROGRAMSTART :                 441 C |
+ PROMPT :                       32C C | *R0 :                             0 - |
+*R1 :                             1 - |  R2 :                             2 - |
+ R3 :                             3 - |  READLINE :                     410 C |
+*RELAXED :                        0 - |  REXPRPC :                        7 - |
+ RPARAM1 :                        E - |  RPARAM2 :                        F - |
+ RPARENTHESISLEVEL :              A - |  RSAVESTACK :                     B - |
+ RSPECIALHANDLER :                9 - |  RSRC :                           8 - |
+ RSUBPC :                         D - |  RUTILPC :                        C - |
+ RVARPTR :                        6 - |  SPECIALHANDLER :               201 C |
+*TIME :                    17:33:14 - | *TRUE :                           1 - |
+*VERSION :                     142F - |  XIOGETKEY :                    401 C |
  XIOWRITECHARACTER :            409 C |  __ATOIEXIT :                   1AD C |
- __ATOILOOP :                   1B6 C |  __DELETELOOP :                 2B9 C |
+ __ATOILOOP :                   1B6 C |  __DELETELOOP :                 288 C |
  __DIVEXIT :                     BE C | *__DIVLOOP :                     CF C |
  __DIVLOOPINCR2 :                CE C |  __DIVLOOPINCR2INCR2 :           CD C |
  __DONTDELETE :                 3C2 C |  __EXPRARRAY :                   57 C |
@@ -1525,29 +1611,31 @@
  __EXPRFOUNDOPERATION :          76 C |  __EXPRGOTCHARACTER :            5F C |
  __EXPRGOTTERM :                 67 C |  __EXPRNEWLEVEL :                1C C |
  __EXPRNEWTERM :                 24 C |  __EXPRNOTDIVIDE :               90 C |
- __EXPRSKIPSPACE :               94 C |  __ITOAEXIT :                   157 C |
- __ITOALOOP :                   15D C |  __LISTLOOP :                   367 C |
- __LISTNEXT :                   392 C |  __LLEXIT :                     2A5 C |
- __LLFOUND :                    29A C |  __LLSEARCH :                   27C C |
- __MULDONTADD :                 19F C |  __MULEXIT :                    186 C |
- __MULLOOP :                    190 C |  __OPADD :                      100 C |
- __OPEQISTRUE :                 14F C |  __OPEQNZ :                     14B C |
- __OPEQUALITY :                 147 C |  __OPERATORTABLE :               AF C |
- __OPLOOKUP :                   10D C |  __OPLT0 :                      140 C |
- __OPRETURN :                   123 C |  __OPSUB :                      126 C |
- __OPWRITEBOOLEAN :             151 C |  __PRINTSTRING :                398 C |
- __PROMPT :                     3A6 C | *__RLLEXIT :                    263 C |
- __RLLLOOP :                    245 C |  __RLLNEXTCHARACTER :           244 C |
- __RLLPREVCHARACTER :           269 C |  __SHEXIT :                     200 C |
- __SHGETKEY :                   20D C |  __SHINPUT :                    21C C |
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 26 - 15/1/2017 18:19:44
+ __EXPRSKIPSPACE :               94 C |  __ILCOPY :                     2D5 C |
+ __ILINSERT :                   2C0 C |  __ILLENGTH :                   2A9 C |
+ __ITOAEXIT :                   157 C |  __ITOALOOP :                   15D C |
+ __LISTLOOP :                   367 C |  __LISTNEXT :                   392 C |
+ __LLEXIT :                     274 C |  __LLFOUND :                    269 C |
+ __LLSEARCH :                   24B C |  __MULDONTADD :                 19F C |
+ __MULEXIT :                    186 C |  __MULLOOP :                    190 C |
+ __OPADD :                      100 C |  __OPEQISTRUE :                 14F C |
+ __OPEQNZ :                     14B C |  __OPEQUALITY :                 147 C |
+ __OPERATORTABLE :               AF C |  __OPLOOKUP :                   10D C |
+ __OPLT0 :                      140 C |  __OPRETURN :                   123 C |
+ __OPSUB :                      126 C |  __OPWRITEBOOLEAN :             151 C |
+ __PRINTSTRING :                398 C |  __PROMPT :                     3A6 C |
+*__RLLEXIT :                    434 C |  __RLLLOOP :                    416 C |
+ __RLLNEXTCHARACTER :           415 C |  __RLLPREVCHARACTER :           43A C |
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 27 - 17/1/2017 17:33:14
 
 
+ __SHEXIT :                     200 C |  __SHGETKEY :                   20D C |
+ __SHINPUT :                    21C C |
 
-    113 symbols
+    116 symbols
      34 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 27 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 28 - 17/1/2017 17:33:14
 
 
   defined macros:
@@ -1559,7 +1647,7 @@ __ATOIDOUBLERPARAM2                   |
 
       5 macros
 
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 28 - 15/1/2017 18:19:44
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 29 - 17/1/2017 17:33:14
 
 
   codepages:
@@ -1568,10 +1656,10 @@ __ATOIDOUBLERPARAM2                   |
 STANDARD (0 changed characters)
 
 
-0.01 seconds assembly time
+0.00 seconds assembly time
 
-   1234 lines source file
-   1404 lines incl. macro expansions
+   1312 lines source file
+   1487 lines incl. macro expansions
       2 passes
       0 errors
       0 warnings
