@@ -249,7 +249,7 @@ RunProgram:
 	ldn		rCurrentLine 												; if current offset = 0 (end of program) then exit to prompt
 	str 	r2 															; save at TOS.
 	bz 		Prompt
-	glo 	rCurrentLine 												; copy current line into rCurrentLine
+	glo 	rCurrentLine 												; copy current line into rParam1
 	plo 	rParam1
 	ghi 	rCurrentLine
 	phi 	rParam1
@@ -262,7 +262,7 @@ RunProgram:
 	phi 	rCurrentLine
 
 	ldi 	('#' & 03Fh) * 2 											; set rVarPtr to point to current line number
-	str 	rVarPtr
+	plo 	rVarPtr
 	inc 	rParam1 													; skip over offset
 	lda 	rParam1 													; read line# low
 	str 	rVarPtr 													; copy to # low
@@ -279,68 +279,15 @@ RunProgram:
 	align 	256 
 	include handler.asm 												; special routine handler.
 	include editing.asm 												; line editing code	
-
 __Prompt: 																; VTL-2 Prompt.
 	db 		"OK",13,0
-
 	align 	256
-
-; ***************************************************************************************************************
-;
-;											Execute command in rParam1. 
-;
-;	Side effects : # (goto, change rCurrentPC and '!') $ (char out) ? (number/literal out) :<expr>) array
-; 	handler.
-;
-; ***************************************************************************************************************
-
-__ECExit:
-	sep 	r3
-ExecuteCommand:
-	lrx 	rExprPC,EXPREvaluate 										; this is re-entrant throughout
-	ldi 	(39 & 03Fh) * 2 + 1 										; point rVarPtr to the random number MSB (39 is single quote)
-	plo 	rVarPtr
-	ldn 	rVarPtr 													; read MSB
-	shr 																; shift right and save.
-	str 	rVarPtr
-	dec 	rVarPtr
-	ldn 	rVarPtr 													; rotate into LSB
-	rshr 
-	str 	rVarPtr
-	bnf 	__ECNoXor
-	inc 	rVarPtr 													; xor the MSB with $B4 is LSB was one.
-	ldn 	rVarPtr
-	xri 	0B4h
-	str 	rVarPtr
-__ECNoXor:
-
-	ldn 	rParam1 													; look at command
-	xri 	')'															; exit if comment
-	bz 		__ECExit
-	;
-	; 	specials checks for * ? # and :
-	;
-	lda 	rParam1 													; read variable ptr and skip over it.
-	adi 	256-'a' 													; a+ will generate DF
-	bnf 	__ECNotLower
-	smi 	32
-__ECNotLower:	
-	smi 	256-'a'
-	ani 	3Fh 														; six bit ASCII
-	shl 																; 2 bytes per variable
-	stxd 																; save on stack.
-	ghi 	rVarPtr 													; push high byte of variable address on stack
-	stxd 
-
-	;	evaluate RHS
-	;	pop address
-	; 	write value there (array can reuse this code)
-
-w1:	br 		w1
-
+	include command.asm 												; command execution code.
+	align 	256
 
 	include readline.asm 												; line input routine.
 	include	virtualio.asm 												; I/O routines that are hardware specific.
+
 
 ; ***************************************************************************************************************
 ;
@@ -357,15 +304,10 @@ endLine:
 	endm
 
 ProgramStart:
+	vtl 	5,"D=1"
 	vtl 	10,"A=42) this is a comment"
-	vtl 	20,"#=?"		
-	vtl 	30,"?=A"
-	vtl	 	40,"a"
-	vtl 	50,"b"
-	vtl 	60,"c"
-	vtl 	1260,"z"
-	vtl 	32260,"zz"
-	vtl 	40000,"qq"
+	vtl 	20,"B=3"		
+	vtl 	30,"C=A+B"
 ProgramEnd:	
 	db 		0
 
