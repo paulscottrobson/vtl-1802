@@ -20,6 +20,7 @@
 
 __ECExitDrop2:
 	inc 	r2
+__ECExitDrop1:
 	inc 	r2
 __ECExit:
 	sep 	r3
@@ -29,22 +30,10 @@ ExecuteCommand:
 	ghi 	rParam1
 	phi 	rSrc
 
-	lrx 	rExprPC,EXPREvaluate 										; this is re-entrant throughout
-	ldi 	(39 & 03Fh) * 2 + 1 										; point rVarPtr to the random number MSB (39 is single quote)
-	plo 	rVarPtr
-	ldn 	rVarPtr 													; read MSB
-	shr 																; shift right and save.
-	str 	rVarPtr
-	dec 	rVarPtr
-	ldn 	rVarPtr 													; rotate into LSB
-	rshr 
-	str 	rVarPtr
-	bnf 	__ECNoXor
-	inc 	rVarPtr 													; xor the MSB with $B4 is LSB was one.
-	ldn 	rVarPtr
-	xri 	0B4h
-	str 	rVarPtr
-__ECNoXor:
+	lrx 	rSubPC,__ECRandom 											; call RNG routine and load rExprPC
+	mark
+	sep 	rSubPC
+	dec 	r2
 
 	ldn 	rSrc 														; look at command first character
 	xri 	')'															; exit if comment
@@ -193,5 +182,112 @@ __ECArray:
 ; ***************************************************************************************************************
 
 __ECOutput:
-	br 		__ECOutput
+	lda 	rSrc 														; fetch ? or $
+	stxd 																; save on stack.
 
+__ECSkipEquals2: 														; advance past equals.
+	lda 	rSrc
+	bz 		__ECExitDrop1
+	xri 	'='
+	bnz 	__ECSkipEquals2
+
+	lrx 	rSubPC,XIOWriteCharacter 									; prepare for writing
+
+	inc 	r2 															; reload target ($ or ?)
+	ldn 	r2
+	xri 	'?'															; if ? go to that code
+	bz 		__ECWriteIntLiteral
+;
+;	handle $=nnnn
+;
+	mark  																; evaluate expression.
+	sep 	rExprPC 
+	dec 	r2
+
+	glo 	rParam1 													; get the result.
+__ECWriteDAndExit:	
+	mark 	
+	sep 	rSubPC
+	dec 	r2															; dec r2 and exit.
+	br 		__ECExit 		
+;
+;	Write  expression or string literal out.
+;
+__ECWriteIntLiteral:
+	lda 	rSrc 														; read first character 
+	bz 		__ECExit 													; end of line
+	xri 	' ' 														; skip over spaces.
+	bz 		__ECWriteIntLiteral 
+	xri 	' '!'"'														; quoted string ?
+	bnz 	__ECWriteExpression
+
+__ECWriteString:
+	lda 	rSrc 														; get next
+	bz 		__ECExit 													; exit if NULL
+	xri 	'"'															; if '"' check closing semicolon.
+	bz 		__ECCheckSemicolon
+	xri 	'"'															; get original value back.
+	mark 																; output the character
+	sep 	rSubPC
+	dec 	r2
+	br 		__ECWriteString
+
+__ECWriteExpression:
+	dec 	rSrc 														; unpick the read of first character
+	mark 	 															; evaluate expression to rParam1
+	sep 	rExprPC
+	dec 	r2
+
+	ghi 	rVarPtr 													; make rParam2 (buffer pointer) at end of input buffer
+	phi 	rParam2
+	ldi 	0FFh
+	plo 	rParam2 
+	lrx 	rUtilPC,IntegertoASCII 										; convert to ASCII, rParam2 points to it.
+	mark
+	sep 	rUtilPC
+	dec 	r2
+	lrx 	rSubPC,XIOWriteCharacter 									; prepare for writing
+
+__ECWriteEx2:															; write the number out.
+	lda 	rParam2
+	bz 		__ECCheckSemicolon
+	mark
+	sep 	rSubPC
+	dec 	r2
+	br 		__ECWriteEx2
+
+
+__ECCheckSemicolon:
+	lda 	rSrc 														; look at next character
+	bz 		__ECCRLF 													; if EOL do a CR
+	xri 	' ' 														; skip spaces
+	bz 		__ECCheckSemicolon 
+	xri 	' '!';'														; if semicolon
+	bz 		__ECExit 													; exit now.
+__ECCRLF:	
+	ldi 	13 															; else output CRLF
+	br 		__ECWriteDAndExit
+;
+;	Update random number and load rExprPC
+;
+
+__ECRandom:
+	ldi 	(39 & 03Fh) * 2 + 1 										; point rVarPtr to the random number MSB (39 is single quote)
+	plo 	rVarPtr
+	ldn 	rVarPtr 													; read MSB
+	shr 																; shift right and save.
+	str 	rVarPtr
+	dec 	rVarPtr
+	ldn 	rVarPtr 													; rotate into LSB
+	rshr 
+	str 	rVarPtr
+	bnf 	__ECNoXor
+	inc 	rVarPtr 													; xor the MSB with $B4 is LSB was one.
+	ldn 	rVarPtr
+	xri 	0B4h
+	str 	rVarPtr
+__ECNoXor:
+	lrx 	rExprPC,EXPREvaluate 										; this is re-entrant throughout
+	sex 	r2
+	inc 	r2
+	return

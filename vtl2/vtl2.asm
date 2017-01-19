@@ -282,9 +282,7 @@ RunProgram:
 __Prompt: 																; VTL-2 Prompt.
 	db 		"OK",13,0
 	align 	256
-	include command.asm 												; command execution code.
-	align 	256
-
+	include command.asm 												; command execution code (slightly more than one page)
 	include readline.asm 												; line input routine.
 	include	virtualio.asm 												; I/O routines that are hardware specific.
 
@@ -304,10 +302,10 @@ endLine:
 	endm
 
 ProgramStart:
-	vtl 	5,"D=1"
-	vtl 	10,"A=42) this is a comment"
-	vtl 	20,"B=3"		
-	vtl 	30,"C=A+B"
+	vtl 	5,"D=0"
+	vtl 	7,"D=D+1"
+	;vtl 	10,"?=D"
+	vtl 	20,"#=7*(D<100)"
 ProgramEnd:	
 	db 		0
 
