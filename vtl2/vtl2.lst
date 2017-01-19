@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 1 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 1 - 19/1/2017 22:22:01
 
 
        1/       0 :                     ; ***************************************************************************************************************
@@ -61,7 +61,7 @@
       53/       9 :                     
       54/       9 :                     ; ***************************************************************************************************************
       55/       9 :                     ;
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 2 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 2 - 19/1/2017 22:22:01
 
 
       56/       9 :                     ;												Initialisation
@@ -99,7 +99,7 @@
       84/      2B :                     
       85/      2B : F8 4C               	ldi 	('&' & 03Fh) * 2  											; set program end pointer (&)
       86/      2D : A6                  	plo 	rVarPtr
-      87/      2E : F8 85               	ldi 	(ProgramEnd & 255)
+      87/      2E : F8 BF               	ldi 	(ProgramEnd & 255)
       88/      30 : 56                  	str 	rVarPtr
       89/      31 : 16                  	inc 	rVarPtr
       90/      32 : F8 05               	ldi 	(ProgramEnd / 256)
@@ -124,7 +124,7 @@
      105/      3F : (MACRO)             	lrx 	rParam2,__Prompt
      105/      3F : F8 03                       ldi     (__PROMPT)/256
      105/      41 : BF                          phi     RPARAM2
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 3 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 3 - 19/1/2017 22:22:01
 
 
      105/      42 : F8 DC                       ldi     (__PROMPT)&255
@@ -187,7 +187,7 @@
      148/      6E : F8 05                       ldi     (PROGRAMSTART)/256
      148/      70 : B8                          phi     RSRC
      148/      71 : F8 66                       ldi     (PROGRAMSTART)&255
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 4 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 4 - 19/1/2017 22:22:01
 
 
      148/      73 : A8                          plo     RSRC
@@ -250,7 +250,7 @@
      197/      A4 :                     Edit: 																	; edit line - number in rParam2, new text in rParam1.
      198/      A4 : 8F                  	glo 	rParam2 													; save line number in rSrc
      199/      A5 : A8                  	plo 	rSrc
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 5 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 5 - 19/1/2017 22:22:01
 
 
      200/      A6 : 9F                  	ghi 	rParam2
@@ -313,7 +313,7 @@
      241/      DD :                     
      242/      DD :                     ; ***************************************************************************************************************
      243/      DD :                     ;
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 6 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 6 - 19/1/2017 22:22:01
 
 
      244/      DD :                     ;													In Run Mode.
@@ -376,7 +376,7 @@
 (1)   23/     100 :                     ;
 (1)   24/     100 :                     ;	This does not report errors. VTL-2 does not. So if you have an error then the result returned may be somewhat
 (1)   25/     100 :                     ;	unexpected and should not be relied on, despite what the VTL-2 manual hints :)
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 7 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 7 - 19/1/2017 22:22:01
 
 
 (1)   26/     100 :                     ;
@@ -439,7 +439,7 @@
 (1)   78/     126 : DC                  	sep 	rUtilPC
 (1)   79/     127 : 22                  	dec 	r2 		
 (1)   80/     128 :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 8 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 8 - 19/1/2017 22:22:01
 
 
 (1)   81/     128 : FC FF               	adi 	0FFh 														; sets DF if non zero value returned
@@ -502,7 +502,7 @@
 (1)  138/     166 : 12                  	inc 	r2 															; point stack to operator.
 (1)  139/     167 : (MACRO)             	lrx 	rParam1,(__OperatorTable-2) 								; rParam1 is the operator look up table.
 (1)  139/     167 : F8 01                       ldi     ((__OPERATORTABLE-2))/256
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 9 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 9 - 19/1/2017 22:22:01
 
 
 (1)  139/     169 : BE                          phi     RPARAM1
@@ -565,7 +565,7 @@
 (1)  194/     1A1 : 30 1B               	br 		__EXPRNewTerm 												; and get the next term.
 (1)  195/     1A3 :                     ;
 (1)  196/     1A3 :                     ; 	Close the bracketed operation
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 10 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 10 - 19/1/2017 22:22:01
 
 
 (1)  197/     1A3 :                     ;
@@ -628,7 +628,7 @@
 (2)   15/     1BD :                     ;				Calculate rParam1 / rParam2.  Result in rParam1. Remainder in rParam2.
 (2)   16/     1BD :                     ;
 (2)   17/     1BD :                     ; *******************************************************************************************************************
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 11 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 11 - 19/1/2017 22:22:01
 
 
 (2)   18/     1BD :                     
@@ -691,7 +691,7 @@
 (2)   74/     1E5 : 52                  	str 	r2
 (2)   75/     1E6 : 12                  	inc 	r2 															; to LSB
 (2)   76/     1E7 : 12                  	inc		r2 															; to MSB
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 12 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(divide.asm) - page 12 - 19/1/2017 22:22:01
 
 
 (2)   77/     1E8 : 9F                  	ghi 	rParam2 													; calculate remainder.1 - divisor.1
@@ -754,7 +754,7 @@
 (1)  279/     21B : 16                  	inc 	rVarPtr
 (1)  280/     21C : 9F                  	ghi 	rParam2
 (1)  281/     21D : 74                  	adc
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 13 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 13 - 19/1/2017 22:22:01
 
 
 (1)  282/     21E : BF                  	phi 	rParam2 
@@ -817,7 +817,7 @@
 (1)  337/     24B :                     __OpEqNZ:															; if zero here both are zero e.g. it is 'true'
 (1)  338/     24B : 32 4F               	bz 		__OpEqIsTrue 											
 (1)  339/     24D : F8 01               	ldi 	1 															
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 14 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(expression.asm) - page 14 - 19/1/2017 22:22:01
 
 
 (1)  340/     24F :                     __OpEqIsTrue:														; now 0 true 1 false
@@ -880,7 +880,7 @@
 (2)   42/     26D : AD                  	plo 	rSubPC
 (2)   43/     26E : 79                  	mark  
 (2)   44/     26F : DD                  	sep 	rSubPC 														; do the call.
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(itoa.asm) - page 15 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(itoa.asm) - page 15 - 19/1/2017 22:22:01
 
 
 (2)   45/     270 : 12                  	inc 	r2
@@ -943,7 +943,7 @@
 (2)   37/     293 : 8E                  	glo 	rParam1
 (2)   38/     294 : 76                  	rshr
 (2)   39/     295 : AE                  	plo 	rParam1
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(multiply.asm) - page 16 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(multiply.asm) - page 16 - 19/1/2017 22:22:01
 
 
 (2)   40/     296 : 3B 9F               	bnf 	__MULDontAdd 												; if DF is set add rParam2 to the result.
@@ -1006,7 +1006,7 @@
 (2)   33/     2B6 :                     
 (2)   34/     2B6 :                     __ATOILoop:
 (2)   35/     2B6 : 4E                  	lda 	rParam1 													; read next character and bump
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 17 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 17 - 19/1/2017 22:22:01
 
 
 (2)   36/     2B7 : FB 20               	xri 	' ' 														; skip over spaces.
@@ -1069,7 +1069,7 @@
 (2)   75/     2E8 : 7C 00               	adci 	0
 (2)   76/     2EA : BF                  	phi 	rParam2
 (2)   77/     2EB :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 18 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(atoi.asm) - page 18 - 19/1/2017 22:22:01
 
 
 (2)   78/     2EB : F8 FF               	ldi 	0FFh 														; set the 'read a digit' flag.
@@ -1132,7 +1132,7 @@
 (1)   49/     30F : BC                          phi     RUTILPC
 (1)   49/     310 : F8 48                       ldi     (XIOGETKEY)&255
 (1)   49/     312 : AC                          plo     RUTILPC
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(handler.asm) - page 19 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(handler.asm) - page 19 - 19/1/2017 22:22:01
 
 
 (1)   50/     313 : 79                  	mark 																; and it is called using the MARK method. 
@@ -1195,7 +1195,7 @@
 (1)    9/     33F :                     ; ***************************************************************************************************************
 (1)   10/     33F :                     ; ***************************************************************************************************************
 (1)   11/     33F :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 20 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 20 - 19/1/2017 22:22:01
 
 
 (1)   12/     33F :                     ; ***************************************************************************************************************
@@ -1258,7 +1258,7 @@
 (1)   65/     372 : FD 00               	sdi 	0 															; set DF
 (1)   66/     374 :                     
 (1)   67/     374 :                     __LLExit:
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 21 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 21 - 19/1/2017 22:22:01
 
 
 (1)   68/     374 : 12                  	inc 	r2 															; throw stacked values.
@@ -1321,7 +1321,7 @@
 (1)  123/     3A1 :                     ; ***************************************************************************************************************
 (1)  124/     3A1 :                     ;
 (1)  125/     3A1 :                     ;					Insert line at rParam2, rSrc line Number, rParam1 text to insert.
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 22 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 22 - 19/1/2017 22:22:01
 
 
 (1)  126/     3A1 :                     ;
@@ -1384,7 +1384,7 @@
 (1)  183/     3D3 : 5F                  	str 	rParam2
 (1)  184/     3D4 : 1F                  	inc 	rParam2
 (1)  185/     3D5 :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 23 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(editing.asm) - page 23 - 19/1/2017 22:22:01
 
 
 (1)  186/     3D5 :                     __ILCopy: 																; copy text of line.
@@ -1447,7 +1447,7 @@
 (1)   40/     413 : 32 02               	bz 		__ECExit
 (1)   41/     415 : FB 13               	xri 	')'!':'														; check for array.
 (1)   42/     417 : 32 7D               	bz 		__ECArray
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 24 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 24 - 19/1/2017 22:22:01
 
 
 (1)   43/     419 : FB 1E               	xri 	':'!'$'
@@ -1510,7 +1510,7 @@
 (1)  100/     44F :                     
 (1)  101/     44F : 8E                  	glo 	rParam1 													; if result is zero do nothing
 (1)  102/     450 : 3A 55               	bnz 	__ECGotoNonZero
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 25 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 25 - 19/1/2017 22:22:01
 
 
 (1)  103/     452 : 9E                  	ghi 	rParam1
@@ -1573,7 +1573,7 @@
 (1)  156/     481 : 8E                  	glo 	rParam1 													; double the array index.
 (1)  157/     482 : FE                  	shl
 (1)  158/     483 : AE                  	plo 	rParam1
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 26 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 26 - 19/1/2017 22:22:01
 
 
 (1)  159/     484 : 9E                  	ghi 	rParam1
@@ -1636,7 +1636,7 @@
 (1)  212/     4B2 : 30 02               	br 		__ECExit 		
 (1)  213/     4B4 :                     ;
 (1)  214/     4B4 :                     ;	Write  expression or string literal out.
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 27 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 27 - 19/1/2017 22:22:01
 
 
 (1)  215/     4B4 :                     ;
@@ -1650,7 +1650,7 @@
 (1)  223/     4BF :                     
 (1)  224/     4BF :                     __ECWriteString:
 (1)  225/     4BF : 48                  	lda 	rSrc 														; get next
-(1)  226/     4C0 : 32 02               	bz 		__ECExit 													; exit if NULL
+(1)  226/     4C0 : 32 F8               	bz 		__ECCRLF 													; exit if NULL with CR.
 (1)  227/     4C2 : FB 22               	xri 	'"'															; if '"' check closing semicolon.
 (1)  228/     4C4 : 32 ED               	bz 		__ECCheckSemicolon
 (1)  229/     4C6 : FB 22               	xri 	'"'															; get original value back.
@@ -1685,7 +1685,7 @@
 (1)  250/     4E5 :                     
 (1)  251/     4E5 :                     __ECWriteEx2:															; write the number out.
 (1)  252/     4E5 : 4F                  	lda 	rParam2
-(1)  253/     4E6 : 32 ED               	bz 		__ECCheckSemicolon
+(1)  253/     4E6 : 32 02               	bz 		__ECExit
 (1)  254/     4E8 : 79                  	mark
 (1)  255/     4E9 : DD                  	sep 	rSubPC
 (1)  256/     4EA : 22                  	dec 	r2
@@ -1699,7 +1699,7 @@
 (1)  264/     4F2 : 32 ED               	bz 		__ECCheckSemicolon 
 (1)  265/     4F4 : FB 1B               	xri 	' '!';'														; if semicolon
 (1)  266/     4F6 : 32 02               	bz 		__ECExit 													; exit now.
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 28 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(command.asm) - page 28 - 19/1/2017 22:22:01
 
 
 (1)  267/     4F8 :                     __ECCRLF:	
@@ -1762,7 +1762,7 @@
 (1)   24/     51B :                     __RLLNextCharacter:
 (1)   25/     51B : 1E                  	inc 	rParam1
 (1)   26/     51C :                     __RLLLoop:
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(readline.asm) - page 29 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(readline.asm) - page 29 - 19/1/2017 22:22:01
 
 
 (1)   27/     51C : E2                  	sex 	r2 															; use R2 as index
@@ -1825,7 +1825,7 @@
 (1)   16/     547 :                     ;
 (1)   17/     547 :                     ; ***************************************************************************************************************
 (1)   18/     547 :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm(virtualio.asm) - page 30 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm(virtualio.asm) - page 30 - 19/1/2017 22:22:01
 
 
 (1)   19/     547 :                     ; ***************************************************************************************************************
@@ -1888,7 +1888,7 @@
      293/     566 :                     ;
      294/     566 :                     ; ***************************************************************************************************************
      295/     566 :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 31 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 31 - 19/1/2017 22:22:01
 
 
      296/     566 :                     vtl macro line,code 													; creating VTL-2 code in line.
@@ -1900,31 +1900,79 @@
      302/     566 :                     	endm
      303/     566 :                     
      304/     566 :                     ProgramStart:
-     305/     566 : (MACRO)             	vtl 	5,"D=0"
+     305/     566 : (MACRO)             	vtl 10,"A=0"
      305/     566 :                     startLine:
      305/     566 : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
-     305/     567 : 05 00                       db              5 & 255,5 / 256                                                                           ; +1,+2 5 number
-     305/     569 : 44 3D 30 00                 db              "D=0",0                                                                                                          ; ASCIIZ 5.
+     305/     567 : 0A 00                       db              10 & 255,10 / 256                                                                           ; +1,+2 10 number
+     305/     569 : 41 3D 30 00                 db              "A=0",0                                                                                                          ; ASCIIZ 10.
      305/     56D :                     endLine:        
-     306/     56D : (MACRO)             	vtl 	7,"D=D+1"
+     306/     56D : (MACRO)             	vtl 20,"B=1"
      306/     56D :                     startLine:
-     306/     56D : 09                          db              endLine-startLine                                                                                       ; +0 offset to next
-     306/     56E : 07 00                       db              7 & 255,7 / 256                                                                           ; +1,+2 7 number
-     306/     570 : 44 3D 44 2B 31 00           db              "D=D+1",0                                                                                                          ; ASCIIZ 7.
-     306/     576 :                     endLine:        
-     307/     576 :                     	;vtl 	10,"?=D"
-     308/     576 : (MACRO)             	vtl 	20,"#=7*(D<100)"
-     308/     576 :                     startLine:
-     308/     576 : 0F                          db              endLine-startLine                                                                                       ; +0 offset to next
-     308/     577 : 14 00                       db              20 & 255,20 / 256                                                                           ; +1,+2 20 number
-     308/     579 : 23 3D 37 2A 28 44           db              "#=7*(D<100)",0                                                                                                          ; ASCIIZ 20.
-                    3C 31 30 30 29 00 
-     308/     585 :                     endLine:        
-     309/     585 :                     ProgramEnd:	
-     310/     585 : 00                  	db 		0
-     311/     586 :                     
-     312/     586 :                     
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 32 - 19/1/2017 10:59:51
+     306/     56D : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
+     306/     56E : 14 00                       db              20 & 255,20 / 256                                                                           ; +1,+2 20 number
+     306/     570 : 42 3D 31 00                 db              "B=1",0                                                                                                          ; ASCIIZ 20.
+     306/     574 :                     endLine:        
+     307/     574 : (MACRO)             	vtl 30,"?=A"
+     307/     574 :                     startLine:
+     307/     574 : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
+     307/     575 : 1E 00                       db              30 & 255,30 / 256                                                                           ; +1,+2 30 number
+     307/     577 : 3F 3D 41 00                 db              "?=A",0                                                                                                          ; ASCIIZ 30.
+     307/     57B :                     endLine:        
+     308/     57B : (MACRO)             	vtl 40,"?=\" factorial is \";"
+     308/     57B :                     startLine:
+     308/     57B : 17                          db              endLine-startLine                                                                                       ; +0 offset to next
+     308/     57C : 28 00                       db              40 & 255,40 / 256                                                                           ; +1,+2 40 number
+     308/     57E : 3F 3D 22 20 66 61           db              "?=\" factorial is \";",0                                                                                                          ; ASCIIZ 40.
+                    63 74 6F 72 69 61 
+                    6C 20 69 73 20 22 
+                    3B 00 
+     308/     592 :                     endLine:        
+     309/     592 : (MACRO)             	vtl 50,"?=B"
+     309/     592 :                     startLine:
+     309/     592 : 07                          db              endLine-startLine                                                                                       ; +0 offset to next
+     309/     593 : 32 00                       db              50 & 255,50 / 256                                                                           ; +1,+2 50 number
+     309/     595 : 3F 3D 42 00                 db              "?=B",0                                                                                                          ; ASCIIZ 50.
+     309/     599 :                     endLine:        
+     310/     599 : (MACRO)             	vtl 60,"?=\"\""
+     310/     599 :                     startLine:
+     310/     599 : 08                          db              endLine-startLine                                                                                       ; +0 offset to next
+     310/     59A : 3C 00                       db              60 & 255,60 / 256                                                                           ; +1,+2 60 number
+     310/     59C : 3F 3D 22 22 00              db              "?=\"\"",0                                                                                                          ; ASCIIZ 60.
+     310/     5A1 :                     endLine:        
+     311/     5A1 : (MACRO)             	vtl 70,"A=A+1"
+     311/     5A1 :                     startLine:
+     311/     5A1 : 09                          db              endLine-startLine                                                                                       ; +0 offset to next
+     311/     5A2 : 46 00                       db              70 & 255,70 / 256                                                                           ; +1,+2 70 number
+     311/     5A4 : 41 3D 41 2B 31 00           db              "A=A+1",0                                                                                                          ; ASCIIZ 70.
+     311/     5AA :                     endLine:        
+     312/     5AA : (MACRO)             	vtl 80,"B=B*A"
+     312/     5AA :                     startLine:
+     312/     5AA : 09                          db              endLine-startLine                                                                                       ; +0 offset to next
+     312/     5AB : 50 00                       db              80 & 255,80 / 256                                                                           ; +1,+2 80 number
+     312/     5AD : 42 3D 42 2A 41 00           db              "B=B*A",0                                                                                                          ; ASCIIZ 80.
+     312/     5B3 :                     endLine:        
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 32 - 19/1/2017 22:22:01
+
+
+     313/     5B3 : (MACRO)             	vtl 90,"#=A<9*30"	
+     313/     5B3 :                     startLine:
+     313/     5B3 : 0C                          db              endLine-startLine                                                                                       ; +0 offset to next
+     313/     5B4 : 5A 00                       db              90 & 255,90 / 256                                                                           ; +1,+2 90 number
+     313/     5B6 : 23 3D 41 3C 39 2A           db              "#=A<9*30",0                                                                                                          ; ASCIIZ 90.
+                    33 30 00 
+     313/     5BF :                     endLine:        
+     314/     5BF :                     ProgramEnd:	
+     315/     5BF : 00                  	db 		0
+     316/     5C0 :                     
+     317/     5C0 :                     ;
+     318/     5C0 :                     ;	Things that don't work.
+     319/     5C0 :                     ;
+     320/     5C0 :                     ;	(1) You can't assign to & (set correctly by default)
+     321/     5C0 :                     ; 	(2) You can't enter expressions in input, only numbers (using A=?)
+     322/     5C0 :                     ;	(3) The backspace is the backspace key and displays as Ctrl+H
+     323/     5C0 :                     ;	(4) Erroneous expressions may return different values in different versions.
+     324/     5C0 :                     ;
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 33 - 19/1/2017 22:22:01
 
 
   symbol table (* = unused):
@@ -1950,7 +1998,7 @@
 *MACEXP :                         1 - | *MOMCPU :                      1802 - |
 *MOMCPUNAME :                  1802 - |  MULTIPLY :                     28B C |
 *NESTMAX :                      100 - | *PACKING :                        0 - |
-*PADDING :                        1 - |  PROGRAMEND :                   585 C |
+*PADDING :                        1 - |  PROGRAMEND :                   5BF C |
  PROGRAMSTART :                 566 C |  PROMPT :                        39 C |
 *R0 :                             0 - | *R1 :                             1 - |
  R2 :                             2 - |  R3 :                             3 - |
@@ -1962,7 +2010,7 @@
  RSRC :                           8 - |  RSUBPC :                         D - |
  RUNPROGRAM :                    DD C |  RUTILPC :                        C - |
  RVARPTR :                        6 - |  SPECIALHANDLER :               301 C |
-*TIME :                    10:59:51 - | *TRUE :                           1 - |
+*TIME :                    22:22:01 - | *TRUE :                           1 - |
 *VERSION :                     142F - |  XIOGETKEY :                    548 C |
  XIOWRITECHARACTER :            550 C |  __ATOIEXIT :                   2AD C |
  __ATOILOOP :                   2B6 C |  __DELETELOOP :                 388 C |
@@ -1987,7 +2035,7 @@
  __EXPRSKIPSPACE :              193 C |  __ILCOPY :                     3D5 C |
  __ILINSERT :                   3C0 C |  __ILLENGTH :                   3A9 C |
  __ITOAEXIT :                   257 C |  __ITOALOOP :                   25D C |
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 33 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 34 - 19/1/2017 22:22:01
 
 
  __LISTLOOP :                    74 C |  __LISTNEXT :                    9F C |
@@ -2008,7 +2056,7 @@
     140 symbols
      33 unused symbols
 
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 34 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 35 - 19/1/2017 22:22:01
 
 
   defined macros:
@@ -2020,7 +2068,7 @@ __ATOIDOUBLERPARAM2                   |
 
       5 macros
 
- AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 35 - 19/1/2017 10:59:51
+ AS V1.42 Beta [Bld 114] - source file vtl2.asm - page 36 - 19/1/2017 22:22:01
 
 
   codepages:
@@ -2029,10 +2077,10 @@ __ATOIDOUBLERPARAM2                   |
 STANDARD (0 changed characters)
 
 
-0.01 seconds assembly time
+0.02 seconds assembly time
 
-   1658 lines source file
-   1832 lines incl. macro expansions
+   1670 lines source file
+   1874 lines incl. macro expansions
       2 passes
       0 errors
       0 warnings

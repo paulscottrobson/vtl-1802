@@ -223,7 +223,7 @@ __ECWriteIntLiteral:
 
 __ECWriteString:
 	lda 	rSrc 														; get next
-	bz 		__ECExit 													; exit if NULL
+	bz 		__ECCRLF 													; exit if NULL with CR.
 	xri 	'"'															; if '"' check closing semicolon.
 	bz 		__ECCheckSemicolon
 	xri 	'"'															; get original value back.
@@ -250,7 +250,7 @@ __ECWriteExpression:
 
 __ECWriteEx2:															; write the number out.
 	lda 	rParam2
-	bz 		__ECCheckSemicolon
+	bz 		__ECExit
 	mark
 	sep 	rSubPC
 	dec 	r2

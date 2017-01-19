@@ -4,6 +4,7 @@
 ;		File:		vtl2.asm
 ;		Purpose:	Main Program.
 ;		Author:		Paul Robson (paul@robsons.org.uk)
+;					Based on Frank McCoy's documentation for the 6800 version.
 ;		Date:		14th January 2017.
 ;
 ; ***************************************************************************************************************
@@ -12,7 +13,7 @@
 	cpu 	1802 														; obviously !
 	
 r0 = 0 																	; not used (may be used in interrupt display)
-r1 = 1 																	; interrupt register
+r1 = 1 																	; not used (interrupt register)
 r2 = 2 																	; stack pointer
 r3 = 3 																	; general run P
 rExecutePC = 4 															; execute commands using R4. (param1 = code to execute)
@@ -284,6 +285,7 @@ __Prompt: 																; VTL-2 Prompt.
 	align 	256
 	include command.asm 												; command execution code (slightly more than one page)
 	include readline.asm 												; line input routine.
+
 	include	virtualio.asm 												; I/O routines that are hardware specific.
 
 
@@ -302,10 +304,25 @@ endLine:
 	endm
 
 ProgramStart:
-	vtl 	5,"D=0"
-	vtl 	7,"D=D+1"
-	;vtl 	10,"?=D"
-	vtl 	20,"#=7*(D<100)"
+	vtl 10,"A=0"
+	vtl 20,"B=1"
+	vtl 30,"?=A"
+	vtl 40,"?=\" factorial is \";"
+	vtl 50,"?=B"
+	vtl 60,"?=\"\""
+	vtl 70,"A=A+1"
+	vtl 80,"B=B*A"
+	vtl 90,"#=A<9*30"	
 ProgramEnd:	
 	db 		0
 
+;
+;	Things that don't work:
+;
+;	(1) You can't assign to & (set correctly by default)
+; 	(2) You can't enter expressions in input, only numbers (using A=?)
+;	(3) The backspace is the backspace key and displays as ^H in the emulator and is chr(8)
+;	(4) Erroneous expressions may return different values compared to other versions.
+;
+;	Code checked as far as "Hurkle" in the VTL-2 manual.
+;
